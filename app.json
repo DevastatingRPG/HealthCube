@@ -1,7 +1,8 @@
 {
+  "scheme": "hc",
   "expo": {
     "name": "HealthCube",
-    "slug": "HealthCube",
+    "slug": "healthcube",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +26,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c291dd23-f3c7-4424-9a7e-4b43043d331a"
+      }
+    },
+    "owner": "devastatingrpg",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
