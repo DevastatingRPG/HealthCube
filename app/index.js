@@ -1,20 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import Form from '../components/formint';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+import { Link } from 'expo-router';
+import { Button } from '@rneui/themed';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your ap!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const App = () => {
+    return (
+        <SafeAreaProvider>
+          
+            <Link href="/form" asChild>
+                <Button color="secondary" title="Form" />
+            </Link>
+        </SafeAreaProvider>
+      
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+  
