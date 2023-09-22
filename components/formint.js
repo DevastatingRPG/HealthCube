@@ -118,9 +118,6 @@ const styles = StyleSheet.create({
         flex: 0.62,
         padding: 5,
     },
-    container: {
-        flex: 1
-    },
     navigation: {
         flexDirection: 'row',
         flex: 0.08
