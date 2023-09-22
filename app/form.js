@@ -26,7 +26,6 @@ const Form = () => {
   }
 
   const handleNext = (answer) => {
-    console.log(answers)
     if (currentIndex < questions.length - 1) {     
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
@@ -34,11 +33,9 @@ const Form = () => {
   };
 
   const handleBack = (answer) => {
-    console.log(answers)
     if (currentIndex > 0) {      
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
-
     }
   };
 
