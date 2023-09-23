@@ -6,7 +6,7 @@ const Form = () => {
     { question: 'What is your Name?', type: 'text' },
     { question: 'Do you like ice cream?', type: 'yesno' },
     { question: 'Do you like ice cream?', type: 'symptom' },
-    // { question: 'Are you ?', type: 'multisel' }
+    { question: 'Are you ?', type: 'multisel', options: ['Married', 'Divorced', 'Single'] }
   ];
 
   const [answers, setAnswers] = useState(questions.map(q => ({
@@ -20,20 +20,26 @@ const Form = () => {
   const updateValue = (answer) => {
     setAnswers(prevAnswers => {
       const newAnswers = [...prevAnswers];
-      newAnswers[currentIndex].answer = answer;
+      try {
+        newAnswers[currentIndex].answer = answer.join(', ');
+      }
+      catch (TypeError) {
+        newAnswers[currentIndex].answer = answer
+      }
       return newAnswers;
     });
   }
 
-  const handleNext = (answer) => {
-    if (currentIndex < questions.length - 1) {     
+  const handleNext = () => {
+    // console.log(answers)
+    if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
     }
   };
 
-  const handleBack = (answer) => {
-    if (currentIndex > 0) {      
+  const handleBack = () => {
+    if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
     }
@@ -43,6 +49,8 @@ const Form = () => {
     <FormInt
       question={questions[currentIndex].question}
       type={questions[currentIndex].type}
+      options={questions[currentIndex].options}
+      ans={answers[currentIndex].answer}
       progress={progress}
       onNext={handleNext}
       onBack={handleBack}

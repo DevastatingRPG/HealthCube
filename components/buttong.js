@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@rneui/themed';
+import { Button, ButtonGroup } from '@rneui/themed';
 import { View } from 'react-native';
 
 /*
@@ -10,7 +10,7 @@ import { View } from 'react-native';
 */
 
 const ButtonG = props => {
-    const { buttons, buttonColors, onClick, direction } = props;
+    const { buttons, buttonColors, onClick, direction, selected, answer } = props;
 
     return (
         <View style={{ flex: 1, flexDirection: direction }}>
@@ -18,7 +18,8 @@ const ButtonG = props => {
                 <Button
                     key={i}
                     title={button}
-                    color={buttonColors[i]}
+                    color={selected.includes(buttons[i]) ? buttonColors[buttonColors.length-1] : buttonColors[i]}
+                    titleStyle={selected.includes(buttons[i]) ?{color: 'white'} : {color: 'black'}}
                     onPress={() => onClick(buttons[i])}
                 />
             ))}
@@ -27,7 +28,9 @@ const ButtonG = props => {
 }
 
 ButtonG.defaultProps = {
-    direction: 'row'
+    direction: 'row',
+    selected: [],
+    answer: ''
 }
 
 export default ButtonG;

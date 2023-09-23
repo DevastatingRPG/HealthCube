@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ButtonG from '../components/buttong';
+
 
 /*
     question : Question to display in form
@@ -13,21 +14,59 @@ import ButtonG from '../components/buttong';
 */
 
 const FormInt = props => {
-    const { question, type, progress, onNext, onBack, onChange } = props;
-    const [inputValue, setInputValue] = useState(null);
+    const { question, type, options, ans, progress, onNext, onBack, onChange } = props;
+    const [inputValue, setInputValue] = useState([]);
+
+    const colors = {
+        blue: 'rgba(0, 123, 255, 0.6)',
+        green: 'rgba(40, 167, 69, 0.6)',
+        red: 'rgba(220, 53, 69, 0.6)',
+        yellow: 'rgba(255, 193, 7, 0.6)',
+        orange: 'rgba(253, 126, 20, 0.6)',
+        purple: 'rgba(111, 66, 193, 0.6)',
+        black: 'rgba(52, 58, 64, 0.6)'
+    };
+
+
+
+    try {
+        keys = Object.keys(colors);
+        colsel = options.map((option, index) => colors[keys[index % keys.length]]);
+        colsel.push(colors['black']);
+    }
+    catch {
+    }
     let inputElement;
 
-    const updateValue = (answer) => {
-        setInputValue(answer);
-    }
+    const updateValue = (value) => {
+        setInputValue(prevValues => {
+            if (prevValues.includes(value)) {
+                // If the value exists, remove it
+                return prevValues.filter(item => item !== value);
+            } else {
+                if (type != 'multisel')
+                    return [value]
+                // If the value doesn't exist, add it
+                return [...prevValues, value];
+            }
+        });
+    };
 
     const navigate = (answer) => {
-        onChange(inputValue);
+        if (inputValue.length > 0)
+            onChange(inputValue);
+        setInputValue([]);
         if (answer == "Next")
-            onNext(inputValue);      
+            onNext();
         else if (answer == "Back")
-            onBack(inputValue);
+            onBack();
     }
+
+    const qsProps = {
+        onClick: updateValue,
+        selected: inputValue,
+        answer: ans
+    };
 
     switch (type) {
         case 'text':
@@ -36,8 +75,8 @@ const FormInt = props => {
         case 'yesno':
             inputElement = <ButtonG
                 buttons={["YES", "NO"]}
-                buttonColors={['rgba(0,255,0,0.6)', 'rgba(255,0,0,0.6)']}
-                onClick={updateValue}
+                buttonColors={[colors['green'], colors['red'], colors['black']]}
+                {...qsProps}
             />
             break;
         case 'symptom':
@@ -45,18 +84,31 @@ const FormInt = props => {
                 <View style={{ flex: 1 }}>
                     <ButtonG
                         buttons={["Currently Present", "Previously Present"]}
-                        buttonColors={['rgba(255,0,0,0.6)', 'rgba(255,255,0,0.6)']}
-                        onClick={updateValue}
+                        buttonColors={[colors['red'], colors['yellow'], colors['black']]}
+                        {...qsProps}
                     />
                     <ButtonG
                         buttons={["Not Present"]}
-                        buttonColors={['rgba(0,255,0,0.6)']}
-                        onClick={updateValue}
+                        buttonColors={[colors['green'], colors['black']]}
+                        {...qsProps}
                     />
                 </View>
             break;
+        case 'sel':
+            inputElement = <ButtonG
+                buttons={options}
+                buttonColors={colsel}
+                direction='column'
+                {...qsProps}
+            />
+            break;
         case 'multisel':
-
+            inputElement = <ButtonG
+                buttons={options}
+                buttonColors={colsel}
+                direction='column'
+                {...qsProps}
+            />
             break;
     }
     return (
@@ -66,24 +118,21 @@ const FormInt = props => {
                 <Text style={styles.question}>{question}</Text>
                 <Divider color='black' width={3} />
                 <View style={styles.input}>
-
                     {inputElement}
                 </View>
-
                 <View style={styles.navigation}>
                     <ButtonG
                         buttons={["Back", "Next"]}
-                        buttonColors={['rgba(0,255,0,0.6)', 'rgba(255,0,0,0.6)']}
+                        buttonColors={[colors['blue'], colors['blue']]}
                         onClick={navigate}
                     />
                 </View>
             </ThemeProvider>
-
-
         </SafeAreaProvider>
     );
-
 }
+
+
 
 const theme = createTheme({
     components: {
