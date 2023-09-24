@@ -7,6 +7,7 @@ import { View } from 'react-native';
     buttonColors : List of colors of buttons
     onClick : Function to call when clicked
     direction : In which way to extend button group, row by default
+    poppi
 */
 
 const ButtonG = props => {
