@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ButtonG from '../components/buttong';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 /*
@@ -16,6 +17,14 @@ import ButtonG from '../components/buttong';
 const FormInt = props => {
     const { question, type, options, ans, progress, onNext, onBack, onChange } = props;
     const [inputValue, setInputValue] = useState([]);
+    let exval;
+    if (type == 'text')
+        exval = [ans]
+    else
+        exval = ans.split(', ')
+    useEffect(() => {
+        setInputValue(exval);
+    }, [ans]);
 
     const colors = {
         blue: 'rgba(0, 123, 255, 0.6)',
@@ -112,49 +121,25 @@ const FormInt = props => {
             break;
     }
     return (
-        <SafeAreaProvider>
-            <ThemeProvider theme={theme}>
-                <LinearProgress variant='determinate' color='green' value={progress} />
-                <Text style={styles.question}>{question}</Text>
-                <Divider color='black' width={3} />
-                <View style={styles.input}>
-                    {inputElement}
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={{ flex: 1 }}>
+                    <LinearProgress variant='determinate' color='green' value={progress} />
+                    <Text style={styles.question}>{question}</Text>
+                    <Divider color='black' width={3} />
+                    <View style={styles.input}>
+                        {inputElement}
+                    </View>
+                    <View style={styles.navigation}>
+                        <ButtonG
+                            buttons={["Back", "Next"]}
+                            buttonColors={[colors['blue'], colors['blue']]}
+                            onClick={navigate}
+                        />
+                    </View>
                 </View>
-                <View style={styles.navigation}>
-                    <ButtonG
-                        buttons={["Back", "Next"]}
-                        buttonColors={[colors['blue'], colors['blue']]}
-                        onClick={navigate}
-                    />
-                </View>
-            </ThemeProvider>
-        </SafeAreaProvider>
+        </View>
     );
 }
-
-
-
-const theme = createTheme({
-    components: {
-        Button: {
-            containerStyle: {
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 10,
-                borderRadius: 10,
-            },
-            buttonStyle: {
-                flex: 1,
-                alignSelf: 'stretch'
-            },
-            titleStyle: {
-                fontSize: 20,
-                color: '#000',
-            },
-        },
-    },
-});
 
 const styles = StyleSheet.create({
     question: {
@@ -169,7 +154,7 @@ const styles = StyleSheet.create({
     },
     navigation: {
         flexDirection: 'row',
-        flex: 0.08
+        flex: 0.1
     }
 })
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
 
-const Form = () => {
+const Form = ( ) => {
   const questions = [
     { question: 'What is your Name?', type: 'text' },
     { question: 'Do you like ice cream?', type: 'yesno' },
@@ -31,7 +31,6 @@ const Form = () => {
   }
 
   const handleNext = () => {
-    // console.log(answers)
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
