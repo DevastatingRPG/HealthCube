@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 import { View, StyleSheet } from 'react-native';
 
 /*
@@ -10,7 +10,7 @@ import { View, StyleSheet } from 'react-native';
 */
 
 const ButtonG = props => {
-    const { buttons, buttonColors, onClick, direction, selected, answer } = props;
+    const { buttons, buttonColors, onClick, direction, selected } = props;
 
     return (
         <View style={{ flex: 1, flexDirection: direction }}>

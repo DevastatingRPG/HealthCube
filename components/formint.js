@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
 import ButtonG from '../components/buttong';
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 /*
@@ -15,17 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 */
 
 const FormInt = props => {
-    const { question, type, options, ans, progress, onNext, onBack, onChange } = props;
-    const [inputValue, setInputValue] = useState([]);
-    let exval;
-    if (type == 'text')
-        exval = [ans]
-    else
-        exval = ans.split(', ')
-    useEffect(() => {
-        setInputValue(exval);
-    }, [ans]);
-
+    const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue } = props;
     const colors = {
         blue: 'rgba(0, 123, 255, 0.6)',
         green: 'rgba(40, 167, 69, 0.6)',
@@ -36,16 +24,11 @@ const FormInt = props => {
         black: 'rgba(52, 58, 64, 0.6)'
     };
 
-
-
-    try {
+    if (options) {
         keys = Object.keys(colors);
         colsel = options.map((option, index) => colors[keys[index % keys.length]]);
         colsel.push(colors['black']);
     }
-    catch {
-    }
-    let inputElement;
 
     const updateValue = (value) => {
         setInputValue(prevValues => {
@@ -54,16 +37,16 @@ const FormInt = props => {
                 return prevValues.filter(item => item !== value);
             } else {
                 if (type != 'multisel')
-                    return [value]
+                    return [value];
                 // If the value doesn't exist, add it
-                return [...prevValues, value];
+                return [...prevValues.filter(item => item !== ""), value];
             }
         });
+
     };
 
     const navigate = (answer) => {
-        if (inputValue.length > 0)
-            onChange(inputValue);
+        updateAnswers(inputValue);
         setInputValue([]);
         if (answer == "Next")
             onNext();
@@ -74,8 +57,9 @@ const FormInt = props => {
     const qsProps = {
         onClick: updateValue,
         selected: inputValue,
-        answer: ans
     };
+
+    let inputElement;
 
     switch (type) {
         case 'text':
@@ -121,22 +105,20 @@ const FormInt = props => {
             break;
     }
     return (
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-                <View style={{ flex: 1 }}>
-                    <LinearProgress variant='determinate' color='green' value={progress} />
-                    <Text style={styles.question}>{question}</Text>
-                    <Divider color='black' width={3} />
-                    <View style={styles.input}>
-                        {inputElement}
-                    </View>
-                    <View style={styles.navigation}>
-                        <ButtonG
-                            buttons={["Back", "Next"]}
-                            buttonColors={[colors['blue'], colors['blue']]}
-                            onClick={navigate}
-                        />
-                    </View>
-                </View>
+        <View style={{ flex: 1 }}>
+            <LinearProgress variant='determinate' color='green' value={progress} />
+            <Text style={styles.question}>{question}</Text>
+            <Divider color='black' width={3} />
+            <View style={styles.input}>
+                {inputElement}
+            </View>
+            <View style={styles.navigation}>
+                <ButtonG
+                    buttons={["Back", "Next"]}
+                    buttonColors={[colors['blue'], colors['blue']]}
+                    onClick={navigate}
+                />
+            </View>
         </View>
     );
 }
