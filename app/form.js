@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInt from '../components/formint';
+import readFileAndProcess from './questions';
+
 
 const Form = () => {
-  const questions = [
-    { question: 'What is your Name?', type: 'text' },
-    { question: 'Do you like ice cream?', type: 'yesno' },
-    { question: 'Do you like ice cream?', type: 'symptom' },
-    { question: 'Are you ?', type: 'multisel', options: ['Married', 'Divorced', 'Single'] }
-  ];
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
 
-  const [answers, setAnswers] = useState(questions.map(q => ({
-    question: q.question,
-    answer: ''
-  })));
+  useEffect(() => {
+    readFileAndProcess().then(data => {
+        setQuestions(data);
+        setAnswers(data.map(q => ({
+            question: q.question,
+            answer: ''
+        })));
+    });
+}, []);
+//   readFileAndProcess().then(questions => {
+//     console.log(questions);
+// });
 
+// const [answers, setAnswers] = useState(questions.map(q => ({
+//   question: q.question,
+//   answer: ''
+// })));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 

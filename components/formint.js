@@ -75,7 +75,7 @@ const FormInt = props => {
         case 'yesno':
             inputElement = <ButtonG
                 buttons={["YES", "NO"]}
-                buttonColors={[colors['green'], colors['red'], colors['black']]}
+                buttonColors={[colors['blue'], colors['yellow'], colors['green']]}
                 {...qsProps}
             />
             break;
@@ -110,7 +110,7 @@ const FormInt = props => {
                 {...qsProps}
             />
             break;
-    }
+    } 
     return (
         <SafeAreaProvider>
             <ThemeProvider theme={theme}>
