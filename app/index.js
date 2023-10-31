@@ -9,7 +9,10 @@ const App = () => {
         <SafeAreaProvider>         
             <Link href="/form" asChild replace>
                 <Button color="secondary" title="Form" />
-            </Link>            
+            </Link>   
+            <Link href="/leaderboard" asChild replace>
+                <Button color="primary" title="Leaderboard" />
+            </Link>          
         </SafeAreaProvider>   
     );
 }
