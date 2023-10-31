@@ -16,8 +16,9 @@ const Form = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [inputValue, setInputValue] = useState([]);
 
-  const updateValue = (answer) => {
+  const updateAnswers = (answer) => {
     setAnswers(prevAnswers => {
       const newAnswers = [...prevAnswers];
       try {
@@ -30,11 +31,24 @@ const Form = () => {
     });
   }
 
+  const tellAns = (ind) => {
+    let exval;
+    if (questions[ind].type == 'text')
+      exval = [answers[ind].answer]
+    else
+      exval = answers[ind].answer.split(', ')
+    setInputValue(exval)
+  }
+
   const handleNext = () => {
-    // console.log(answers)
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
+      tellAns(currentIndex+1);
+      
+    }
+    else {
+      tellAns(currentIndex)
     }
   };
 
@@ -42,6 +56,10 @@ const Form = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
+      tellAns(currentIndex-1);
+    }
+    else{
+      tellAns(currentIndex)
     }
   };
 
@@ -50,11 +68,12 @@ const Form = () => {
       question={questions[currentIndex].question}
       type={questions[currentIndex].type}
       options={questions[currentIndex].options}
-      ans={answers[currentIndex].answer}
       progress={progress}
       onNext={handleNext}
       onBack={handleBack}
-      onChange={updateValue}
+      updateAnswers={updateAnswers}
+      inputValue={inputValue}
+      setInputValue={setInputValue}
     />
   );
 };
