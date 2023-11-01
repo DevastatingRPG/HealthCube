@@ -23,7 +23,8 @@ const ButtonG = props => {
                     color={selected.includes(buttons[i]) ? buttonColors[buttonColors.length - 1] : buttonColors[i]}
                     titleStyle={selected.includes(buttons[i]) ? { ...styles.titleStyle, color: 'white' } :
                         { ...styles.titleStyle, color: 'black' }}
-                    onPress={() => onClick(buttons[i])}
+                    onPress={() => selected.includes(buttons[i]) ? onClick(null) : onClick(buttons[i])}
+                    // onPress={() => onClick(buttons[i])}
                 />
             ))}
         </View>

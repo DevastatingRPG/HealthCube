@@ -31,9 +31,7 @@ const FormInt = props => {
     }
 
     const updateValue = (value) => {
-    // if (value != null)
-        console.log(value)
-        console.log("Hello")
+        if (value != null)
         setInputValue(prevValues => {
             if (prevValues.includes(value)) {
                 // If the value exists, remove it
@@ -66,8 +64,6 @@ const FormInt = props => {
 
     switch (type) {
         case 'text':
-            console.log(inputValue)
-            
             inputElement = <Input multiline={true} onChangeText={text => setInputValue(text)} defaultValue={inputValue} />;
             break;
         case 'yesno':
