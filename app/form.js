@@ -50,6 +50,7 @@ const Form = () => {
       
     }
     else {
+      setCurrentIndex(currentIndex)
       tellAns(currentIndex)
     }
   };
@@ -61,6 +62,7 @@ const Form = () => {
       tellAns(currentIndex-1);
     }
     else{
+      setCurrentIndex(currentIndex)
       tellAns(currentIndex)
     }
   };
