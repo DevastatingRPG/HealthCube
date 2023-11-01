@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
+// import { array } from 'yargs';
+// import { object } from 'prop-types';
 
 const Form = () => {
   const questions = [
