@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
+// import { array } from 'yargs';
+// import { object } from 'prop-types';
 
 const Form = () => {
   const questions = [
@@ -72,7 +74,7 @@ const Form = () => {
       onNext={handleNext}
       onBack={handleBack}
       updateAnswers={updateAnswers}
-      inputValue={inputValue}
+      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
       setInputValue={setInputValue}
     />
   );
