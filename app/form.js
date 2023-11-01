@@ -72,7 +72,7 @@ const Form = () => {
       onNext={handleNext}
       onBack={handleBack}
       updateAnswers={updateAnswers}
-      inputValue={inputValue}
+      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
       setInputValue={setInputValue}
     />
   );

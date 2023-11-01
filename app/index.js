@@ -7,10 +7,10 @@ import { Button } from '@rneui/themed';
 const App = () => {
     return (
         <SafeAreaProvider>         
-            <Link href="/form" asChild replace>
+            <Link href="/form" asChild>
                 <Button color="secondary" title="Form" />
             </Link>   
-            <Link href="/leaderboard" asChild replace>
+            <Link href="/leaderboard" asChild>
                 <Button color="primary" title="Leaderboard" />
             </Link>          
         </SafeAreaProvider>   
