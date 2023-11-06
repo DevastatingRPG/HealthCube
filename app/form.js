@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
+import readFileAndProcess from './formgenerator';
 // import { array } from 'yargs';
 // import { object } from 'prop-types';
 
-const Form = () => {
-  const questions = [
-    { question: 'What is your Name?', type: 'text' },
-    { question: 'Do you like ice cream?', type: 'yesno' },
-    { question: 'Do you like ice cream?', type: 'symptom' },
-    { question: 'Are you ?', type: 'multisel', options: ['Married', 'Divorced', 'Single'] }
-  ];
+const FormProcessor = () => {
+  useEffect(() => {
+    // Replace 'file-to-fetch.txt' with the name of the file you want to fetch
+    const fileName = 'AdultNewPatientIntake.txt';
 
-  const [answers, setAnswers] = useState(questions.map(q => ({
-    question: q.question,
-    answer: ''
-  })));
+    // Call the function to fetch and process the file
+    readFileAndProcess(fileName)
+      .then(processedData => {
+        // Handle the processed data here
+        console.log('Processed Data:', processedData);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+}
+
+const Form = () => {
+  
+  const [questions, setAnswers] = useState(processedData);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
