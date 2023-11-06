@@ -1,2 +1,0 @@
-# HealthCube
-CharmHealth Hackathon Project
