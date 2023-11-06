@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
-import ButtonG from '../components/buttong';
+import ButtonG from './buttong';
 
 
 /*

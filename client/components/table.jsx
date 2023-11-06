@@ -12,8 +12,6 @@ const Table = props => {
     if (!(rows.includes(aot)))
         rows.push(aot);
 
-    
-
     return (
         <View style={{flex: 1}}>
             <Text style={styles.heading} h3>Leaderboaard</Text>
