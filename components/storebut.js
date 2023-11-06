@@ -3,20 +3,26 @@
 import React, { Component } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet,Animated,Image } from 'react-native';
 import AnimatedImageButton from './Anibutton'; // Import your button component
-import { useNavigation } from '@react-navigation/native';
-import { Link } from 'expo-router';
+import { Link } from 'expo-router'
 class Hello extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isPopupVisible: false,
       isReverting: false,
+      isNewPopupVisible: false,
     };
   }
 
   togglePopup = () => {
     this.setState((prevState) => ({
       isPopupVisible: !prevState.isPopupVisible,
+    }));
+  };
+
+  toggleNewPopup = () => {
+    this.setState((prevState) => ({
+      isNewPopupVisible: !prevState.isNewPopupVisible,
     }));
   };
 
@@ -40,8 +46,9 @@ class Hello extends Component {
   };
 
   yesnext = () =>{
-    <Link href='/purchase' aschild/>
-    
+    console.log('Yes pressed');
+    this.togglePopup();
+    this.toggleNewPopup();    
   }
   
 
@@ -124,12 +131,33 @@ class Hello extends Component {
                   <Text style={styles.buttonText}>NO</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.yesnext}>
-                <View style={styles.buttonContainer1}>
-                  <Text style={styles.buttonText}>YES</Text>
-                </View>
-              </TouchableOpacity>
+                <Link href= '../index' aschild>
+                  <TouchableOpacity onPress={this.yesnext}>
+                    <View style={styles.buttonContainer1}>
+                      <Text style={styles.buttonText}>YES</Text>
+                    </View>
+                  </TouchableOpacity>
+                </Link>
             </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.isNewPopupVisible}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.buypopup}>
+              <Text style={{ fontSize: 30, fontWeight: 'bold', textAlign: "center", paddingTop: 20, color:'yellow' }}>CONGRATULATIONS!!</Text>
+                {/* <View style={styles.buttonRow}> */}
+                  <Image source={require('../assets/dog.jpg')} style={{height:300,width:250,alignContent:'center',marginLeft:50,marginTop: 30,marginBottom: 50}}/>
+                  <TouchableOpacity onPress={this.toggleNewPopup}>
+                    <View style={{backgroundColor:'black',height: 50, width:200,borderRadius:500,marginLeft: 75}}>
+                      <Text style={{fontSize:30,color:'white',textAlign:'center',paddingTop:4}}>YAY!!</Text>
+                    </View>
+                </TouchableOpacity>
+             {/* </View> */}
             </View>
           </View>
         </Modal>
@@ -155,9 +183,16 @@ const styles = StyleSheet.create({
   popup: {
     backgroundColor: 'cyan',
     padding: 10,
-    borderRadius: 500,
+    borderRadius: 10,
     width: 350,
     height: 200,
+  },
+  buypopup:{
+    backgroundColor: 'blue',
+    paddingTop: 40,
+    height: 600,
+    width: 350,
+    borderRadius: 50,
   },
   buttonContainer:{
     

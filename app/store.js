@@ -20,8 +20,7 @@ const App = () => {
     <ScrollView>
         <SafeAreaProvider>
             <View>
-                {/* <Hello/> */}
-                return <AppNavigator />;
+                <Hello/>
             </View>
         </SafeAreaProvider>
     </ScrollView>
