@@ -12,7 +12,10 @@ const App = () => {
             </Link>   
             <Link href="/leaderboard" asChild>
                 <Button color="primary" title="Leaderboard" />
-            </Link>          
+            </Link>   
+            <Link href="/formgenerator" asChild>
+                <Button color="primary" title="gene" />
+            </Link>       
         </SafeAreaProvider>   
     );
 }
