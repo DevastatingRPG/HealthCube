@@ -15,50 +15,42 @@ const connection = mysql.createConnection({
   database: process.env.SQL_DATABASE
 })
 
-connection.connect()
+conversion = {1: 12, 2: 32, 3: 5, 4: 123}
 
 app.get('/query/count', (req, res) => {
-  const query = "SELECT COUNT(DISTINCT UID) FROM users NATURAL JOIN ownership NATURAL JOIN sprites";
-  connection.query(query, (err, results) => {
+  const query = "CALL UserCount;"
+  connection.query(query, (err, rows, fields) => {
     if (err) {
       console.error('Error executing query: ', err);
       return;
     }
-    console.log('Query results: ', results);
-    res.send(results);
+    res.send(rows[0])
   });
 })
 
 app.get('/query/', (req, res) => {
-
+  res.send("HHEL")
 })
 
-connection.query('SELECT COUNT(DISTINCT UID) FROM users NATURAL JOIN ownership NATURAL JOIN sprites', (err, rows, fields) => {
-  if (err) throw err
+// app.use(express.static('files'));
 
-  console.log('The solution is: ', rows)
-})
+// // Parse JSON requests
+// app.use(bodyParser.json());
 
-connection.end()
-app.use(express.static('files'));
+// // Set up multer for file uploads
+// const upload = multer({ dest: 'uploads/' });
 
-// Parse JSON requests
-app.use(bodyParser.json());
-
-// Set up multer for file uploads
-const upload = multer({ dest: 'uploads/' });
-
-// Create a file upload endpoint
-app.post('/upload', upload.single('file'), (req, res) => {
-  // Get the file from the request
-  const file = req.file;
-  // Send a response with some file information
-  res.json({
-    filename: file.filename,
-    originalname: file.originalname,
-    size: file.size,
-  });
-});
+// // Create a file upload endpoint
+// app.post('/upload', upload.single('file'), (req, res) => {
+//   // Get the file from the request
+//   const file = req.file;
+//   // Send a response with some file information
+//   res.json({
+//     filename: file.filename,
+//     originalname: file.originalname,
+//     size: file.size,
+//   });
+// });
 
 // Start the server
 app.listen(PORT, () => {
