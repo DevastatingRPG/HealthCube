@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
+// import { array } from 'yargs';
+// import { object } from 'prop-types';
 
 const Form = () => {
   const questions = [
@@ -19,8 +21,9 @@ const Form = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [inputValue, setInputValue] = useState([]);
 
-  const updateValue = (answer) => {
+  const updateAnswers = (answer) => {
     setAnswers(prevAnswers => {
       const newAnswers = [...prevAnswers];
       try {
@@ -33,11 +36,25 @@ const Form = () => {
     });
   }
 
+  const tellAns = (ind) => {
+    let exval;
+    if (questions[ind].type == 'text')
+      exval = [answers[ind].answer]
+    else
+      exval = answers[ind].answer.split(', ')
+    setInputValue(exval)
+  }
+
   const handleNext = () => {
-    // console.log(answers)
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
+      tellAns(currentIndex+1);
+      
+    }
+    else {
+      setCurrentIndex(currentIndex)
+      tellAns(currentIndex)
     }
   };
 
@@ -45,6 +62,11 @@ const Form = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
+      tellAns(currentIndex-1);
+    }
+    else{
+      setCurrentIndex(currentIndex)
+      tellAns(currentIndex)
     }
   };
 
@@ -53,11 +75,12 @@ const Form = () => {
       question={questions[currentIndex].question}
       type={questions[currentIndex].type}
       options={questions[currentIndex].options}
-      ans={answers[currentIndex].answer}
       progress={progress}
       onNext={handleNext}
       onBack={handleBack}
-      onChange={updateValue}
+      updateAnswers={updateAnswers}
+      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
+      setInputValue={setInputValue}
     />
   );
 };

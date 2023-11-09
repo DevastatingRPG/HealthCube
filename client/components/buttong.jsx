@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, ButtonGroup } from '@rneui/themed';
-import { View } from 'react-native';
+import { Button } from '@rneui/themed';
+import { View, StyleSheet } from 'react-native';
 
 /*
     buttons : List of names of buttons
@@ -10,17 +10,21 @@ import { View } from 'react-native';
 */
 
 const ButtonG = props => {
-    const { buttons, buttonColors, onClick, direction, selected, answer } = props;
+    const { buttons, buttonColors, onClick, direction, selected } = props;
 
     return (
         <View style={{ flex: 1, flexDirection: direction }}>
             {buttons.map((button, i) => (
                 <Button
+                    containerStyle={styles.containerStyle}
+                    buttonStyle={styles.buttonStyle}
                     key={i}
                     title={button}
-                    color={selected.includes(buttons[i]) ? buttonColors[buttonColors.length-1] : buttonColors[i]}
-                    titleStyle={selected.includes(buttons[i]) ?{color: 'white'} : {color: 'black'}}
-                    onPress={() => onClick(buttons[i])}
+                    color={selected.includes(buttons[i]) ? buttonColors[buttonColors.length - 1] : buttonColors[i]}
+                    titleStyle={selected.includes(buttons[i]) ? { ...styles.titleStyle, color: 'white' } :
+                        { ...styles.titleStyle, color: 'black' }}
+                    onPress={() => selected.includes(buttons[i]) ? onClick(null) : onClick(buttons[i])}
+                    // onPress={() => onClick(buttons[i])}
                 />
             ))}
         </View>
@@ -32,5 +36,24 @@ ButtonG.defaultProps = {
     selected: [],
     answer: ''
 }
+
+const styles = StyleSheet.create({
+    containerStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        borderRadius: 10,
+    },
+    buttonStyle: {
+        flex: 1,
+        alignSelf: 'stretch'
+    },
+    titleStyle: {
+        fontSize: 20,
+        color: '#000',
+    },
+
+})
 
 export default ButtonG;

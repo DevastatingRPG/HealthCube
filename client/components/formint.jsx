@@ -35,34 +35,30 @@ const FormInt = props => {
         black: 'rgba(52, 58, 64, 0.6)'
     };
 
-
-
-    try {
+    if (options) {
         keys = Object.keys(colors);
         colsel = options.map((option, index) => colors[keys[index % keys.length]]);
         colsel.push(colors['black']);
     }
-    catch {
-    }
-    let inputElement;
 
     const updateValue = (value) => {
+        if (value != null)
         setInputValue(prevValues => {
             if (prevValues.includes(value)) {
                 // If the value exists, remove it
                 return prevValues.filter(item => item !== value);
             } else {
                 if (type != 'multisel')
-                    return [value]
+                    return [value];
                 // If the value doesn't exist, add it
-                return [...prevValues, value];
+                return [...prevValues.filter(item => item !== ""), value];
             }
         });
+
     };
 
     const navigate = (answer) => {
-        if (inputValue.length > 0)
-            onChange(inputValue);
+        updateAnswers(inputValue);
         setInputValue([]);
         if (answer == "Next")
             onNext();
@@ -73,12 +69,13 @@ const FormInt = props => {
     const qsProps = {
         onClick: updateValue,
         selected: inputValue,
-        answer: ans
     };
+
+    let inputElement;
 
     switch (type) {
         case 'text':
-            inputElement = <Input multiline={true} onChangeText={text => setInputValue(text)} value={inputValue} />;
+            inputElement = <Input multiline={true} onChangeText={text => setInputValue(text)} defaultValue={inputValue} />;
             break;
         case 'yesno':
             inputElement = <ButtonG
@@ -157,30 +154,6 @@ const FormInt = props => {
     );
 }
 
-
-
-const theme = createTheme({
-    components: {
-        Button: {
-            containerStyle: {
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 10,
-                borderRadius: 10,
-            },
-            buttonStyle: {
-                flex: 1,
-                alignSelf: 'stretch'
-            },
-            titleStyle: {
-                fontSize: 20,
-                color: '#000',
-            },
-        },
-    },
-});
-
 const styles = StyleSheet.create({
     question: {
         flex: 0.3,
@@ -194,7 +167,7 @@ const styles = StyleSheet.create({
     },
     navigation: {
         flexDirection: 'row',
-        flex: 0.08
+        flex: 0.1
     },
     backgroundImage: {
         flex: 2,
