@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
 import ButtonG from './buttong';
-import backgroundImage from '../assets/human.png';
-import HorizontalScrollingGif from './animal';
 
 
 /*
@@ -17,13 +14,6 @@ import HorizontalScrollingGif from './animal';
 
 const FormInt = props => {
     const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue } = props;
-
-    const [showHorizontalAnimation, setShowHorizontalAnimation] = useState(false);
-
-    const toggleAnimation = () => {
-        setShowHorizontalAnimation((prev) => !prev);
-    };
-
     const colors = {
         blue: 'rgba(0, 123, 255, 0.6)',
         green: 'rgba(40, 167, 69, 0.6)',
@@ -84,7 +74,7 @@ const FormInt = props => {
             />
             break;
         case 'symptom':
-            inputElement = (
+            inputElement =
                 <View style={{ flex: 1 }}>
                     <ButtonG
                         buttons={["Currently Present", "Previously Present"]}
@@ -97,7 +87,6 @@ const FormInt = props => {
                         {...qsProps}
                     />
                 </View>
-            );
             break;
         case 'sel':
             inputElement = <ButtonG
@@ -117,21 +106,7 @@ const FormInt = props => {
             break;
     }
     return (
-        <View style={{flex: 1}}>
-            <TouchableOpacity onPress={toggleAnimation}>
-                {showHorizontalAnimation ? (
-                    <HorizontalScrollingGif
-                    gifSource={require('../assets/dog_stand.gif')}
-                    width={100}
-                    height={100}
-                    />
-                ) : (
-                    <Image
-                    source={require('../assets/dog_eat.gif')}
-                    style={{ width: 100, height: 100 }}
-                    />
-                )}
-            </TouchableOpacity>
+        <View style={{ flex: 1 }}>
             <LinearProgress variant='determinate' color='green' value={progress} />
             <Text style={styles.question}>{question}</Text>
             <Divider color='black' width={3} />
@@ -163,16 +138,6 @@ const styles = StyleSheet.create({
     navigation: {
         flexDirection: 'row',
         flex: 0.1
-    },
-    backgroundImage: {
-        flex: 2,
-        resizeMode: 'cover', // or 'stretch' as per your preference
-        justifyContent: 'center' // Center the content horizontally and vertically
-    },
-    container: {
-        position: 'absolute',
-        top: 0, // Adjust as needed to position at the top
-        left: 0, // Adjust as needed to position at the left
     }
 })
 
