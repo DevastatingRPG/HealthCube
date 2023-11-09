@@ -7,7 +7,10 @@ const Form = () => {
   const questions = [
     { question: 'What is your Name?', type: 'text' },
     { question: 'Do you like ice cream?', type: 'yesno' },
-    { question: 'Do you like ice cream?', type: 'symptom' },
+    { question: '1?', type: 'symptom' },
+    { question: '2?', type: 'symptom' },
+    { question: '3?', type: 'symptom' },
+    { question: '4?', type: 'symptom' },
     { question: 'Are you ?', type: 'multisel', options: ['Married', 'Divorced', 'Single'] }
   ];
 
