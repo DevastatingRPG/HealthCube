@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ButtonG from '../components/buttong';
+import ButtonG from './buttong';
 import backgroundImage from '../assets/human.png';
-import HorizontalScrollingGif from '../components/animal';
+import HorizontalScrollingGif from './animal';
 
 
 /*
