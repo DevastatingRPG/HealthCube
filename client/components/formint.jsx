@@ -16,8 +16,7 @@ import HorizontalScrollingGif from './animal';
 */
 
 const FormInt = props => {
-    const { question, type, options, ans, progress, onNext, onBack, onChange } = props;
-    const [inputValue, setInputValue] = useState([]);
+    const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue } = props;
 
     const [showHorizontalAnimation, setShowHorizontalAnimation] = useState(false);
 
@@ -87,18 +86,16 @@ const FormInt = props => {
         case 'symptom':
             inputElement = (
                 <View style={{ flex: 1 }}>
-                    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-                        <ButtonG
-                            buttons={["Currently Present", "Previously Present"]}
-                            buttonColors={[colors['red'], colors['yellow'], colors['black']]}
-                            {...qsProps}
-                        />
-                        <ButtonG
-                            buttons={["Not Present"]}
-                            buttonColors={[colors['green'], colors['black']]}
-                            {...qsProps}
-                        />
-                    </ImageBackground>
+                    <ButtonG
+                        buttons={["Currently Present", "Previously Present"]}
+                        buttonColors={[colors['red'], colors['yellow'], colors['black']]}
+                        {...qsProps}
+                    />
+                    <ButtonG
+                        buttons={["Not Present"]}
+                        buttonColors={[colors['green'], colors['black']]}
+                        {...qsProps}
+                    />
                 </View>
             );
             break;
@@ -120,37 +117,35 @@ const FormInt = props => {
             break;
     }
     return (
-        <SafeAreaProvider>
-            <ThemeProvider theme={theme}>
-                <TouchableOpacity onPress={toggleAnimation}>
-                    {showHorizontalAnimation ? (
-                        <HorizontalScrollingGif
-                        gifSource={require('../assets/dog_stand.gif')}
-                        width={100}
-                        height={100}
-                        />
-                    ) : (
-                        <Image
-                        source={require('../assets/dog_eat.gif')}
-                        style={{ width: 100, height: 100 }}
-                        />
-                    )}
-                    </TouchableOpacity>
-                <LinearProgress variant='determinate' color='green' value={progress} />
-                <Text style={styles.question}>{question}</Text>
-                <Divider color='black' width={3} />
-                <View style={styles.input}>
-                    {inputElement}
-                </View>
-                <View style={styles.navigation}>
-                    <ButtonG
-                        buttons={["Back", "Next"]}
-                        buttonColors={[colors['blue'], colors['blue']]}
-                        onClick={navigate}
+        <View style={{flex: 1}}>
+            <TouchableOpacity onPress={toggleAnimation}>
+                {showHorizontalAnimation ? (
+                    <HorizontalScrollingGif
+                    gifSource={require('../assets/dog_stand.gif')}
+                    width={100}
+                    height={100}
                     />
-                </View>
-            </ThemeProvider>
-        </SafeAreaProvider>
+                ) : (
+                    <Image
+                    source={require('../assets/dog_eat.gif')}
+                    style={{ width: 100, height: 100 }}
+                    />
+                )}
+            </TouchableOpacity>
+            <LinearProgress variant='determinate' color='green' value={progress} />
+            <Text style={styles.question}>{question}</Text>
+            <Divider color='black' width={3} />
+            <View style={styles.input}>
+                {inputElement}
+            </View>
+            <View style={styles.navigation}>
+                <ButtonG
+                    buttons={["Back", "Next"]}
+                    buttonColors={[colors['blue'], colors['blue']]}
+                    onClick={navigate}
+                />
+            </View>
+        </View>
     );
 }
 
