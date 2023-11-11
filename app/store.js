@@ -1,8 +1,9 @@
 
 import React from 'react';
 import {View, Text, Image, ScrollView, TextInput} from 'react-native';
-import Hello from '../components/storebut';
+import Shop from '../components/Shop';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Hello from '../components/show';
 
 
 
@@ -20,7 +21,8 @@ const App = () => {
     <ScrollView>
         <SafeAreaProvider>
             <View>
-                <Hello/>
+                {/* <Hello/> */}
+                <Shop/>
             </View>
         </SafeAreaProvider>
     </ScrollView>
