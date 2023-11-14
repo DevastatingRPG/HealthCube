@@ -35,16 +35,16 @@ const FetchForms = () => {
 
 const App = () => {
   data = FetchForms();
+  const [names, setNames] = useState([]);
   useEffect(() => {
     if (data)
-      names = data.map(form => (form[1][0]))
+      setNames(data.map(form => (form[1][0])))
   }, [data])
-  console.log(data[0])
 
   return (
     <SafeAreaProvider>
       <ScrollView>
-      <Text>{data}</Text>
+      <Text></Text>
       </ScrollView>
       
     </SafeAreaProvider>
