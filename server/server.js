@@ -4,10 +4,6 @@ const mysql = require('mysql');
 const fs = require('fs');
 require('dotenv').config();
 var cors = require('cors')
-const readline = require('readline');
-const firstline = require('firstline')
-
-
 
 env = process.env
 const app = express();
@@ -24,38 +20,35 @@ const connection = mysql.createConnection({
   database: env.SQL_DATABASE
 })
 
-// http://localhost:5000/query?page=lb
-// http://localhost:5000/query?page=store&func=list&id=12
-// http://localhost:5000/query?page=store&func=buy&id=12&sid=1&cost=1
 app.get('/', (req, res) => {
-  var query, db=0;
+  var query, db = 0;
   data = req.query
   id = data.id
   sid = data.sid
-  switch (data.page){
+  switch (data.page) {
     case 'lb':
       query = "CALL LeaderBoard()";
-      db=1;
+      db = 1;
       break;
     case 'store':
-      switch (data.func){
+      switch (data.func) {
         case 'list':
           query = `CALL UnownedSprites(${id})`;
-          db=1;
+          db = 1;
       }
     case 'forms':
-      switch (data.func){
+      switch (data.func) {
         case 'list':
-          let forms=[]
+          let forms = []
           const basePath = 'files/uforms'
           fs.readdirSync(basePath).forEach(file => {
             forms.push(file)
           });
           res.send(forms)
-          break;            
-      }    
+          break;
+      }
   }
-  if (db){
+  if (db) {
     connection.query(query, (err, rows, fields) => {
       if (err) {
         console.error('Error executing query: ', err);
@@ -68,27 +61,47 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  var query;
+  var query, db = 0;
   data = req.query;
-  id = data.id;
-  sid = data.sid;
-  switch (data.page){
+  id = data.id; 
+  switch (data.page) {
     case 'store':
-      switch (data.func){
+      switch (data.func) {
         case 'buy':
+          sid = data.sid;
           query = `CALL UserBuyChest(${id}, ${sid}, ${data.cost})`
+          db = 1
           break;
       }
+    case 'forms':
+      switch (data.func) {
+        case 'save':
+          const basePath = 'files/fforms/'
+          content = data.content;          
+          file = data.file.split('.')[0];          
+          if (!fs.existsSync(basePath+file)){
+            fs.mkdirSync(basePath+file)
+            
+          }
+          fs.writeFile(basePath+file+'/'+id+'.txt', content, error => {
+            if (error)
+              console.error(error)
+          })
+          res.send("Done")
+
+      }
   }
-  query = `CALL UserBuyChest(${id}, ${sid}, ${data.cost})`
-  console.log(query)
-  connection.query(query, (err, rows, fields) => {
-    if (err) {
-      console.error('Error executing query: ', err);
-      return;
-    }
-    res.send("Successful Purchase")
-  });
+  if (db) {
+    query = `CALL UserBuyChest(${id}, ${sid}, ${data.cost})`
+    console.log(query)
+    connection.query(query, (err, rows, fields) => {
+      if (err) {
+        console.error('Error executing query: ', err);
+        return;
+      }
+      res.send("Successful Purchase")
+    });
+  }
 
 })
 
