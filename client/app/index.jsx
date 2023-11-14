@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-import { Button } from '@rneui/themed';
+import { Button, Text } from '@rneui/themed';
+import axios from "axios";
+const fetch = global.fetch;
+
+
+
 
 
 const App = () => {
@@ -12,6 +17,9 @@ const App = () => {
             </Link>   
             <Link href="/leaderboard" asChild>
                 <Button color="primary" title="Leaderboard" />
+            </Link> 
+            <Link href="/formdash" asChild>
+                <Button color="primary" title="Form DashBoard" />
             </Link>          
         </SafeAreaProvider>   
     );
