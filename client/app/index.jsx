@@ -5,6 +5,13 @@ import { Button, Text } from '@rneui/themed';
 import axios from "axios";
 const fetch = global.fetch;
 
+const CustomComponent = React.forwardRef((props, ref) => {
+    return (
+      <Link {...props} ref={ref}>
+        {props.children}
+      </Link>
+    );
+  });
 
 
 
@@ -15,12 +22,13 @@ const App = () => {
             <Link href="/form" asChild>
                 <Button color="secondary" title="Form" />
             </Link>   
-            <Link href="/leaderboard" asChild>
+            {/* <Link to="/leaderboard" asChild>
                 <Button color="primary" title="Leaderboard" />
             </Link> 
-            <Link href="/formdash" asChild>
+            <Link to="/formdash" asChild>
                 <Button color="primary" title="Form DashBoard" />
-            </Link>          
+            </Link>           */}
+            {/* /* <CustomComponent ref='/form' /> */}
         </SafeAreaProvider>   
     );
 }

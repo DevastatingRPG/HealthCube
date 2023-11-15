@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Input, Button, Text, Divider, LinearProgress } from '@rneui/themed';
 import ButtonG from './buttong';
 import HorizontalScrollingGif from './animal';
@@ -33,6 +33,7 @@ const FormInt = props => {
     };
 
     if (options) {
+        // Choose colors for multisel option
         keys = Object.keys(colors);
         colsel = options.map((option, index) => colors[keys[index % keys.length]]);
         colsel.push(colors['black']);
@@ -45,6 +46,7 @@ const FormInt = props => {
                 // If the value exists, remove it
                 return prevValues.filter(item => item !== value);
             } else {
+                // If it is not multisel, replace previous value with new value
                 if (type != 'multisel')
                     return [value];
                 // If the value doesn't exist, add it
@@ -55,6 +57,7 @@ const FormInt = props => {
     };
 
     const navigate = (answer) => {
+        // Update answers storage in form and handle next or back
         updateAnswers(inputValue);
         if (answer == "Next")
             onNext();
@@ -62,7 +65,8 @@ const FormInt = props => {
             onBack();
     }
 
-    const qsProps = {
+    const qsProps = { 
+        // Setting props common to all Button Group inputs
         onClick: updateValue,
         selected: inputValue,
     };
@@ -70,6 +74,7 @@ const FormInt = props => {
     let inputElement;
 
     switch (type) {
+        // Define how to get user input in a variable inputElement.
         case 'text':
             inputElement = <Input multiline={true} onChangeText={text => setInputValue(text)} defaultValue={inputValue} />;
             break;
@@ -113,8 +118,8 @@ const FormInt = props => {
             break;
     }
     return (
-        <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={toggleAnimation}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>          
+            <TouchableOpacity onPress={toggleAnimation} style={styles.animation}>
                 {showHorizontalAnimation ? (
                     <HorizontalScrollingGif
                     gifSource={require('../assets/dog_stand.gif')}
@@ -141,11 +146,14 @@ const FormInt = props => {
                     onClick={navigate}
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    animation: {
+        flex: 0.01
+    },
     question: {
         flex: 0.3,
         backgroundColor: '#B6C5F8',
@@ -153,12 +161,12 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center'
     },
     input: {
-        flex: 0.62,
+        flex: 0.63,
         padding: 5,
     },
     navigation: {
-        flexDirection: 'row',
-        flex: 0.1
+        flexDirection: 'column',
+        flex: 0.06
     }
 })
 

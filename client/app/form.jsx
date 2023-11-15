@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Form = () => {
   const questions = [
@@ -61,17 +62,19 @@ const Form = () => {
   };
 
   return (
-    <FormInt
-      question={questions[currentIndex].question}
-      type={questions[currentIndex].type}
-      options={questions[currentIndex].options}
-      progress={progress}
-      onNext={handleNext}
-      onBack={handleBack}
-      updateAnswers={updateAnswers}
-      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
-      setInputValue={setInputValue}
-    />
+    <SafeAreaProvider>
+      <FormInt
+        question={questions[currentIndex].question}
+        type={questions[currentIndex].type}
+        options={questions[currentIndex].options}
+        progress={progress}
+        onNext={handleNext}
+        onBack={handleBack}
+        updateAnswers={updateAnswers}
+        inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
+        setInputValue={setInputValue}
+      />
+    </SafeAreaProvider>
   );
 };
 
