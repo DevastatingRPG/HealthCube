@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import FormInt from '../components/formint';
-// import { array } from 'yargs';
-// import { object } from 'prop-types';
 
 const Form = () => {
   const questions = [
@@ -46,12 +44,7 @@ const Form = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
-      tellAns(currentIndex+1);
-      
-    }
-    else {
-      setCurrentIndex(currentIndex)
-      tellAns(currentIndex)
+      tellAns(currentIndex+1);   
     }
   };
 

@@ -9,6 +9,7 @@ env = process.env
 const app = express();
 const PORT = env.PORT || 5000;
 app.use(cors());
+app.use(express.query())
 app.use(express.json())
 app.use('/uforms', express.static('files/uforms'));
 app.use('/fforms', express.static('files/fforms'));
@@ -22,22 +23,23 @@ const connection = mysql.createConnection({
 
 app.get('/', (req, res) => {
   var query, db = 0;
-  data = req.query
-  id = data.id
-  sid = data.sid
-  switch (data.page) {
+  params = req.query
+  const { id } = req.body
+  switch (params.page) {
     case 'lb':
       query = "CALL LeaderBoard()";
       db = 1;
       break;
     case 'store':
-      switch (data.func) {
+      switch (params.func) {
         case 'list':
           query = `CALL UnownedSprites(${id})`;
           db = 1;
+          break;
       }
+      break;
     case 'forms':
-      switch (data.func) {
+      switch (params.func) {
         case 'list':
           let forms = []
           const basePath = 'files/uforms'
@@ -62,38 +64,33 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   var query, db = 0;
-  data = req.query;
-  id = data.id; 
-  switch (data.page) {
+  const params = req.query;
+  const { id, sid, cost, content, file } = req.body;
+  switch (params.page) {
     case 'store':
-      switch (data.func) {
+      switch (params.func) {
         case 'buy':
-          sid = data.sid;
-          query = `CALL UserBuyChest(${id}, ${sid}, ${data.cost})`
+          query = `CALL UserBuyChest(${id}, ${sid}, ${cost})`
           db = 1
           break;
       }
+      break;
     case 'forms':
-      switch (data.func) {
+      switch (params.func) {
         case 'save':
-          const basePath = 'files/fforms/'
-          content = data.content;          
-          file = data.file.split('.')[0];          
-          if (!fs.existsSync(basePath+file)){
-            fs.mkdirSync(basePath+file)
-            
-          }
-          fs.writeFile(basePath+file+'/'+id+'.txt', content, error => {
-            if (error)
-              console.error(error)
-          })
-          res.send("Done")
+          const basePath = 'files/fforms/'         
+          let folderName = file.split('.')[0];          
+          if (!fs.existsSync(basePath+folderName))
+            fs.mkdirSync(basePath+folderName)            
+          fs.writeFileSync(basePath+folderName+'/'+id+'.txt', content)
+          res.sendStatus(200)
+          break;
 
       }
+      break;
   }
   if (db) {
     query = `CALL UserBuyChest(${id}, ${sid}, ${data.cost})`
-    console.log(query)
     connection.query(query, (err, rows, fields) => {
       if (err) {
         console.error('Error executing query: ', err);

@@ -16,9 +16,6 @@ const Table = props => {
         <View style={{flex: 1}}>
             <Text style={styles.heading} h3>Leaderboaard</Text>
             <DataTable style={{backgroundColor: 'blue'}}>
-                {/* <DataTable.Header>
-                    <DataTable.Title style={{textAlign: 'center'}}>Leaderboard</DataTable.Title>
-                </DataTable.Header> */}
 
                 {rows.map((row, i) => (
                     <DataTable.Row style={[styles.Row, row[0]==aot[0] && styles.UserRow]} key={i}>
