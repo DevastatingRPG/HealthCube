@@ -10,7 +10,8 @@ class ButtonS extends Component {
     
     render(){
         return(
-            <TouchableOpacity styles={[styles.button]} onPress = {this.props.onPress}>
+            <TouchableOpacity styles={[styles.button]} 
+            onPress={() => this.props.onPress(this.props)}>
                 <View >
                     <Text style = {[styles.butext, {color : this.props.textcolor, fontWeight: 'bold'}]}>{this.props.name}</Text>
                     <Image 
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     button:{
         padding: 10,
         borderRadius: 10,
-        marginBottom:40,
+        // marginBottom:40,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor:'white',
@@ -44,8 +45,9 @@ const styles = StyleSheet.create({
         height: 40,
         width: 100,
         borderRadius: 500,
-        paddingTop:10,
+        paddingTop:5,
         marginLeft:100,
+        marginBottom: 80,
     },
 });
 

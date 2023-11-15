@@ -9,6 +9,7 @@ class Shop extends Component{
         this.state = {
             popitup : false,
             newpopitup : false,
+            selectedButton: null,
         };
     }
 
@@ -24,9 +25,15 @@ class Shop extends Component{
         });
       };
 
-    HandlePress = () =>{
-        this.TogglePopup();
-    }
+    // HandlePress = () =>{
+    //     this.TogglePopup();
+    // }
+    HandleButtonPress = (buttonInfo) => {
+        this.setState({
+          selectedButton: buttonInfo,
+          popitup: true,
+        });
+      };
 
     yesnext = () => {
         this.TogglePopup();
@@ -41,8 +48,8 @@ class Shop extends Component{
                     <Image source={require('../assets/legendgem.webp')} style = {{height:30,width:30,marginTop:3}}/>
                     <Text style={{fontSize:30,color:'white'}}>{this.money}</Text>
                 </View>
-                <View style={{backgroundColor:'cyan',height:100,width:'100%'}}>
-                    <Text style={{fontSize: 60, color: 'black',textAlign:'center',fontWeight:'bold'}}>STORE</Text>
+                <View style={{backgroundColor:'cyan',height:100,width:'100%',marginBottom:50}}>
+                    <Text style={{fontSize: 60, color: 'black',textAlign:'center',fontWeight:'bold',paddingTop:7}}>STORE</Text>
                 </View>
                 <ButtonS
                     name = 'Pill'
@@ -52,28 +59,35 @@ class Shop extends Component{
                     cost = {100}
                     filled = {false}
                     textcolor = 'white'
-                    onPress = {this.HandlePress}
+                    onPress={this.HandleButtonPress}
                 />
+                <View style={{backgroundColor:'cyan',height:20,width:'100%',marginBottom:50}}/>
+
+                
                 <ButtonS
                     name = 'Premium Pill'
                     size = {300}
                     image1 = {require('../assets/purple.png')}
-                    image2 = {require('../assets/redopen.png')}
+                    image2 = {require('../assets/redpill.webp')}
                     cost = {200}
                     filled = {false}
                     textcolor = 'white'
-                    onPress = {this.HandlePress}
+                    onPress={this.HandleButtonPress}
                 />
+
+                <View style={{backgroundColor:'cyan',height:20,width:'100%',marginBottom:50}}/>
+
                 <ButtonS
                     name = 'Super Deluxe Pill'
                     size = {300}
                     image1 = {require('../assets/blueremoved.png')}
-                    image2 = {require('../assets/redopen.png')}
+                    image2 = {require('../assets/cyanpill.jpg')}
                     cost = {300}
                     filled = {false}
                     textcolor = 'white'
-                    onPress = {this.HandlePress}
+                    onPress={this.HandleButtonPress}
                 />
+                <View style={{backgroundColor:'cyan',height:20,width:'100%',marginBottom:50}}/>
                 <TouchableOpacity onPress={this.togglePopup}>
           
           </TouchableOpacity>
@@ -85,7 +99,8 @@ class Shop extends Component{
                 >
                     <View style={styles.modalContainer}>
                         <View style = {styles.popup}>
-                            <Text style ={{fontSize:30,fontWeight:'bold',textAlign:'center'}}>Do you really want to open this pill</Text>
+                            <Text style ={{fontSize:25,fontWeight:'bold',textAlign:'center'}}>Confirm purchase of</Text>
+                            <Text style ={{fontSize:40,fontStyle:'italic',fontWeight:'bold',textAlign:'center'}}>{this.state.selectedButton?.name}?</Text>
                             <View style={styles.buttonRow}>
                                 <TouchableOpacity onPress={this.TogglePopup}>
                                     <View style={styles.buttonContainer}>
@@ -110,7 +125,7 @@ class Shop extends Component{
                         <View style={{backgroundColor:'darkblue',height:'100%',width:'100%'}}>
                         <Text style={{ fontSize: 70, fontWeight: 'bold', textAlign: "center", paddingTop: 40, color:'yellow' }}>HURRAY!!</Text>
                             {/* <View style={styles.buttonRow}> */}
-                            <Image source={require('../assets/redopen.png')} style={{height:300,width:250,alignContent:'center',marginLeft:50,marginTop: 30,marginBottom: 50}}/>
+                            <Image source={this.state.selectedButton?.image2} style={{height:300,width:250,alignContent:'center',marginLeft:50,marginTop: 30,marginBottom: 50}}/>
                             <TouchableOpacity onPress={this.ToggleNewPopup}>
                                 <View style={{backgroundColor:'black',height: 50, width:200,borderRadius:500,marginLeft: 75}}>
                                 <Text style={{fontSize:30,color:'white',textAlign:'center',paddingTop:4}}>YAY!!</Text>
