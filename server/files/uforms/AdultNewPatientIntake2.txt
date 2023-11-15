@@ -1,0 +1,111 @@
+Adult New Patient Intake
+Occupation: blank
+Employer: blank
+Employment Status: Full-time, Part-time, Student, Retired
+Insurance Plan: blank
+Are you: Married, Divorced, Single, Significant partnership, Widowed
+Live with: multi select, spouse, parents, children, partner, friends, pets, relatives, alone
+Emergency Contact Person: blank
+Relation: blank
+Address: blank
+Home Phone: blank
+Cell Phone: blank
+How did you hear about us? (please be specific; include name of website, friend, etc. if applicable): blank
+Would you like to talk to the doctor about any of the following therapies?: multi select, Acupuncture, Nutrition/Weight Management, IV nutrition, Homeopathy, Myotherapy/Bodywork, Herbal Medicine
+What are your most important health concerns/symptoms? Please begin with the MOST IMPORTANT to address today.: blank
+What are your health goals?: blank
+List all previous health conditions (please include dates): blank
+Please list all previous surgeries (include dates): blank
+Please list all previous hospitalizations/accidents (include dates): blank
+List any allergies to medications, foods, supplements, environmental: blank
+Please list all prescription medications you are taking: blank
+Please list all supplements and products you are taking: blank
+List current/Recent Health Care Providers (Name, Dates, Care Provided): blank
+Current height: blank
+Current weight: blank
+Ideal weight: blank
+Maximum weight: blank
+General Health: Excellent, Good, Fair, Poor
+Have you had your cholesterol checked?: Yes, No
+If yes, Date & Results: blank
+Have you had a Pap smear?: Yes, No
+if yes, have you ever had an abnormal Pap?: Yes, No
+if yes, when and what treatment was provided?: blank
+Have you had a mammogram?: Yes, No
+If yes, Date & Results: blank
+Have you had a bone density test?: Yes, No
+If yes, Date & Results: blank
+Have you received vaccinations?: Yes, No
+Known vaccine reaction?: Yes, No
+Difficulty falling asleep?: Yes, No
+Do you sleep uninterrupted through the night?: Yes, No
+How many hours of sleep per night?: blank
+Do you wake refreshed?: Yes, No
+Do you take sleep aids?: Yes, No
+if yes, what type?: blank
+Dietary preferences/restrictions (vegan, gluten free, high protein, etc.): blank
+Breakfast: blank
+Lunch: blank
+Dinner: blank
+Snacks: blank
+Drinks: blank
+How much water do you drink daily?: blank
+Are you happy with your current diet?: Yes, No
+If yes, please give details: blank
+Do you drink alcohol?: Yes, No
+if yes, please list type, amount and frequency (for example: 2 beers a week): blank
+Do you drink caffeine?: Yes, No
+if yes, please list type, amount and frequency.: blank
+Do you smoke or use tobacco?: Yes, No
+If yes, please list type, amount and frequency. If you smoked in the past please list how much and for how long (for example: 1 pack a day for 10 years): blank
+Recreational drug use?: Yes, No
+If yes, what type and how often?: blank
+Do you exercise?: Yes, No
+If yes, how often?: 1-2 times a week, 3-4 times a week, more than 4 times a week
+Fatigue/low energy: Y/P
+Insomnia: Y/P
+Appetite changes: Y/P
+Unexplained weight loss/gain: Y/P
+Fevers or chills: Y/P
+Cold intolerance: Y/P
+Heat intolerance: Y/P
+Hot flashes: Y/P
+Night sweats: Y/P
+Sweat too much: Y/P
+Headaches: Y/P
+Migraines: Y/P
+Dizziness/Fainting: Y/P
+Head Injury: Y/P
+Hives: Y/P
+Eczema/Psoriasis: Y/P
+Acne: Y/P
+Dry skin: Y/P
+Itchy skin: Y/P
+Dandruff: Y/P
+Warts/Moles: Y/P
+Skin cancer: Y/P
+Hair loss/thinning: Y/P
+Weak nails/splitting nails: Y/P
+Cuts heal slowly: Y/P
+Athlete's foot: Y/P
+Corrective eyewear?: Yes, No
+Dry eyes: Y/P
+Itchy eyes: Y/P
+Blurred vision: Y/P
+Eyes water excessively: Y/P
+Eyes sensitive to light: Y/P
+Eyes puffy or bloodshot: Y/P
+Night blindness: Y/P
+Glaucoma: Y/P
+Cataracts: Y/P
+Ear pain: Y/P
+Ear discharge/wax: Y/P
+Ringing in ears: Y/P
+Changes in hearing: Y/P
+Hearing loss: Y/P
+Use hearing aid: Y/P
+Congestion: Y/P
+Seasonal allergies/hayfever: Y/P
+Post nasal drip: Y/P
+Nosebleeds: Y/P
+Sinus infections: Y/P

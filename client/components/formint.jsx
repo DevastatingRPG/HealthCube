@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import { Input, Button, Text, Divider, createTheme, ThemeProvider, LinearProgress, ButtonGroup } from '@rneui/themed';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Input, Button, Text, Divider, LinearProgress } from '@rneui/themed';
 import ButtonG from './buttong';
 import HorizontalScrollingGif from './animal';
 
@@ -56,7 +56,6 @@ const FormInt = props => {
 
     const navigate = (answer) => {
         updateAnswers(inputValue);
-        setInputValue([]);
         if (answer == "Next")
             onNext();
         else if (answer == "Back")
