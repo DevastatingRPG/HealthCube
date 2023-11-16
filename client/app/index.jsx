@@ -1,12 +1,7 @@
-import React, { useState, useEffect }  from 'react';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-import { Button, Text } from '@rneui/themed';
-import axios from "axios";
-const fetch = global.fetch;
-
-
-
+import { Button } from '@rneui/themed';
 
 
 const App = () => {
