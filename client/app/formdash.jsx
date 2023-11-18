@@ -39,7 +39,6 @@ const App = () => {
   
   const SaveForms = (props) => {
     const {content, id, file} = props;
-    console.log(content)
     let data = {
       content: content,
       id: id,

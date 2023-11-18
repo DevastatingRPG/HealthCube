@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Input, Button, Text, Divider, LinearProgress } from '@rneui/themed';
+import React, { useState, useEffect } from 'react';
+// import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
+import { Image } from 'expo-image';
 import ButtonG from './buttong';
 import HorizontalScrollingGif from './animal';
+import Sprites from './images';
 
 
 /*
@@ -14,8 +18,7 @@ import HorizontalScrollingGif from './animal';
 */
 
 const FormInt = props => {
-    const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue } = props;
-
+    const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue, sprites } = props;
     const [showHorizontalAnimation, setShowHorizontalAnimation] = useState(false);
 
     const toggleAnimation = () => {
@@ -40,17 +43,17 @@ const FormInt = props => {
 
     const updateValue = (value) => {
         if (value != null)
-        setInputValue(prevValues => {
-            if (prevValues.includes(value)) {
-                // If the value exists, remove it
-                return prevValues.filter(item => item !== value);
-            } else {
-                if (type != 'multisel')
-                    return [value];
-                // If the value doesn't exist, add it
-                return [...prevValues.filter(item => item !== ""), value];
-            }
-        });
+            setInputValue(prevValues => {
+                if (prevValues.includes(value)) {
+                    // If the value exists, remove it
+                    return prevValues.filter(item => item !== value);
+                } else {
+                    if (type != 'multisel')
+                        return [value];
+                    // If the value doesn't exist, add it
+                    return [...prevValues.filter(item => item !== ""), value];
+                }
+            });
 
     };
 
@@ -67,6 +70,19 @@ const FormInt = props => {
         selected: inputValue,
     };
 
+    
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    let img1, img2;
+    if (sprites){
+        len = sprites.length
+        sprite = Sprites[sprites[getRndInteger(0, len)]["SID"]]
+        img1 = sprite["src1"]
+        img2 = sprite["src2"]
+    }
+        
     let inputElement;
 
     switch (type) {
@@ -117,14 +133,14 @@ const FormInt = props => {
             <TouchableOpacity onPress={toggleAnimation}>
                 {showHorizontalAnimation ? (
                     <HorizontalScrollingGif
-                    gifSource={require('../assets/dog_stand.gif')}
-                    width={100}
-                    height={100}
+                        gifSource={img2}
+                        width={100}
+                        height={100}
                     />
                 ) : (
                     <Image
-                    source={require('../assets/dog_eat.gif')}
-                    style={{ width: 100, height: 100 }}
+                        source={img1}
+                        style={{ width: 100, height: 100 }}
                     />
                 )}
             </TouchableOpacity>

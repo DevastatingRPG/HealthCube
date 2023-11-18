@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInt from '../components/formint';
+import { Image } from 'expo-image';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import images from '../components/images';
 
 const Form = () => {
   const questions = [
@@ -44,7 +47,7 @@ const Form = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
-      tellAns(currentIndex+1);   
+      tellAns(currentIndex + 1);
     }
   };
 
@@ -52,26 +55,52 @@ const Form = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
-      tellAns(currentIndex-1);
+      tellAns(currentIndex - 1);
     }
-    else{
+    else {
       setCurrentIndex(currentIndex)
       tellAns(currentIndex)
     }
   };
 
+  const FetchSprites = (id) => {
+    const baseUrl = 'http://192.168.1.10:5000'
+    const [sprites, setSprites] = useState(null);
+    useEffect(() => { // useEffect makes block run once the page is rendered.
+      // Using async/await syntax
+      async function fetchData() {
+        try {
+          formnames = await fetch(baseUrl + `?page=forms&func=sprites&id=${id}`); // Send the GET request               
+          formnames = await formnames.json(); // Convert the response to JSON                
+          setSprites(formnames) // Update the state variable with the data
+
+        } catch (error) {
+          console.error(error); // Handle any errors
+        }
+      }
+      fetchData(); // Call the async function
+    }, []);
+    return sprites
+  }
+
+  const sprites = FetchSprites(12)
+
   return (
-    <FormInt
-      question={questions[currentIndex].question}
-      type={questions[currentIndex].type}
-      options={questions[currentIndex].options}
-      progress={progress}
-      onNext={handleNext}
-      onBack={handleBack}
-      updateAnswers={updateAnswers}
-      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
-      setInputValue={setInputValue}
-    />
+    <SafeAreaProvider>
+      <FormInt
+        question={questions[currentIndex].question}
+        type={questions[currentIndex].type}
+        options={questions[currentIndex].options}
+        progress={progress}
+        onNext={handleNext}
+        onBack={handleBack}
+        updateAnswers={updateAnswers}
+        inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
+        setInputValue={setInputValue}
+        sprites={sprites}
+      />
+    </SafeAreaProvider>
+
   );
 };
 

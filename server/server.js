@@ -24,7 +24,7 @@ const connection = mysql.createConnection({
 app.get('/', (req, res) => {
   var query, db = 0;
   params = req.query
-  const { id } = req.body
+  id= params.id
   switch (params.page) {
     case 'lb':
       query = "CALL LeaderBoard()";
@@ -47,8 +47,13 @@ app.get('/', (req, res) => {
             forms.push(file)
           });
           res.send(forms)
+          break; 
+        case 'sprites':
+          query = `CALL OwnedSprites(${id})`;
+          db=1;
           break;
       }
+      break;
   }
   if (db) {
     connection.query(query, (err, rows, fields) => {
@@ -101,7 +106,6 @@ app.post('/', (req, res) => {
   }
 
 })
-
 
 
 // // Parse JSON requests
