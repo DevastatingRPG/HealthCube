@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
+import axios from 'axios'
 
 const fetch = global.fetch;
 const baseUrl = 'http://192.168.1.10:5000'
+const client = axios.create({ baseURL: baseUrl })
+
+async function fetchData(url) {
+    try {
+        response = await client.get(url); // Send the GET request                   
+        return response.data // Update the state variable with the data
+
+    } catch (error) {
+        console.error(error); // Handle any errors
+    }
+}
 
 export const FetchSprites = (id) => {
     const [sprites, setSprites] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
         // Using async/await syntax
-        async function fetchData() {
-            try {
-                response = await fetch(baseUrl + `?page=forms&func=sprites&id=${id}`); // Send the GET request               
-                response = await response.json(); // Convert the response to JSON                
-                setSprites(response) // Update the state variable with the data
-
-            } catch (error) {
-                console.error(error); // Handle any errors
-            }
-        }
-        fetchData(); // Call the async function
+        fetchData(`?page=forms&func=sprites&id=${id}`)
+            .then((data) => { setSprites(data) })
+        // fetchData(); // Call the async function
     }, []);
     return sprites
 }
@@ -26,17 +30,15 @@ export const FetchForms = () => {
     const [forms, setForms] = useState([]);
     useEffect(() => { // useEffect makes block run once the page is rendered.
         // Using async/await syntax
-        async function fetchData() {
+        async function fetchFormData() {
             try {
-                formnames = await fetch(baseUrl + '?page=forms&func=list'); // Send the GET request
-                formnames = await formnames.json(); // Convert the response to JSON
+                formnames = await client.get('?page=forms&func=list'); // Send the GET request
                 var data = []
-                for (index in formnames) {
-                    url = baseUrl + '/uforms/' + formnames[index]
-                    formdata = await fetch(url);  // Send GET request to read text file
-                    formdata = await formdata.text(); // Convert response to Text format
-                    const questions = formdata.split("\r");   // Split it by each line
-                    data.push([formnames[index], questions])
+                for (let name of formnames.data) {
+                    url = '/uforms/' + name
+                    formdata = await client.get(url);  // Send GET request to read text file // Convert response to Text format
+                    const questions = formdata.data.split("\r");   // Split it by each line
+                    data.push([name, questions])
                 }
                 setForms(data); // Update the state variable with the data
 
@@ -44,7 +46,7 @@ export const FetchForms = () => {
                 console.error(error); // Handle any errors
             }
         }
-        fetchData(); // Call the async function
+        fetchFormData(); // Call the async function
     }, []);
     return forms;
 }
@@ -85,6 +87,10 @@ export const FetchUnowned = (id) => {
         fetchData(); // Call the async function
     }, []);
     return sprites
+}
+
+export const LoginCheck = () => {
+
 }
 
 export const SaveForms = (props) => {

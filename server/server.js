@@ -24,7 +24,7 @@ const connection = mysql.createConnection({
 
 app.get('/', (req, res) => {
   var query, db = 0;
-  const { page, func, id } = req.query;
+  const { page, func, id, email, password } = req.query;
   switch (page) {
     case 'lb':
       query = "CALL LeaderBoard()";
@@ -54,6 +54,15 @@ app.get('/', (req, res) => {
           break;
       }
       break;
+    case 'login':
+      switch (func){
+        case 'verify':
+          query = `SELECT UserVerify(\'${email}\', \'${password}\') AS Login`
+          db = 1;
+          break;
+      }
+      break;
+        
   }
   if (db) {
     connection.query(query, (err, rows, fields) => {
