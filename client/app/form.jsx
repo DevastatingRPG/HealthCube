@@ -3,6 +3,7 @@ import FormInt from '../components/formint';
 import { Image } from 'expo-image';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import images from '../components/images';
+import { JoinAnswers } from '../utilities/parser';
 
 const Form = () => {
   const questions = [
@@ -83,8 +84,7 @@ const Form = () => {
     return sprites
   }
 
-  const sprites = FetchSprites(17)
-  console.log(sprites)
+  const sprites = FetchSprites('devastating')
 
   return (
     <SafeAreaProvider>

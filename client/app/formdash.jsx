@@ -27,18 +27,18 @@ const App = () => {
             data.push([formnames[index], questions])
           }
           setForms(data); // Update the state variable with the data
-          
+
         } catch (error) {
           console.error(error); // Handle any errors
         }
       }
       fetchData(); // Call the async function
     }, []);
-    return forms 
+    return forms
   }
-  
+
   const SaveForms = (props) => {
-    const {content, id, file} = props;
+    const { content, id, file } = props;
     let data = {
       content: content,
       id: id,
@@ -49,13 +49,13 @@ const App = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body:   JSON.stringify(data)
+      body: JSON.stringify(data)
     }
     const baseUrl = 'http://192.168.1.10:5000'
-  
+
     async function postData() {
       try {
-        let response = await fetch(baseUrl + '?page=forms&func=save', requestOptions); 
+        let response = await fetch(baseUrl + '?page=forms&func=save', requestOptions);
         return response;
         // Send the POST request      
       } catch (error) {
@@ -65,14 +65,52 @@ const App = () => {
     return postData(); // Call the async function 
   }
 
-  SaveForms({content: "ASDASD", id: 17, file: "test"})
+  data = FetchForms();
+  const [names, setNames] = useState([]);
+  useEffect(() => {
+    if (data)
+      setNames(data.map(form => (form[1][0])))
+  }, [data])
+
+  // console.log(test)
+  const questions = [];
+
+    for (let line of test.slice(1)) {
+        const [questionPart, answerPart] = line.split(':').map(part => part.trim());
+        // console.log(line)
+
+        if (answerPart === 'blank') {
+            questions.push({ question: questionPart, type: 'text' });
+        } 
+        else if (answerPart.startsWith('multi select')) {
+            const options = answerPart.replace('multi select,', '').split(',').map(opt => opt.trim());
+            questions.push({ question: questionPart, type: 'multisel', options: options });
+        } 
+        else if (answerPart.includes(',')) {
+            if (answerPart === 'Yes, No') {
+                questions.push({ question: questionPart, type: 'yesno' });
+            } 
+            else {
+                const options = answerPart.split(',').map(opt => opt.trim());
+                questions.push({ question: questionPart, type: 'sel', options: options });
+            }
+        }
+        else if (answerPart.includes('Y/P')) {
+          questions.push({question: questionPart, type: 'symptom'})
+        } 
+        else {
+            questions.push({ question: questionPart, type: 'text' });  // Catch-all case
+        }
+    }
+    for (let line of questions)
+      console.log(line)
 
   return (
     <SafeAreaProvider>
       <ScrollView>
-      <Text></Text>
+        <Text></Text>
       </ScrollView>
-      
+
     </SafeAreaProvider>
   );
 }
