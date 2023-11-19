@@ -83,7 +83,8 @@ const Form = () => {
     return sprites
   }
 
-  const sprites = FetchSprites(12)
+  const sprites = FetchSprites(17)
+  console.log(sprites)
 
   return (
     <SafeAreaProvider>

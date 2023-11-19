@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 // import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
 import { Image } from 'expo-image';
 import ButtonG from './buttong';
 import HorizontalScrollingGif from './animal';
 import Sprites from './images';
-
 
 /*
     question : Question to display in form
@@ -32,7 +31,10 @@ const FormInt = props => {
         yellow: 'rgba(255, 193, 7, 0.6)',
         orange: 'rgba(253, 126, 20, 0.6)',
         purple: 'rgba(111, 66, 193, 0.6)',
-        black: 'rgba(52, 58, 64, 0.6)'
+        lgrey: 'rgba(211, 211, 211, 0.6)',
+        cyan: 'rgba(156, 255, 236, 0.6)',
+        black: 'rgba(52, 58, 64, 0.6)',
+        
     };
 
     if (options) {
@@ -82,7 +84,7 @@ const FormInt = props => {
         img1 = sprite["src1"]
         img2 = sprite["src2"]
     }
-        
+
     let inputElement;
 
     switch (type) {
@@ -127,10 +129,11 @@ const FormInt = props => {
                 {...qsProps}
             />
             break;
+    
     }
     return (
-        <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={toggleAnimation}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>  
+            <TouchableOpacity onPress={toggleAnimation} style={styles.animation}>
                 {showHorizontalAnimation ? (
                     <HorizontalScrollingGif
                         gifSource={img2}
@@ -153,28 +156,36 @@ const FormInt = props => {
             <View style={styles.navigation}>
                 <ButtonG
                     buttons={["Back", "Next"]}
-                    buttonColors={[colors['blue'], colors['blue']]}
+                    buttonColors={[colors['cyan'], colors['cyan']]}
                     onClick={navigate}
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    animation: {
+        flex: 0.01,
+    },
     question: {
+        fontSize: 25,
         flex: 0.3,
         backgroundColor: '#B6C5F8',
         textAlign: 'center',
         textAlignVertical: 'center'
     },
     input: {
-        flex: 0.62,
+        flex: 0.63,
         padding: 5,
+        backgroundColor: '#d9dedd',
+        justifyContent: 'center',
+
     },
     navigation: {
         flexDirection: 'row',
-        flex: 0.1
+        flex: 0.06,
+        backgroundColor: '#f0bdca',
     }
 })
 
