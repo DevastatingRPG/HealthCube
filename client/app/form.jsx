@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormInt from '../components/formint';
-import { Image } from 'expo-image';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import images from '../components/images';
-import { JoinAnswers } from '../utilities/parser';
+import { FetchSprites } from '../utilities/fetching';
 
 const Form = () => {
   const questions = [
@@ -63,26 +61,6 @@ const Form = () => {
       tellAns(currentIndex)
     }
   };
-
-  const FetchSprites = (id) => {
-    const baseUrl = 'http://192.168.1.10:5000'
-    const [sprites, setSprites] = useState(null);
-    useEffect(() => { // useEffect makes block run once the page is rendered.
-      // Using async/await syntax
-      async function fetchData() {
-        try {
-          formnames = await fetch(baseUrl + `?page=forms&func=sprites&id=${id}`); // Send the GET request               
-          formnames = await formnames.json(); // Convert the response to JSON                
-          setSprites(formnames) // Update the state variable with the data
-
-        } catch (error) {
-          console.error(error); // Handle any errors
-        }
-      }
-      fetchData(); // Call the async function
-    }, []);
-    return sprites
-  }
 
   const sprites = FetchSprites('devastating')
 

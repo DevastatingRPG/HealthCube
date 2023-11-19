@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
-import { Image } from 'expo-image';
+import { Input, Text, Divider, LinearProgress, Image } from '@rneui/themed';
 import ButtonG from './buttong';
 import HorizontalScrollingGif from './animal';
 import Sprites from './images';
