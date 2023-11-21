@@ -64,7 +64,6 @@ const FormDashboard = () => {
 
       setFormName(pressedFormName);
       setFormData(pressedFormData);
-      console.log(pressedFormData);
       router.push({
         pathname: `/form`,
         params: pressedFormData
@@ -88,6 +87,7 @@ const FormDashboard = () => {
           />
         </View>
       </ScrollView>
+
     </SafeAreaProvider>
   );
 };

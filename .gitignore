@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules/
+client/node_modules
+server/node_modules
 
 # Expo
 .expo/
@@ -30,7 +32,11 @@ yarn-error.*
 
 # local env files
 .env*.local
+server/.env
 
 # typescript
 *.tsbuildinfo
 HealthCube.code-workspace
+
+#server
+server/files/fforms/
