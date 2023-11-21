@@ -9,14 +9,11 @@ const App = () => {
     console.log(x)
     return (
         <SafeAreaProvider>         
-            <Link href="/form" asChild>
+            <Link href="/formdash" asChild>
                 <Button color="secondary" title="Form" />
             </Link>   
             <Link href="/leaderboard" asChild>
                 <Button color="primary" title="Leaderboard" />
-            </Link> 
-            <Link href="/formdash" asChild>
-                <Button color="primary" title="Form DashBoard" />
             </Link>          
         </SafeAreaProvider>   
     );
