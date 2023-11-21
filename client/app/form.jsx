@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInt from '../components/formint';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { FetchSprites } from '../utilities/fetching';
 
 const Form = () => {
   const questions = [
@@ -44,7 +46,7 @@ const Form = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
-      tellAns(currentIndex+1);   
+      tellAns(currentIndex + 1);
     }
   };
 
@@ -52,26 +54,32 @@ const Form = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setProgress((currentIndex - 1) / questions.length);
-      tellAns(currentIndex-1);
+      tellAns(currentIndex - 1);
     }
-    else{
+    else {
       setCurrentIndex(currentIndex)
       tellAns(currentIndex)
     }
   };
 
+  const sprites = FetchSprites('devastating')
+
   return (
-    <FormInt
-      question={questions[currentIndex].question}
-      type={questions[currentIndex].type}
-      options={questions[currentIndex].options}
-      progress={progress}
-      onNext={handleNext}
-      onBack={handleBack}
-      updateAnswers={updateAnswers}
-      inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
-      setInputValue={setInputValue}
-    />
+    <SafeAreaProvider>
+      <FormInt
+        question={questions[currentIndex].question}
+        type={questions[currentIndex].type}
+        options={questions[currentIndex].options}
+        progress={progress}
+        onNext={handleNext}
+        onBack={handleBack}
+        updateAnswers={updateAnswers}
+        inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
+        setInputValue={setInputValue}
+        sprites={sprites}
+      />
+    </SafeAreaProvider>
+
   );
 };
 
