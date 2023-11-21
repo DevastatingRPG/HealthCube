@@ -66,7 +66,7 @@ import React, { useState } from 'react';
 import { Text } from '@rneui/themed';
 
 function SplitTextToQuestions(text) {
-  const lines = text.split('\n').filter(line => line.trim() !== '');
+  const lines = text.split('\r').filter(line => line.trim() !== '');
   const questions = [];
 
   for (let line of lines) {

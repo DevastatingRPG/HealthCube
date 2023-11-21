@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Input, Text, Divider, LinearProgress } from '@rneui/themed';
-import ButtonG from '../components/buttong';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Input, Button, Text, Divider, LinearProgress } from '@rneui/themed';
+import ButtonG from './buttong';
+import HorizontalScrollingGif from './animal';
 
 
 /*
@@ -14,6 +15,13 @@ import ButtonG from '../components/buttong';
 
 const FormInt = props => {
     const { question, type, options, progress, onNext, onBack, updateAnswers, inputValue, setInputValue } = props;
+
+    const [showHorizontalAnimation, setShowHorizontalAnimation] = useState(false);
+
+    const toggleAnimation = () => {
+        setShowHorizontalAnimation((prev) => !prev);
+    };
+
     const colors = {
         blue: 'rgba(0, 123, 255, 0.6)',
         green: 'rgba(40, 167, 69, 0.6)',
@@ -48,7 +56,6 @@ const FormInt = props => {
 
     const navigate = (answer) => {
         updateAnswers(inputValue);
-        setInputValue([]);
         if (answer == "Next")
             onNext();
         else if (answer == "Back")
@@ -107,6 +114,20 @@ const FormInt = props => {
     }
     return (
         <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={toggleAnimation}>
+                {showHorizontalAnimation ? (
+                    <HorizontalScrollingGif
+                    gifSource={require('../assets/dog_stand.gif')}
+                    width={100}
+                    height={100}
+                    />
+                ) : (
+                    <Image
+                    source={require('../assets/dog_eat.gif')}
+                    style={{ width: 100, height: 100 }}
+                    />
+                )}
+            </TouchableOpacity>
             <LinearProgress variant='determinate' color='green' value={progress} />
             <Text style={styles.question}>{question}</Text>
             <Divider color='black' width={3} />
