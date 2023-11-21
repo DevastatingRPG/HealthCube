@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
-const fetch = global.fetch;
 const baseUrl = 'http://192.168.1.10:5000'
 const client = axios.create({ baseURL: baseUrl })
 
@@ -10,6 +9,16 @@ async function fetchData(url) {
         response = await client.get(url); // Send the GET request                   
         return response.data // Update the state variable with the data
 
+    } catch (error) {
+        console.error(error); // Handle any errors
+    }
+}
+
+async function postData(url, requestOptions) {
+    try {
+        let response = await client.get('?page=forms&func=save', requestOptions);
+        return response;
+        // Send the POST request      
     } catch (error) {
         console.error(error); // Handle any errors
     }
@@ -54,18 +63,8 @@ export const FetchForms = () => {
 export const FetchLeaderBoard = (id) => {
     const [result, setResult] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
-        // Using async/await syntax
-        async function fetchData() {
-            try {
-                response = await fetch(baseUrl + `?page=lb&id=${id}`); // Send the GET request               
-                response = await response.json(); // Convert the response to JSON                
-                setResult(response); // Update the state variable with the data
-
-            } catch (error) {
-                console.error(error); // Handle any errors
-            }
-        }
-        fetchData(); // Call the async function
+        fetchData(`?page=lb&id=${id}`)
+            .then((data) => {setResult(data)})
     }, []);
     return result;
 }
@@ -73,18 +72,8 @@ export const FetchLeaderBoard = (id) => {
 export const FetchUnowned = (id) => {
     const [sprites, setSprites] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
-        // Using async/await syntax
-        async function fetchData() {
-            try {
-                response = await fetch(baseUrl + `?page=store&func=list&id=${id}`); // Send the GET request               
-                response = await response.json(); // Convert the response to JSON                
-                setSprites(response) // Update the state variable with the data
-
-            } catch (error) {
-                console.error(error); // Handle any errors
-            }
-        }
-        fetchData(); // Call the async function
+        fetchData(`?page=store&func=list&id=${id}`)
+            .then((data) => setSprites(data))
     }, []);
     return sprites
 }
@@ -107,17 +96,7 @@ export const SaveForms = (props) => {
         },
         body: JSON.stringify(data)
     }
-
-    async function postData() {
-        try {
-            let response = await fetch(baseUrl + '?page=forms&func=save', requestOptions);
-            return response;
-            // Send the POST request      
-        } catch (error) {
-            console.error(error); // Handle any errors
-        }
-    }
-    return postData(); // Call the async function 
+    return postData('?page=forms&func=save', requestOptions)
 }
 
 export const BuyChest = (props) => {
@@ -134,15 +113,6 @@ export const BuyChest = (props) => {
         },
         body: JSON.stringify(data)
     }
-    async function postData() {
-        try {
-            let response = await fetch(baseUrl + '?page=store&func=buy', requestOptions);
-            return response;
-            // Send the POST request      
-        } catch (error) {
-            console.error(error); // Handle any errors
-        }
-    }
-    return postData();
+    return postData('?page=store&func=buy', requestOptions);
 }
 
