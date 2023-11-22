@@ -33,3 +33,15 @@ export const ParseQuestions = (content) => {
 
     return questions;
 }
+
+export const JoinAnswers = (content) => {
+
+    let answers = '';
+    for (let answer of content){
+        answers += answer['question'];
+        answers += ': ';
+        answers += answer['answer'];
+        answers += '\n';
+    }
+    return answers
+}
