@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import FormInt from '../components/formint';
+import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { FetchSprites } from '../utilities/fetching';
+//import { FetchSprites } from '../utilities/fetching';
+import FormInt from '../components/formint';
+import  { ParseQuestions } from '../utilities/parser';
 
-const Form = () => {
-  const questions = [
-    { question: 'What is your Name?', type: 'text' },
-    { question: 'Do you like ice cream?', type: 'yesno' },
-    { question: 'Do you like ice cream?', type: 'symptom' },
-    { question: 'Are you ?', type: 'multisel', options: ['Married', 'Divorced', 'Single'] }
-  ];
 
+
+export default function Form() {
+  let data = useLocalSearchParams();
+  data = Object.values(data);
+  //formdata = data;
+  const questions = ParseQuestions(data);
   const [answers, setAnswers] = useState(questions.map(q => ({
     question: q.question,
     answer: ''
@@ -62,7 +63,7 @@ const Form = () => {
     }
   };
 
-  const sprites = FetchSprites('devastating')
+  //const sprites = FetchSprites('devastating')
 
   return (
     <SafeAreaProvider>
@@ -76,11 +77,10 @@ const Form = () => {
         updateAnswers={updateAnswers}
         inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
         setInputValue={setInputValue}
-        sprites={sprites}
+        //sprites={sprites}
       />
     </SafeAreaProvider>
 
   );
 };
 
-export default Form;
