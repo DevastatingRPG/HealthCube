@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-//import { FetchSprites } from '../utilities/fetching';
+import { FetchSprites, SaveForms } from '../utilities/fetching';
 import FormInt from '../components/formint';
-import  { ParseQuestions } from '../utilities/parser';
+import { JoinAnswers, ParseQuestions } from '../utilities/parser';
+import { BackHandler, Alert } from 'react-native';
 
 
 
 export default function Form() {
   let data = useLocalSearchParams();
   data = Object.values(data);
-  //formdata = data;
   const questions = ParseQuestions(data);
   const [answers, setAnswers] = useState(questions.map(q => ({
     question: q.question,
@@ -49,6 +49,9 @@ export default function Form() {
       setProgress((currentIndex + 1) / questions.length);
       tellAns(currentIndex + 1);
     }
+    else {
+      setShowSubmitPopup(true);
+    }
   };
 
   const handleBack = () => {
@@ -58,15 +61,81 @@ export default function Form() {
       tellAns(currentIndex - 1);
     }
     else {
-      setCurrentIndex(currentIndex)
-      tellAns(currentIndex)
+      setShowExitPopup(true)
     }
   };
 
-  //const sprites = FetchSprites('devastating')
+  const sprites = FetchSprites('devastating');
 
+  const [showExitPopup, setShowExitPopup] = useState(false);
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      // Always show the exit confirmation popup
+      setShowExitPopup(true);
+      return true; // Prevent default behavior (exit the app)
+    });
+
+    return () => backHandler.remove(); // Cleanup the event listener on component unmount
+  }, []); // Empty dependency array means the effect runs once after the initial render
+
+  const handleExitConfirm = () => {
+    setShowExitPopup(false);
+    setShowSubmitPopup(false);
+    router.replace('/formdash')
+  };
+
+  const handleExitCancel = () => {
+    setShowSubmitPopup(false);
+    setShowExitPopup(false);
+  };
+
+  const handleSubmitConfirm = () => {
+    setShowExitPopup(false);
+    const answertext = JoinAnswers(answers);
+    SaveForms({
+      content: answertext,
+      id: 'devastating',
+      file: 'a.txt'
+    });  
+    router.replace('/formdash');
+  }
+  
   return (
     <SafeAreaProvider>
+      {showExitPopup && (
+        // Show the exit confirmation popup
+        (Alert.alert(
+          'Exit Form',
+          'Are you sure you want to leave the form? Your progress will be lost. Choose Submit if you want to save.',
+          [
+            {
+              text: 'No',
+              onPress: handleExitCancel,
+              style: 'cancel',
+            },
+            {text: 'Yes', onPress: handleExitConfirm },
+            {text: 'Submit', onPress: handleSubmitConfirm}
+          ]
+        ))
+      )}
+   
+      {showSubmitPopup && 
+        // Show the exit confirmation popup
+        (Alert.alert(
+          'Submit Form',
+          'Are you sure you want to Submit the form?.',
+          [
+            {
+              text: 'No',
+              onPress: handleExitCancel,
+              style: 'cancel',
+            },
+            { text: 'Yes', onPress: handleExitConfirm },
+          ]
+        ))
+      }
       <FormInt
         question={questions[currentIndex].question}
         type={questions[currentIndex].type}
@@ -77,7 +146,7 @@ export default function Form() {
         updateAnswers={updateAnswers}
         inputValue={questions[currentIndex].type == "text" && Array.isArray(inputValue) ? inputValue[0] : inputValue}
         setInputValue={setInputValue}
-        //sprites={sprites}
+        sprites={sprites}
       />
     </SafeAreaProvider>
 
