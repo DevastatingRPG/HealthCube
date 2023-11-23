@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 //import { FetchSprites } from '../utilities/fetching';
 import FormInt from '../components/formint';
 import  { ParseQuestions } from '../utilities/parser';
+import generateWeightedRandomNumber from '../utilities/rand'
 
 
 
@@ -48,6 +49,7 @@ export default function Form() {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
       tellAns(currentIndex + 1);
+      
     }
   };
 
