@@ -53,16 +53,7 @@ app.get('/', (req, res) => {
           db = 1;
           break;
       }
-      break;
-    case 'login':
-      switch (func){
-        case 'verify':
-          query = `SELECT UserVerify(\'${email}\', \'${password}\') AS Login`
-          db = 1;
-          break;
-      }
-      break;
-        
+      break;        
   }
   if (db) {
     connection.query(query, (err, rows, fields) => {
@@ -114,6 +105,45 @@ app.post('/', (req, res) => {
   }
 
 })
+
+// Login endpoint
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+
+  connection.query(query, [email, password], (err, results) => {
+    if (err) {
+      console.error('Error executing query: ', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    if (results.length > 0) {
+      // User found, login successful
+      res.send('Login successful');
+    } else {
+      // No user found with the provided credentials
+      res.status(401).send('Invalid credentials');
+    }
+  });
+});
+
+app.post('/register', (req, res) => {
+  const { name, email, password, UID } = req.body;
+
+  const query = 'INSERT INTO users (UID, name, email, password) VALUES (?, ?, ?, ?)';
+
+  connection.query(query, [UID, name, email, password], (err, results) => {
+    if (err) {
+      console.error('Error executing query: ', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    res.send('Registration successful');
+  });
+});
 
 // Start the server
 app.listen(PORT, () => {
