@@ -14,9 +14,9 @@ async function fetchData(url) {
     }
 }
 
-async function postData(url, requestOptions) {
+async function postData(url, data) {
     try {
-        let response = await client.get('?page=forms&func=save', requestOptions);
+        let response = await client.post(url, data);
         return response;
         // Send the POST request      
     } catch (error) {
@@ -89,14 +89,9 @@ export const SaveForms = (props) => {
         id: id,
         file: file
     }
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }
-    return postData('?page=forms&func=save', requestOptions)
+    postData('?page=forms&func=save', data)
+        .then((data) => {return data})
+        .catch((error) => {console.error(error)})
 }
 
 export const BuyChest = (props) => {
@@ -106,13 +101,9 @@ export const BuyChest = (props) => {
         sid: sid,
         cost: cost
     }
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }
-    return postData('?page=store&func=buy', requestOptions);
+    postData('?page=store&func=buy', data)
+        .then((data) => {return data})
+        .catch((error) => {console.error(error)})
+    // return postData('?page=store&func=buy', requestOptions);
 }
 
