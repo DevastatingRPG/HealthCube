@@ -12,6 +12,7 @@ import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { router } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -28,28 +29,28 @@ export default function LoginScreen() {
     }
 
     try {
-       // Make the login API request
-       const response = await axios.post('http://localhost:5000', {
-         email: email.value,
-         password: password.value,
-       });
-
-       // Handle the response from the server
-       if (response.data === 'Login successful') {
-      // Navigate to the next screen on successful login
-       router.replace("/index")
-       } else {
-         // Handle unsuccessful login (e.g., show an error message)
-       console.error('Invalid credentials');
-       }
-     } catch (error) {
-       console.error('Error during login:', error);
+      // Make the login API request
+      const response = await axios.post('http://192.168.1.10:5000/login', {
+        email: email.value,
+        password: password.value,
+      });
+      // Handle the response from the server
+      if (response.data.token) {
+        await AsyncStorage.setItem('authToken', response.data.token);
+        // Navigate to the next screen on successful login
+        router.replace("/dashboard");
+      } else {
+        // Handle unsuccessful login (e.g., show an error message)
+        console.error('Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
 
   return (
     <Background>
-      <BackButton goBack={console.log(1)} />
+      <BackButton goBack={router.back} />
       <Logo />
       <Header>Login</Header>
       <TextInput
@@ -75,7 +76,7 @@ export default function LoginScreen() {
       />
       <View style={styles.forgotPassword}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ResetPasswordScreen')}
+          onPress={() => router.push('/ResetPasswordScreen')}
         >
           <Text style={styles.forgot}>Forgot your password ?</Text>
         </TouchableOpacity>
@@ -84,10 +85,10 @@ export default function LoginScreen() {
         Log in
       </Button>
       <View style={styles.row}>
-        <Text>You do not have an account yet ?</Text> 
+        <Text>You do not have an account yet ?</Text>
       </View>
       <View style={styles.row}>
-      <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
+        <TouchableOpacity onPress={() => router.push('/RegisterScreen')}>
           <Text style={styles.link}>Create !</Text>
         </TouchableOpacity>
       </View>
