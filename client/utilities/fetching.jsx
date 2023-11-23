@@ -26,10 +26,6 @@ async function postData(url, data) {
 
 export const FetchBalance = (id) => {
     const [balance, setBalance] = useState(null);
-    // useEffect(() => {
-    //     fetchData(`?page=store&func=balance&id=${id}`)
-    //         .then((data) => { setBalance(data) })
-    // }, []);
     useEffect(() => {
         const fetchDataAndSetBalance = async () => {
           try {

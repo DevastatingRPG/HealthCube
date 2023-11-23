@@ -6,8 +6,7 @@ import { View,Text, TouchableOpacity,StyleSheet } from 'react-native';
 // import Icon from 'react-native-vector-icons/AntDesign';
 import { Ionicons, MaterialIcons, AntDesign } from 'react-native-vector-icons';
 import { color } from '@rneui/base';
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const colors = {
 	pastelGreen: 'hsl(109,40%,80%)',

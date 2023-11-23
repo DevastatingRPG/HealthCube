@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const cors = require('cors')
 const app = express();
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config();
 env = process.env;
