@@ -4,10 +4,12 @@ const mysql = require('mysql');
 const fs = require('fs');
 const cors = require('cors')
 const app = express();
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config();
 env = process.env;
 const PORT = env.PORT || 5000;
+JWT_SECRET_KEY = env.JWT_SECRET_KEY
 
 app.use(cors());
 app.use(express.query());
@@ -129,7 +131,9 @@ app.post('/login', (req, res) => {
 
     if (results.length > 0) {
       // User found, login successful
-      res.send('Login successful');
+      const token = jwt.sign({ email }, JWT_SECRET_KEY, { expiresIn: '30d' });
+      res.json({ token, message: 'Login successful'});
+
     } else {
       // No user found with the provided credentials
       res.status(401).send('Invalid credentials');
