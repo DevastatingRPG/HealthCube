@@ -82,28 +82,31 @@ export default function Form() {
 
   const handleExitConfirm = () => {
     setShowExitPopup(false);
+    setShowSubmitPopup(false);
     router.replace('/formdash')
   };
 
   const handleExitCancel = () => {
+    setShowSubmitPopup(false);
     setShowExitPopup(false);
   };
 
   const handleSubmitConfirm = () => {
+    setShowExitPopup(false);
     const answertext = JoinAnswers(answers);
     SaveForms({
       content: answertext,
       id: 'devastating',
       file: 'a.txt'
-    });
+    });  
     router.replace('/formdash');
   }
-
+  
   return (
     <SafeAreaProvider>
       {showExitPopup && (
         // Show the exit confirmation popup
-        Alert.alert(
+        (Alert.alert(
           'Exit Form',
           'Are you sure you want to leave the form? Your progress will be lost. Choose Submit if you want to save.',
           [
@@ -115,11 +118,12 @@ export default function Form() {
             {text: 'Yes', onPress: handleExitConfirm },
             {text: 'Submit', onPress: handleSubmitConfirm}
           ]
-        )
+        ))
       )}
-      {showSubmitPopup && (
+   
+      {showSubmitPopup && 
         // Show the exit confirmation popup
-        Alert.alert(
+        (Alert.alert(
           'Submit Form',
           'Are you sure you want to Submit the form?.',
           [
@@ -130,8 +134,8 @@ export default function Form() {
             },
             { text: 'Yes', onPress: handleExitConfirm },
           ]
-        )
-      )}
+        ))
+      }
       <FormInt
         question={questions[currentIndex].question}
         type={questions[currentIndex].type}

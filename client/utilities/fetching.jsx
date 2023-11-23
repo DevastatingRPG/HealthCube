@@ -24,13 +24,21 @@ async function postData(url, data) {
     }
 }
 
+export const FetchBalance = (id) => {
+    const [balance, setBalance] = useState(null);
+    useEffect(() => {
+        fetchData(`?page=store&func=balance&id=${id}`)
+            .then((data) => { setBalance(data) })
+    }, []);
+    return balance;
+}
+
 export const FetchSprites = (id) => {
     const [sprites, setSprites] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
-        // Using async/await syntax
         fetchData(`?page=forms&func=sprites&id=${id}`)
             .then((data) => { setSprites(data) })
-        // fetchData(); // Call the async function
+        // Call the async function
     }, []);
     return sprites
 }
@@ -64,7 +72,7 @@ export const FetchLeaderBoard = (id) => {
     const [result, setResult] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
         fetchData(`?page=lb&id=${id}`)
-            .then((data) => {setResult(data)})
+            .then((data) => { setResult(data) })
     }, []);
     return result;
 }
@@ -90,8 +98,8 @@ export const SaveForms = (props) => {
         file: file
     }
     postData('?page=forms&func=save', data)
-        .then((data) => {return data})
-        .catch((error) => {console.error(error)})
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
 }
 
 export const BuyChest = (props) => {
@@ -102,8 +110,18 @@ export const BuyChest = (props) => {
         cost: cost
     }
     postData('?page=store&func=buy', data)
-        .then((data) => {return data})
-        .catch((error) => {console.error(error)})
-    // return postData('?page=store&func=buy', requestOptions);
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
+}
+
+export const DepositMoney = (props) => {
+    const { id, dep } = props;
+    const data = {
+        id: id,
+        dep: dep
+    }
+    postData('?page=forms&func=deposit', data)
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
 }
 

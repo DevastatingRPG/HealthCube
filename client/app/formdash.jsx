@@ -33,7 +33,7 @@ const FormDashboard = () => {
 
       setFormName(pressedFormName);
       setFormData(pressedFormData);
-      router.push({
+      router.replace({
         pathname: `/form`,
         params: pressedFormData
       });

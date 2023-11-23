@@ -36,6 +36,10 @@ app.get('/', (req, res) => {
           query = `CALL UnownedSprites(\'${id}\')`;
           db = 1;
           break;
+        case 'balance':
+          query = `SELECT Balance FROM users WHERE UID=\'${id}\'`;
+          db=1;
+          break;
       }
       break;
     case 'forms':
@@ -70,7 +74,7 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   var query, db = 0;
   const { page, func } = req.query;
-  const { id, sid, cost, content, file } = req.body;
+  const { id, sid, cost, content, file, dep } = req.body;
   switch (page) {
     case 'store':
       switch (func) {
@@ -89,6 +93,10 @@ app.post('/', (req, res) => {
             fs.mkdirSync(basePath + folderName);
           fs.writeFileSync(basePath + folderName + '/' + id + '.txt', content);
           res.sendStatus(200);
+          break;
+        case 'deposit':
+          query = `UPDATE users SET Balance = Balance + ${dep} WHERE UID=\'${id}\'`;
+          db=1;
           break;
 
       }
