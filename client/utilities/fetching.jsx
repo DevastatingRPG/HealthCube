@@ -26,10 +26,22 @@ async function postData(url, data) {
 
 export const FetchBalance = (id) => {
     const [balance, setBalance] = useState(null);
+    // useEffect(() => {
+    //     fetchData(`?page=store&func=balance&id=${id}`)
+    //         .then((data) => { setBalance(data) })
+    // }, []);
     useEffect(() => {
-        fetchData(`?page=store&func=balance&id=${id}`)
-            .then((data) => { setBalance(data) })
-    }, []);
+        const fetchDataAndSetBalance = async () => {
+          try {
+            const data = await fetchData(`?page=store&func=balance&id=${id}`);
+            setBalance(data);
+          } catch (error) {
+            console.error('Error fetching balance:', error);
+          }
+        };
+    
+        fetchDataAndSetBalance();
+      }, [id]);
     return balance;
 }
 
