@@ -15,15 +15,18 @@ import axios from 'axios';
 import { router } from 'expo-router'
 
 export default function RegisterScreen() {
+  const [Name, setNameState] = useState({ value: '', error: '' });
   const [name, setName] = useState({ value: '', error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
 
   const onSignUpPressed = async () => {
+    const NameError = nameValidator(Name.value)
     const nameError = nameValidator(name.value)
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError || nameError) {
+    if (emailError || passwordError || nameError || NameError) {
+      setNameState({ ...Name, error: NameError })
       setName({ ...name, error: nameError })
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
@@ -33,7 +36,7 @@ export default function RegisterScreen() {
       // Make the registration API request
       const response = await axios.post('http://192.168.1.10:5000/register', {
         UID: name.value,
-        name: 'Shubham',
+        name: Name.value,
         email: email.value,
         password: password.value,
       });
@@ -56,6 +59,14 @@ export default function RegisterScreen() {
       <BackButton goBack={router.back} />
       <Logo />
       <Header>Welcome</Header>
+      <TextInput
+        label="Name"
+        returnKeyType="next"
+        value={Name.value}
+        onChangeText={(text) => setNameState({ value: text, error: '' })}
+        error={!!Name.error}
+        errorText={Name.error}
+      />
       <TextInput
         label="Username"
         returnKeyType="next"
