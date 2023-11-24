@@ -4,15 +4,23 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { FetchSprites, SaveForms } from "../utilities/fetching";
 import FormInt from "../components/formint";
 import { JoinAnswers, ParseQuestions } from "../utilities/parser";
-import { BackHandler, Alert, Modal, View, StyleSheet,Text,TouchableOpacity } from "react-native";
+import {
+  BackHandler,
+  Alert,
+  Modal,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { generateWeightedRandomNumber } from "../utilities/rand";
 
 export default function Form() {
   let data = useLocalSearchParams();
-  
+
   nm = data[0];
   qs = JSON.parse(data[1]);
-  const questions = ParseQuestions(qs); 
+  const questions = ParseQuestions(qs);
   const [answers, setAnswers] = useState(
     questions.map((q) => ({
       question: q.question,
@@ -27,9 +35,13 @@ export default function Form() {
   const [answered, setAnswered] = useState([]);
 
   const updateAnswers = (answer) => {
-    if (!answered.includes(currentIndex) && 
-    (answer != '' && answer != [] && answer !== null)){
-      setSum(sum+generateWeightedRandomNumber());
+    if (
+      !answered.includes(currentIndex) &&
+      answer != "" &&
+      answer != [] &&
+      answer !== null
+    ) {
+      setSum(sum + generateWeightedRandomNumber());
       setAnswered([...answered, currentIndex]);
     }
     setAnswers((prevAnswers) => {
@@ -111,62 +123,89 @@ export default function Form() {
   };
 
   return (
-    <SafeAreaProvider>   
-   <Modal
-                animationType='slide'
-                transparent={true}
-                visible={showExitPopup}
-                animationDuration={1000}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.popupexit}>
-                        <Text style={{ fontSize: 40, fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>Exit Form</Text>
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Are you sure you want to leave the form? Your progress will be lost. Choose Submit if you want to save</Text>
-                        <View style={styles.buttonRow}>
-                            <TouchableOpacity onPress={handleExitCancel}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>NO</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={handleExitConfirm}>
-                                <View style={styles.buttonContainer1}>
-                                    <Text style={styles.buttonText}>OK</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={handleSubmitConfirm}>
-                                <View style={styles.buttonContainer1}>
-                                    <Text style={styles.buttonText}>Submit</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+    <SafeAreaProvider>
       <Modal
-                animationType='slide'
-                transparent={true}
-                visible={showSubmitPopup}
-                animationDuration={1000}
+        animationType="slide"
+        transparent={true}
+        visible={showExitPopup}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popupexit}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.popup}>
-                        <Text style={{ fontSize: 40, fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>Submit Form</Text>
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Are you sure you want to Submit the form?</Text>
-                        <View style={styles.buttonRow}>
-                            <TouchableOpacity onPress={handleExitCancel}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>NO</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={handleSubmitConfirm}>
-                                <View style={styles.buttonContainer1}>
-                                    <Text style={styles.buttonText}>Submit</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+              Exit Form
+            </Text>
+            <Text
+              style={{ fontSize: 25, fontWeight: "bold", textAlign: "center" }}
+            >
+              Are you sure you want to leave the form? Your progress will be
+              lost. Choose Submit if you want to save
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={handleExitCancel}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>NO</Text>
                 </View>
-            </Modal>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleExitConfirm}>
+                <View style={styles.buttonContainer1}>
+                  <Text style={styles.buttonText}>OK</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleSubmitConfirm}>
+                <View style={styles.buttonContainer1}>
+                  <Text style={styles.buttonText}>Submit</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showSubmitPopup}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popup}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              Submit Form
+            </Text>
+            <Text
+              style={{ fontSize: 25, fontWeight: "bold", textAlign: "center" }}
+            >
+              Are you sure you want to Submit the form?
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={handleExitCancel}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>NO</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleSubmitConfirm}>
+                <View style={styles.buttonContainer1}>
+                  <Text style={styles.buttonText}>Submit</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <FormInt
         question={questions[currentIndex].question}
         type={questions[currentIndex].type}
@@ -185,65 +224,63 @@ export default function Form() {
       />
     </SafeAreaProvider>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'darkblue',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "darkblue",
   },
   buttonRow: {
-      flexDirection: 'row',
-      justifyContent:'space-around'
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   modalContainer: {
-      flex: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    flex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   popup: {
-      backgroundColor: '#FFF8C9',
-      padding: 10,
-      borderRadius: 10,
-      alignItems: 'center',
-      width: 350,
-      height: 200,
-  },
-  popupexit: {
-    backgroundColor: '#FA7070',
+    backgroundColor: "#FFF8C9",
     padding: 10,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
+    width: 350,
+    height: 200,
+  },
+  popupexit: {
+    backgroundColor: "#FA7070",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
     width: 350,
     height: 250,
-},
+  },
   buttonContainer: {
-
-      backgroundColor: '#F875AA',
-      width: 100,
-      height: 40,
-      alignItems: 'center',
-      marginLeft: 35,
-      marginRight: 50,
-      marginTop: 11,
-      borderRadius: 500,
+    backgroundColor: "#F875AA",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 11,
+    borderRadius: 500,
   },
   buttonText: {
-      textAlign: 'center',
-      color: 'black',
-      paddingTop: 10,
-      fontWeight:'bold'
+    textAlign: "center",
+    color: "black",
+    paddingTop: 10,
+    fontWeight: "bold",
   },
   buttonContainer1: {
-      backgroundColor: '#C1D8C3',
-      width: 100,
-      height: 40,
-      alignItems: 'center',
-      marginLeft: 35,
-      marginRight: 50,
-      marginTop: 11,
-      borderRadius: 500,
+    backgroundColor: "#C1D8C3",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 11,
+    borderRadius: 500,
   },
 });
-
