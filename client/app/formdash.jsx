@@ -35,7 +35,7 @@ const FormDashboard = () => {
       setFormData(pressedFormData);
       router.replace({
         pathname: `/form`,
-        params: pressedFormData
+        params: [data[index][0], JSON.stringify(pressedFormData)]
       });
     } catch (error) {
       console.error(error);
