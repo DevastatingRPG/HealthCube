@@ -5,7 +5,6 @@ export const ParseQuestions = (content) => {
 
     for (let line of content.slice(1)) {
         const [questionPart, answerPart] = line.split(':').map(part => part.trim());
-        console.log(`questionPart: ${questionPart}, answerPart: ${answerPart}`);
 
         if (answerPart === 'blank') {
             questions.push({ question: questionPart, type: 'text' });
@@ -32,4 +31,16 @@ export const ParseQuestions = (content) => {
     }
 
     return questions;
+}
+
+export const JoinAnswers = (content) => {
+
+    let answers = '';
+    for (let answer of content){
+        answers += answer['question'];
+        answers += ': ';
+        answers += answer['answer'];
+        answers += '\n';
+    }
+    return answers
 }

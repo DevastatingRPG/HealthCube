@@ -14,9 +14,9 @@ async function fetchData(url) {
     }
 }
 
-async function postData(url, requestOptions) {
+async function postData(url, data) {
     try {
-        let response = await client.get('?page=forms&func=save', requestOptions);
+        let response = await client.post(url, data);
         return response;
         // Send the POST request      
     } catch (error) {
@@ -24,13 +24,29 @@ async function postData(url, requestOptions) {
     }
 }
 
+export const FetchBalance = (id) => {
+    const [balance, setBalance] = useState(null);
+    useEffect(() => {
+        const fetchDataAndSetBalance = async () => {
+          try {
+            const data = await fetchData(`?page=store&func=balance&id=${id}`);
+            setBalance(data);
+          } catch (error) {
+            console.error('Error fetching balance:', error);
+          }
+        };
+    
+        fetchDataAndSetBalance();
+      }, [id]);
+    return balance;
+}
+
 export const FetchSprites = (id) => {
     const [sprites, setSprites] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
-        // Using async/await syntax
         fetchData(`?page=forms&func=sprites&id=${id}`)
             .then((data) => { setSprites(data) })
-        // fetchData(); // Call the async function
+        // Call the async function
     }, []);
     return sprites
 }
@@ -64,7 +80,7 @@ export const FetchLeaderBoard = (id) => {
     const [result, setResult] = useState(null);
     useEffect(() => { // useEffect makes block run once the page is rendered.
         fetchData(`?page=lb&id=${id}`)
-            .then((data) => {setResult(data)})
+            .then((data) => { setResult(data) })
     }, []);
     return result;
 }
@@ -89,14 +105,9 @@ export const SaveForms = (props) => {
         id: id,
         file: file
     }
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }
-    return postData('?page=forms&func=save', requestOptions)
+    postData('?page=forms&func=save', data)
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
 }
 
 export const BuyChest = (props) => {
@@ -106,13 +117,19 @@ export const BuyChest = (props) => {
         sid: sid,
         cost: cost
     }
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+    postData('?page=store&func=buy', data)
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
+}
+
+export const DepositMoney = (props) => {
+    const { id, dep } = props;
+    const data = {
+        id: id,
+        dep: dep
     }
-    return postData('?page=store&func=buy', requestOptions);
+    postData('?page=forms&func=deposit', data)
+        .then((data) => { return data })
+        .catch((error) => { console.error(error) })
 }
 

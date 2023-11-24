@@ -6,42 +6,11 @@ import ButtonG from '../components/dash';
 import { router } from 'expo-router';
 import { Text } from '@rneui/themed';
 import { ScrollView, View } from 'react-native';
-
-
-
-const fetch = global.fetch;
+import { FetchForms } from '../utilities/fetching';
 
 const FormDashboard = () => {
   const [formName, setFormName] = useState('');
   const [formData, setFormData] = useState([]);
-  const FetchForms = () => {
-    const baseUrl = 'http://192.168.1.8:5000';
-    const [forms, setForms] = useState([]);
-
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          let formnames = await fetch(baseUrl + '?page=forms&func=list');
-          formnames = await formnames.json();
-          let data = [];
-          for (let index in formnames) {
-            let url = baseUrl + '/uforms/' + formnames[index];
-            let formdata = await fetch(url);
-            formdata = await formdata.text();
-            const questions = formdata.split('\r');
-            data.push([formnames[index], questions]);
-          }
-          setForms(data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      fetchData();
-    }, []);
-
-    return forms;
-  };
 
   const data = FetchForms();
   const [names, setNames] = useState([]);
@@ -64,7 +33,7 @@ const FormDashboard = () => {
 
       setFormName(pressedFormName);
       setFormData(pressedFormData);
-      router.push({
+      router.replace({
         pathname: `/form`,
         params: pressedFormData
       });
