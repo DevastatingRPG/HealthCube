@@ -5,6 +5,7 @@ const fs = require('fs');
 const cors = require('cors')
 const app = express();
 const jwt = require('jsonwebtoken')
+const path = require('path')
 
 require('dotenv').config();
 env = process.env;
@@ -90,10 +91,11 @@ app.post('/', (req, res) => {
       switch (func) {
         case 'save':
           const basePath = 'files/fforms/';
-          let folderName = file.split('.')[0];
-          if (!fs.existsSync(basePath + folderName));
-            fs.mkdirSync(basePath + folderName);
-          fs.writeFileSync(basePath + folderName + '/' + id + '.txt', content);
+          const folderName = file.split('.')[0];
+          const folderPath = path.join(basePath, folderName);
+          if (!fs.existsSync(folderPath))
+            fs.mkdirSync(folderPath);
+          fs.writeFileSync(basePath + folderName + '/' + id + '.txt', content, {encoding:'utf8',flag:'w'});
           res.sendStatus(200);
           break;
         case 'deposit':
@@ -158,6 +160,6 @@ app.post('/register', (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on port ${PORT}`);
 });

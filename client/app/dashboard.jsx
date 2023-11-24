@@ -23,6 +23,7 @@ const App = () => {
     return (
           <View style={styles.container}>
 			<View style={styles.body}>
+				{/* <Button>Logout</Button> */}
 				<Text style={styles.title}>HealthCube</Text>
 				<View style={styles.buts}>
 					<Link href="/formdash" asChild>
