@@ -14,6 +14,8 @@ import { nameValidator } from '../helpers/nameValidator'
 import axios from 'axios';
 import { router } from 'expo-router'
 
+const ipv4 = '169.254.213.22'
+
 export default function RegisterScreen() {
   const [name, setName] = useState({ value: '', error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -31,7 +33,7 @@ export default function RegisterScreen() {
     }
     try {
       // Make the registration API request
-      const response = await axios.post('http://192.168.1.10:5000/register', {
+      const response = await axios.post(`http://${ipv4}:5000/register`, {
         UID: name.value,
         name: 'Shubham',
         email: email.value,

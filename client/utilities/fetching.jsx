@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
-const baseUrl = 'http://192.168.1.8:5000'
-const client = axios.create({ baseURL: baseUrl })
+const ipv4 = '169.254.213.22'
+const client = axios.create({ baseURL: `http://${ipv4}:5000` })
 
 async function fetchData(url) {
     try {
@@ -28,16 +28,16 @@ export const FetchBalance = (id) => {
     const [balance, setBalance] = useState(null);
     useEffect(() => {
         const fetchDataAndSetBalance = async () => {
-          try {
-            const data = await fetchData(`?page=store&func=balance&id=${id}`);
-            setBalance(data);
-          } catch (error) {
-            console.error('Error fetching balance:', error);
-          }
+            try {
+                const data = await fetchData(`?page=store&func=balance&id=${id}`);
+                setBalance(data);
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+            }
         };
-    
+
         fetchDataAndSetBalance();
-      }, [id]);
+    }, [id]);
     return balance;
 }
 
@@ -92,10 +92,6 @@ export const FetchUnowned = (id) => {
             .then((data) => setSprites(data))
     }, []);
     return sprites
-}
-
-export const LoginCheck = () => {
-
 }
 
 export const SaveForms = (props) => {

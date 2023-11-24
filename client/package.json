@@ -40,7 +40,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "install-peers": "^1.0.4"
+    "install-peers": "^1.0.4",
+    "react-native-dotenv": "^3.4.9"
   },
   "private": true
 }
