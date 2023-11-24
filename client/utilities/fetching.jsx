@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
-const baseUrl = 'http://192.168.1.10:5000'
+const baseUrl = 'http://192.168.1.8:5000'
 const client = axios.create({ baseURL: baseUrl })
 
 async function fetchData(url) {
