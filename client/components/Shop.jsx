@@ -8,6 +8,7 @@ const Shop = () => {
     const [popitup, setPopitup] = useState(false);
     const [newpopitup, setNewPopitup] = useState(false);
     const [selectedButton, setSelectedButton] = useState(null);
+    
 
     const toggleNewPopup = () => {
         setNewPopitup(!newpopitup);
@@ -24,17 +25,20 @@ const Shop = () => {
 
     const yesnext = () => {
         togglePopup();
+
+        //use selectedButton?.cost
+        console.log(selectedButton?.cost);
         toggleNewPopup();
     }
 
-    const money = FetchBalance('devastating')
-
+    //const money = FetchBalance('devastating')
+    // {money !== null ? money["Balance"] : 0}
 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignContent: 'flex-start' }}>
                 <Image source={require('../assets/legendgem.webp')} style={{ height: 30, width: 30, marginTop: 3 }} />
-                <Text style={{ fontSize: 30, color: 'white' }}>{money !== null ? money["Balance"] : 0}</Text>
+                <Text style={{ fontSize: 30, color: 'white' }}>100</Text>
             </View>
             <View style={{ backgroundColor: 'cyan', height: 100, width: '100%', marginBottom: 50 }}>
                 <Text style={{ fontSize: 60, color: 'black', textAlign: 'center', fontWeight: 'bold', paddingTop: 7 }}>STORE</Text>
@@ -107,17 +111,16 @@ const Shop = () => {
                 <View style={styles.modalContainer}>
                     <View style={{ backgroundColor: 'darkblue', height: '100%', width: '100%' }}>
                         <Text style={{ fontSize: 70, fontWeight: 'bold', textAlign: "center", paddingTop: 40, color: 'yellow' }}>HURRAY!!</Text>
-                        {/* <View style={styles.buttonRow}> */}
+                    
                         <Image source={selectedButton?.image2} style={{ height: 300, width: 250, alignContent: 'center', marginLeft: 50, marginTop: 30, marginBottom: 50 }} />
                         <TouchableOpacity onPress={toggleNewPopup}>
                             <View style={{ backgroundColor: 'black', height: 50, width: 200, borderRadius: 500, marginLeft: 75 }}>
                                 <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', paddingTop: 4 }}>YAY!!</Text>
                             </View>
                         </TouchableOpacity>
-                        {/* </View> */}
+                        
                     </View>
                 </View>
-                {/* ... (modal content) */}
             </Modal>
         </View>
     );
