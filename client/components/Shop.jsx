@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Animated } from "react-native";
 import ButtonS from './shopcounter';
 import { Link } from 'expo-router';
 import { FetchBalance } from "../utilities/fetching";
@@ -8,6 +8,25 @@ const Shop = () => {
     const [popitup, setPopitup] = useState(false);
     const [newpopitup, setNewPopitup] = useState(false);
     const [selectedButton, setSelectedButton] = useState(null);
+
+    const slideAnimation = new Animated.Value(0);
+    useEffect(() => {
+        if (popitup) {
+            // Slide in animation
+            Animated.timing(slideAnimation, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            // Slide out animation
+            Animated.timing(slideAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        }
+    }, [popitup]);
 
     const toggleNewPopup = () => {
         setNewPopitup(!newpopitup);
@@ -19,22 +38,33 @@ const Shop = () => {
 
     const handleButtonPress = (buttonInfo) => {
         setSelectedButton(buttonInfo);
-        setPopitup(true);
+       togglePopup();
+       useEffect(() => {
+        setTimeout(() => {
+            togglePopup();
+        }, 1000);
+    }, []);
     };
 
     const yesnext = () => {
         togglePopup();
+
+        //use selectedButton?.cost
+        console.log(selectedButton?.cost);
         toggleNewPopup();
     }
 
-    const money = FetchBalance('devastating')
-
+    // {money !== null ? money["Balance"] : 0}
+    const translateY = slideAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [600, 0], // Adjust the value based on the modal height
+    });
 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignContent: 'flex-start' }}>
                 <Image source={require('../assets/legendgem.webp')} style={{ height: 30, width: 30, marginTop: 3 }} />
-                <Text style={{ fontSize: 30, color: 'white' }}>{money !== null ? money["Balance"] : 0}</Text>
+                <Text style={{ fontSize: 30, color: 'white' }}>100</Text>
             </View>
             <View style={{ backgroundColor: 'cyan', height: 100, width: '100%', marginBottom: 50 }}>
                 <Text style={{ fontSize: 60, color: 'black', textAlign: 'center', fontWeight: 'bold', paddingTop: 7 }}>STORE</Text>
@@ -77,9 +107,8 @@ const Shop = () => {
                 animationType='slide'
                 transparent={true}
                 visible={popitup}
-                animationDuration={1000}
             >
-                <View style={styles.modalContainer}>
+                <Animated.View style={[styles.modalContainer, { transform: [{ translateY }] }]}>
                     <View style={styles.popup}>
                         <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Confirm purchase of</Text>
                         <Text style={{ fontSize: 40, fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>{selectedButton?.name}?</Text>
@@ -96,7 +125,7 @@ const Shop = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </Animated.View>
                 {/* ... (modal content) */}
             </Modal>
             <Modal
@@ -107,17 +136,16 @@ const Shop = () => {
                 <View style={styles.modalContainer}>
                     <View style={{ backgroundColor: 'darkblue', height: '100%', width: '100%' }}>
                         <Text style={{ fontSize: 70, fontWeight: 'bold', textAlign: "center", paddingTop: 40, color: 'yellow' }}>HURRAY!!</Text>
-                        {/* <View style={styles.buttonRow}> */}
+                    
                         <Image source={selectedButton?.image2} style={{ height: 300, width: 250, alignContent: 'center', marginLeft: 50, marginTop: 30, marginBottom: 50 }} />
                         <TouchableOpacity onPress={toggleNewPopup}>
                             <View style={{ backgroundColor: 'black', height: 50, width: 200, borderRadius: 500, marginLeft: 75 }}>
                                 <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', paddingTop: 4 }}>YAY!!</Text>
                             </View>
                         </TouchableOpacity>
-                        {/* </View> */}
+                        
                     </View>
                 </View>
-                {/* ... (modal content) */}
             </Modal>
         </View>
     );
@@ -133,7 +161,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     modalContainer: {
-        flex: 10,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -147,7 +175,6 @@ const styles = StyleSheet.create({
         height: 200,
     },
     buttonContainer: {
-
         backgroundColor: 'red',
         width: 100,
         height: 40,
@@ -175,5 +202,3 @@ const styles = StyleSheet.create({
 });
 
 export default Shop;
-
-
