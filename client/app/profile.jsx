@@ -27,9 +27,7 @@ const App = () => {
             try {
                 const id = await AsyncStorage.getItem("UID");
                 const bal = await fetchData(`?page=store&func=balance&id=${id}`)
-                const spriteData = await fetchData(
-                    `?page=forms&func=sprites&id=${id}`
-                );
+                const spriteData = await fetchData(`?page=forms&func=sprites&id=${id}`);
                 const sids = spriteData.map(({ SID }) => SID);
                 const fetchedSprites = sids.map((index) => Sprites[index]);
                 setBalance(bal["Balance"])
@@ -73,30 +71,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'transparent',
         alignItems: 'center',
-      },
-      spriteImage: {
+    },
+    spriteImage: {
         width: 250,
         height: 250,
         resizeMode: "cover",
         borderRadius: 10,
-      },
-    // spriteImage: {
-    //     width: 150,
-    //     height: 150,
-    //     resizeMode: "cover",
-    //     borderRadius: 10,
-    // },
+    },
     flatListContainer: {
         paddingHorizontal: 16,
     },
     question: {
         fontSize: 28,
         fontWeight: 'bold',
-        backgroundColor: '#B6C5F8',  // Choose an appropriate color
+        backgroundColor: '#B6C5F8', 
         textAlign: 'center',
         paddingVertical: 12,
     },
-    // ... your other styles
 });
 
 export default App;
