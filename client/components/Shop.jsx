@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
-import ButtonS from "./shopcounter";
-import { FetchBalance, useUserID } from "../utilities/fetching";
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Animated } from "react-native";
+import ButtonS from './shopcounter';
+import { Link } from 'expo-router';
+import { FetchBalance } from "../utilities/fetching";
 
 const Shop = () => {
-  const [popitup, setPopitup] = useState(false);
-  const [nobalance, setNoBalance] = useState(false);
-  const [newpopitup, setNewPopitup] = useState(false);
-  const [selectedButton, setSelectedButton] = useState(null);
+    const [popitup, setPopitup] = useState(false);
+    const [newpopitup, setNewPopitup] = useState(false);
+    const [selectedButton, setSelectedButton] = useState(null);
 
-  const id = useUserID();
-  const money = FetchBalance(id)?.Balance ?? 0;
+    const slideAnimation = new Animated.Value(0);
+    useEffect(() => {
+        if (popitup) {
+            // Slide in animation
+            Animated.timing(slideAnimation, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            // Slide out animation
+            Animated.timing(slideAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        }
+    }, [popitup]);
 
   const toggleNewPopup = () => {
     setNewPopitup(!newpopitup);
@@ -24,22 +40,29 @@ const Shop = () => {
     setNoBalance(!nobalance);
   };
 
-  const handleButtonPress = (buttonInfo) => {
-    if (buttonInfo["cost"] > money) {
-      setNoBalance(true);
-    } else {
-      setSelectedButton(buttonInfo);
-      setPopitup(true);
-    }
-  };
+    const handleButtonPress = (buttonInfo) => {
+        setSelectedButton(buttonInfo);
+       togglePopup();
+       useEffect(() => {
+        setTimeout(() => {
+            togglePopup();
+        }, 1000);
+    }, []);
+    };
 
   const yesnext = () => {
     togglePopup();
 
-    //use selectedButton?.cost
-    console.log(selectedButton?.cost);
-    toggleNewPopup();
-  };
+        //use selectedButton?.cost
+        console.log(selectedButton?.cost);
+        toggleNewPopup();
+    }
+
+    // {money !== null ? money["Balance"] : 0}
+    const translateY = slideAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [600, 0], // Adjust the value based on the modal height
+    });
 
   return (
     <View style={styles.container}>
@@ -102,195 +125,113 @@ const Shop = () => {
         }}
       />
 
-      <ButtonS
-        name="Super Deluxe Pill"
-        size={300}
-        image1={require("../assets/blueremoved.png")}
-        image2={require("../assets/cyanpill.jpg")}
-        cost={300}
-        filled={false}
-        textcolor="white"
-        onPress={handleButtonPress}
-      />
-    
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={nobalance}
-        animationDuration={1000}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.popup}>
-            <Text
-              style={{
-                fontSize: 40,
-                fontStyle: "italic",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Insufficient Balance
-            </Text>
-            <View style={styles.buttonRow}>
-              <TouchableOpacity onPress={toggleBalance}>
-                <View style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>OK</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-     
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={popitup}
-        animationDuration={1000}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.popup}>
-            <Text
-              style={{ fontSize: 25, fontWeight: "bold", textAlign: "center" }}
-            >
-              Confirm purchase of
-            </Text>
-            <Text
-              style={{
-                fontSize: 40,
-                fontStyle: "italic",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              {selectedButton?.name}?
-            </Text>
-            <View style={styles.buttonRow}>
-              <TouchableOpacity onPress={togglePopup}>
-                <View style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>NO</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={yesnext}>
-                <View style={styles.buttonContainer1}>
-                  <Text style={styles.buttonText}>YES</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        {/* ... (modal content) */}
-      </Modal>
-      <Modal animationType="slide" transparent={true} visible={newpopitup}>
-        <View style={styles.modalContainer}>
-          <View
-            style={{
-              backgroundColor: "darkblue",
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 70,
-                fontWeight: "bold",
-                textAlign: "center",
-                paddingTop: 40,
-                color: "yellow",
-              }}
-            >
-              HURRAY!!
-            </Text>
-
-            <Image
-              source={selectedButton?.image2}
-              style={{
-                height: 300,
-                width: 250,
-                alignContent: "center",
-                marginLeft: 50,
-                marginTop: 30,
-                marginBottom: 50,
-              }}
+            <ButtonS
+                name='Super Deluxe Pill'
+                size={300}
+                image1={require('../assets/blueremoved.png')}
+                image2={require('../assets/cyanpill.jpg')}
+                cost={300}
+                filled={false}
+                textcolor='white'
+                onPress={handleButtonPress}
             />
-            <TouchableOpacity onPress={toggleNewPopup}>
-              <View
-                style={{
-                  backgroundColor: "black",
-                  height: 50,
-                  width: 200,
-                  borderRadius: 500,
-                  marginLeft: 75,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 30,
-                    color: "white",
-                    textAlign: "center",
-                    paddingTop: 4,
-                  }}
-                >
-                  YAY!!
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+            {/* ... (other ButtonS components) */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={popitup}
+            >
+                <Animated.View style={[styles.modalContainer, { transform: [{ translateY }] }]}>
+                    <View style={styles.popup}>
+                        <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Confirm purchase of</Text>
+                        <Text style={{ fontSize: 40, fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>{selectedButton?.name}?</Text>
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity onPress={togglePopup}>
+                                <View style={styles.buttonContainer}>
+                                    <Text style={styles.buttonText}>NO</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={yesnext}>
+                                <View style={styles.buttonContainer1}>
+                                    <Text style={styles.buttonText}>YES</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Animated.View>
+                {/* ... (modal content) */}
+            </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={newpopitup}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={{ backgroundColor: 'darkblue', height: '100%', width: '100%' }}>
+                        <Text style={{ fontSize: 70, fontWeight: 'bold', textAlign: "center", paddingTop: 40, color: 'yellow' }}>HURRAY!!</Text>
+                    
+                        <Image source={selectedButton?.image2} style={{ height: 300, width: 250, alignContent: 'center', marginLeft: 50, marginTop: 30, marginBottom: 50 }} />
+                        <TouchableOpacity onPress={toggleNewPopup}>
+                            <View style={{ backgroundColor: 'black', height: 50, width: 200, borderRadius: 500, marginLeft: 75 }}>
+                                <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', paddingTop: 4 }}>YAY!!</Text>
+                            </View>
+                        </TouchableOpacity>
+                        
+                    </View>
+                </View>
+            </Modal>
         </View>
-      </Modal>
-    </View>
-  );
-};
+    );
+}
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "darkblue",
-  },
-  buttonRow: {
-    flexDirection: "row",
-  },
-  modalContainer: {
-    flex: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-  },
-  popup: {
-    backgroundColor: "cyan",
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    width: 350,
-    height: 200,
-  },
-  buttonContainer: {
-    backgroundColor: "red",
-    width: 100,
-    height: 40,
-    alignItems: "center",
-    marginLeft: 35,
-    marginRight: 50,
-    marginTop: 35,
-    borderRadius: 500,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "white",
-    paddingTop: 10,
-  },
-  buttonContainer1: {
-    backgroundColor: "green",
-    width: 100,
-    height: 40,
-    alignItems: "center",
-    marginLeft: 35,
-    marginRight: 50,
-    marginTop: 35,
-    borderRadius: 500,
-  },
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'darkblue',
+    },
+    buttonRow: {
+        flexDirection: 'row',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    },
+    popup: {
+        backgroundColor: 'cyan',
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        width: 350,
+        height: 200,
+    },
+    buttonContainer: {
+        backgroundColor: 'red',
+        width: 100,
+        height: 40,
+        alignItems: 'center',
+        marginLeft: 35,
+        marginRight: 50,
+        marginTop: 35,
+        borderRadius: 500,
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: 'white',
+        paddingTop: 10,
+    },
+    buttonContainer1: {
+        backgroundColor: 'green',
+        width: 100,
+        height: 40,
+        alignItems: 'center',
+        marginLeft: 35,
+        marginRight: 50,
+        marginTop: 35,
+        borderRadius: 500,
+    },
 });
 
 export default Shop;
