@@ -7,7 +7,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign } from "react-native-vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const colors = {
   pastelGreen: "hsl(109,40%,80%)",
@@ -28,7 +28,7 @@ const App = () => {
 
     // Perform any additional logout actions
     // For example, navigate to the login screen
-    router.replace('/');
+    router.replace("/");
   };
 
   return (
@@ -48,10 +48,12 @@ const App = () => {
               <Text style={styles.text}>Form</Text>
             </TouchableOpacity>
           </Link>
-          <TouchableOpacity style={styles.butbod2}>
-            <Ionicons name="person-outline" size={90} color="white" />
-            <Text style={styles.text}>Profile</Text>
-          </TouchableOpacity>
+          <Link href="/profile" asChild>
+            <TouchableOpacity style={styles.butbod2}>
+              <Ionicons name="person-outline" size={90} color="white" />
+              <Text style={styles.text}>Profile</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
         <View style={styles.buts}>
           <Link href="/leaderboard" asChild>
