@@ -106,6 +106,10 @@ export const SaveForms = (props) => {
         .catch((error) => { console.error(error) })
 }
 
+export const findSpriteByCategory = (category, spriteList) => {
+    return spriteList.find(sprite => sprite.Category === category);
+  }
+
 export const BuyChest = (props) => {
     const { id, sid, cost } = props;
     const data = {

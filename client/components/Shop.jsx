@@ -9,13 +9,18 @@ import {
 } from "react-native";
 import ButtonS from "./shopcounter";
 import { Link } from "expo-router";
-import { FetchBalance, useUserID } from "../utilities/fetching";
+import { FetchBalance, useUserID, FetchUnowned, BuyChest,findSpriteByCategory } from "../utilities/fetching";
+import { prePillReward,pillReward,superPillReward } from "../utilities/rand";
+import Sprites from './images';
 
 const Shop = () => {
   const [popitup, setPopitup] = useState(false);
   const [nobalance, setNoBalance] = useState(false);
   const [newpopitup, setNewPopitup] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
+  const [spriteCat,setSpriteCat] = useState(0);
+  const [foundSprite,findSprite] = useState([]);
+  
 
   const id = 20;//useUserID();
   const money = FetchBalance(id)?.Balance ?? 1000;
@@ -23,7 +28,7 @@ const Shop = () => {
   const toggleNewPopup = () => {
     setNewPopitup(!newpopitup);
   };
-
+  console.log(Sprites);
   const togglePopup = () => {
     setPopitup(!popitup);
   };
@@ -42,6 +47,21 @@ const Shop = () => {
   };
 
   const yesnext = () => {
+    const unowned = FetchUnowned(id);
+    if(selectedButton?.cost == 100){
+      setSpriteCat(pillReward());
+    }
+    else if (selectedButton?.cost == 200){
+      setSpriteCat(prePillReward());
+    }
+    else{
+      setSpriteCat(superPillReward());
+    }
+
+    findSprite(findSpriteByCategory(spriteCat, unowned));
+
+    BuyChest(id,foundSprite?.sid,selectedButton?.cost);
+
     togglePopup();
     
     //use selectedButton?.cost
@@ -210,7 +230,17 @@ const Shop = () => {
             >
               HURRAY!!
             </Text>
-
+            <Image
+              source={selectedButton?.image2}
+              style={{
+                height: 300,
+                width: 250,
+                alignContent: "center",
+                marginLeft: 50,
+                marginTop: 30,
+                marginBottom: 50,
+              }}
+            />
             <Image
               source={selectedButton?.image2}
               style={{
