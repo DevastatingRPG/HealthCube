@@ -10,7 +10,7 @@ import { View, StyleSheet } from 'react-native';
 */
 
 const ButtonG = props => {
-    const { buttons, buttonColors, onClick, direction, selected } = props;
+    const { buttons, buttonColors, onClick, direction, title } = props;
 
     return (
         <View style={{ flex: 1, flexDirection: direction }}>
@@ -21,7 +21,7 @@ const ButtonG = props => {
                     key={i}
                     title={button}
                     color={buttonColors[i]}
-                    titleStyle={{ ...styles.titleStyle, color: 'black' }}
+                    titleStyle={{ ...styles.titleStyle, color: title }}
                     onPress={() => onClick(i)}
                 />
             ))}

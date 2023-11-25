@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    alignContent: "center",
+    justifyContent: "center",
     backgroundColor: colors["color"],
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 40,
+    paddingRight: 40,
     paddingTop: 20,
   },
   body: {
@@ -101,11 +101,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     fontWeight: "bold",
-    marginLeft:38
   },
   logout: {
     alignSelf: "center",
-    marginBottom:60,
+    paddingBottom:20,
   },
   buts: {
     flexDirection: "row",
