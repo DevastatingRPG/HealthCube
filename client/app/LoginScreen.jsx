@@ -14,6 +14,8 @@ import { router } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const ipv4 = '169.254.213.22'
+
 export default function LoginScreen() {
   const [name, setName] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' });
@@ -30,7 +32,7 @@ export default function LoginScreen() {
 
     try {
       // Make the login API request
-      const response = await axios.post('http://192.168.1.10:5000/login', {
+      const response = await axios.post(`http://${ipv4}:5000/login`, {
         UID: name.value,
         password: password.value,
       });
