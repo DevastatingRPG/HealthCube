@@ -14,9 +14,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { generateWeightedRandomNumber } from "../utilities/rand";
+import { useUserID } from "../utilities/fetching";
 
 export default function Form() {
   let data = useLocalSearchParams();
+  const id = useUserID();
+
 
   nm = data[0];
   qs = JSON.parse(data[1]);
@@ -116,7 +119,7 @@ export default function Form() {
     const answertext = JoinAnswers(answers);
     SaveForms({
       content: answertext,
-      id: "devastating",
+      id: id,
       file: nm,
     });
     router.replace("/formdash");

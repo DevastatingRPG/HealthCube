@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ipv4 = '169.254.213.22'
 const client = axios.create({ baseURL: `http://${ipv4}:5000` })
@@ -25,7 +26,7 @@ async function postData(url, data) {
 }
 
 export const FetchBalance = (id) => {
-    const [balance, setBalance] = useState(null);
+    const [balance, setBalance] = useState({"Balance": 0});
     useEffect(() => {
         const fetchDataAndSetBalance = async () => {
             try {
@@ -128,4 +129,23 @@ export const DepositMoney = (props) => {
         .then((data) => { return data })
         .catch((error) => { console.error(error) })
 }
+
+export const useUserID = () => {
+    const [userID, setUserID] = useState(null);
+  
+    useEffect(() => {
+      const fetchUserID = async () => {
+        try {
+          const storedUserID = await AsyncStorage.getItem('UID');
+          setUserID(storedUserID);
+        } catch (error) {
+          console.error('Error fetching user ID:', error);
+        }
+      };
+  
+      fetchUserID();
+    }, []);
+  
+    return userID;
+  };
 

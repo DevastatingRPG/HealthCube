@@ -14,7 +14,7 @@ const FormDashboard = () => {
 
   const data = FetchForms();
   const [names, setNames] = useState([]);
-
+  
   useEffect(() => {
     if (data) {
       const namesFromFirstLine = data.map(form => {
@@ -27,6 +27,10 @@ const FormDashboard = () => {
   }, [data]);
 
   const handlePress = async (index) => {
+
+    // const uid = await AsyncStorage.getItem('UID');
+    // console.log(uid)
+
     try {
       const pressedFormName = names[index];
       const pressedFormData = data[index][1];

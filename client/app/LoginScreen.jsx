@@ -39,6 +39,7 @@ export default function LoginScreen() {
       // Handle the response from the server
       if (response.data.token) {
         await AsyncStorage.setItem('authToken', response.data.token);
+        await AsyncStorage.setItem('UID', name.value);
         // Navigate to the next screen on successful login
         router.replace("/dashboard");
       } else {
