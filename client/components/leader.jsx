@@ -109,34 +109,66 @@ useEffect(() => {
       });
   }, [Mainuser]);
 
+// return (
+//   <View style={{flexDirection:'column',height:'100%',width:'100%'}}>
+//   <View style={styles.page}> 
+//   <Text style={{ textAlign: 'center', fontSize: 50, fontWeight: 'bold' }}>Leaderboard</Text>
+//   </View>
+//     <View style={styles.leaderboard}>
+      
+//       <FlatList
+//         data={leaderboardData}
+//         keyExtractor={(item) => item.userId.toString()}
+//         renderItem={({ item }) => (
+//           <View style={[styles.players, item.username === 'Vijit' ? styles.usermain : null]}>
+//             <Text style={styles.text}>Rank {item.rank}</Text>
+//             <Text style={styles.text}>{item.username}</Text>
+//             <Text style={styles.text}>{item.score}</Text>
+//           </View>
+//         )}
+//       />
+      
+//     <View style={styles.special}>
+//         <View style={styles.usermain}>
+//           <Text style={styles.text}>Rank {userRank}</Text>
+//           <Text style={styles.text}>{Mainuser}</Text>
+//           <Text style={styles.text}>{userScore}</Text>
+//         </View>
+      
+//       </View>
+//     </View>
+//     </View>
+    
+  
+// );
 return (
-  <View style={styles.page}> 
-    <View style={styles.leaderboard}>
+  <View style={{ flexDirection: 'column', height: '100%', width: '100%',alignItems:'center' }}>
+    <View style={styles.page}>
       <Text style={{ textAlign: 'center', fontSize: 50, fontWeight: 'bold' }}>Leaderboard</Text>
+    </View>
+    <View style={styles.leaderboard}>
       <FlatList
         data={leaderboardData}
         keyExtractor={(item) => item.userId.toString()}
         renderItem={({ item }) => (
           <View style={[styles.players, item.username === 'Vijit' ? styles.usermain : null]}>
-            <Text style={styles.text}>Rank {item.rank}</Text>
-            <Text style={styles.text}>{item.username}</Text>
-            <Text style={styles.text}>{item.score}</Text>
+            <Text style={styles.column}>Rank {item.rank}</Text>
+            <Text style={styles.column}>{item.username}</Text>
+            <Text style={styles.column}>{item.score}</Text>
           </View>
         )}
       />
-      
-    <View style={styles.special}>
+      <View style={styles.special}>
         <View style={styles.usermain}>
-          <Text style={styles.text}>Rank {userRank}</Text>
-          <Text style={styles.text}>{Mainuser}</Text>
-          <Text style={styles.text}>{userScore}</Text>
+          <Text style={styles.column}>Rank {userRank}</Text>
+          <Text style={styles.column}>{Mainuser}</Text>
+          <Text style={styles.column}>{userScore}</Text>
         </View>
-      
       </View>
     </View>
-    
   </View>
 );
+
         }
 
 const colors = {
@@ -153,31 +185,33 @@ const colors = {
 
 const styles = StyleSheet.create({
     page:{
+        flex:0.2,
         backgroundColor: colors['Pastel'],
         height: '100%',
         width: '100%',
         alignItems:'center',
+        justifyContent:'center'
         
         //justifyContent:'center'
 
     },
     leaderboard: {
-        backgroundColor: colors['pastelWhite'],
-        height: '98%',
-        width: '95%',
-        // borderColor:'black',
-        // borderWidth:2,
-        borderRadius:20,
+      flex:1,
+        backgroundColor: '#FFF2D8',
+        height: '100%',
+        width: '100%',
         marginTop: 10,
         padding:10
     }, 
     players:{
-        backgroundColor:colors['pastelgray'],
+        backgroundColor:'#FFF2D8',
         margin: 5,
         padding:1,
         borderRadius:100,
         flexDirection: 'row', 
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        borderBottomColor:'black',
+        borderBottomWidth:3
     },
     user:{
         backgroundColor: colors['high'],
@@ -188,14 +222,29 @@ const styles = StyleSheet.create({
         marginTop:10,
         borderRadius:20
     },
+    column: {
+      flex:1,
+      fontSize:20,
+      //fontFamily: 'monospace', // Use a monospaced font
+      //width: 120, // Set a fixed width for each column
+      textAlign: 'left', // Adjust text alignment as needed
+      marginLeft:40
+      
+    },
     usermain: {
-      backgroundColor: colors['high'],
-      borderRadius:20,
-      margin:10,
-      padding:5,
+      // backgroundColor: colors['high'],
+      // borderRadius:20,
+      // margin:10,
+      // padding:5,
+      // flexDirection: 'row', 
+      // alignContent:'center',
+      // justifyContent:'space-around',
+      backgroundColor:colors['high'],
+      margin: 5,
+      padding:1,
+      borderRadius:100,
       flexDirection: 'row', 
-      alignContent:'center',
-      justifyContent:'space-around',
+      //justifyContent: 'space-around'
     },
     special:{
       alignContent:'center',
@@ -204,7 +253,8 @@ const styles = StyleSheet.create({
     text:{
         fontSize:20,
         fontWeight:'700',
-        color:'black'
+        color:'black',
+        textAlign:'left'
     }, 
 })
 
