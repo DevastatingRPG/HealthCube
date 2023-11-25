@@ -117,7 +117,6 @@ export const SaveForms = (props) => {
 export const BuyChest = (props) => {
   
   const { id, sid, cost } = props;
-  console.log(cost)
   const data = {
     id: id,
     sid: sid,
@@ -167,6 +166,16 @@ export const useUserID = () => {
 };
 
 export const findSpriteByCategory = (category, spriteList) => {
-  console.log(spriteList, category)
-  return spriteList.find(sprite => sprite.Category === category);
+  let ans = spriteList.find(sprite => sprite.Category === category)
+  return ans;
+}
+
+export const getCategory = (spriteList) => {
+  let cats = []
+  for (let sprite of spriteList){
+    if (!cats.includes(sprite["Category"])){
+      cats.push(sprite["Category"]);
+    }
+  }
+  return cats;
 }

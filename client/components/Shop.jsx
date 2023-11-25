@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import ButtonS from "./shopcounter";
-import { Link } from "expo-router";
-import { FetchBalance, useUserID, FetchUnowned, BuyChest, findSpriteByCategory } from "../utilities/fetching";
-import { prePillReward, pillReward, superPillReward } from "../utilities/rand";
+import { BuyChest, findSpriteByCategory, getCategory } from "../utilities/fetching";
+import { prePillReward, pillReward, superPillReward, weightedRandom } from "../utilities/rand";
 import Sprites from './images';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchData } from "../utilities/fetching";
+import { router } from "expo-router";
+import Congrats from "./congrats";
 
 const Shop = () => {
+  const sprite = useRef(null);
   const [popitup, setPopitup] = useState(false);
   const [nobalance, setNoBalance] = useState(false);
   const [newpopitup, setNewPopitup] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
-  const [spriteCat, setSpriteCat] = useState(0);
-  const [foundSprite, findSprite] = useState([]);
+  const [full, setFull] = useState(false);
+  const [sid, setSid] = useState(1)
+  let spritecat = 0;
+  let foundSprite = [];
 
   const [unowned, setUnowned] = useState([]);
   const [uid, setUID] = useState(0);
@@ -42,10 +39,9 @@ const Shop = () => {
     };
 
     retrieveDetails();
-  }, []);
+  }, [newpopitup]);
 
   const money = balance
-
   const toggleNewPopup = () => {
     setNewPopitup(!newpopitup);
   };
@@ -66,33 +62,50 @@ const Shop = () => {
     }
   };
 
+  const handleFull = () => {
+    router.replace('/dashboard')
+  }
+
+  let cats = getCategory(unowned)
+
   const yesnext = () => {
+
     if (selectedButton?.cost == 100) {
-      setSpriteCat(pillReward());
+      spritecat = pillReward()
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
     }
     else if (selectedButton?.cost == 200) {
-      setSpriteCat(prePillReward());
+      spritecat = prePillReward();
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
+
     }
     else {
-      setSpriteCat(superPillReward());
+      spritecat = superPillReward();
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
+
     }
+    foundSprite = findSpriteByCategory(spritecat, unowned);
+    
 
-    findSprite(findSpriteByCategory(spriteCat, unowned));
-    console.log(spriteCat)
+    try {
+      setSid(foundSprite.SID)
+      BuyChest({ id: uid, sid: foundSprite.SID, cost: selectedButton?.cost });
+      togglePopup();
+      toggleNewPopup();
 
-    BuyChest(uid, foundSprite?.sid, selectedButton?.cost);
-
-    togglePopup();
-
-    //use selectedButton?.cost
-    toggleNewPopup();
+    }
+    catch (error) {
+      console.error(error)
+      setFull(true)
+    }
   };
+
 
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignContent: "flex-start" }}>
         <Image
-          source={require("../assets/legendgem.webp")}
+          source={require("../assets/c1.png")}
           style={{ height: 30, width: 30, marginTop: 3 }}
         />
         <Text style={{ fontSize: 30, color: "white" }}>
@@ -122,7 +135,7 @@ const Shop = () => {
       <ButtonS
         name="Pill"
         size={300}
-        image1={require("../assets/yellowred.png")}
+        image1={require("../assets/clpill1.png")}
         image2={require("../assets/redopen.png")}
         cost={100}
         filled={false}
@@ -132,7 +145,7 @@ const Shop = () => {
       <ButtonS
         name="Premium Pill"
         size={300}
-        image1={require("../assets/purple.png")}
+        image1={require("../assets/clpill3.png")}
         image2={require("../assets/redpill.webp")}
         cost={200}
         filled={false}
@@ -152,13 +165,43 @@ const Shop = () => {
       <ButtonS
         name="Super Deluxe Pill"
         size={300}
-        image1={require("../assets/blueremoved.png")}
+        image1={require("../assets/clpill2.png")}
         image2={require("../assets/cyanpill.jpg")}
         cost={300}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
       />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={full}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popup}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              You have all the sprites!
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={handleFull}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>OK</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+      </Modal>
 
       <Modal
         animationType="slide"
@@ -230,71 +273,7 @@ const Shop = () => {
         {/* ... (modal content) */}
       </Modal>
       <Modal animationType="slide" transparent={true} visible={newpopitup}>
-        <View style={styles.modalContainer}>
-          <View
-            style={{
-              backgroundColor: "darkblue",
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 70,
-                fontWeight: "bold",
-                textAlign: "center",
-                paddingTop: 40,
-                color: "yellow",
-              }}
-            >
-              HURRAY!!
-            </Text>
-            <Image
-              source={selectedButton?.image2}
-              style={{
-                height: 300,
-                width: 250,
-                alignContent: "center",
-                marginLeft: 50,
-                marginTop: 30,
-                marginBottom: 50,
-              }}
-            />
-            <Image
-              source={selectedButton?.image2}
-              style={{
-                height: 300,
-                width: 250,
-                alignContent: "center",
-                marginLeft: 50,
-                marginTop: 30,
-                marginBottom: 50,
-              }}
-            />
-            <TouchableOpacity onPress={toggleNewPopup}>
-              <View
-                style={{
-                  backgroundColor: "black",
-                  height: 50,
-                  width: 200,
-                  borderRadius: 500,
-                  marginLeft: 75,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 30,
-                    color: "white",
-                    textAlign: "center",
-                    paddingTop: 4,
-                  }}
-                >
-                  YAY!!
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Congrats sid = {sid}></Congrats>
       </Modal>
     </View>
   );
