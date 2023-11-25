@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "concurrently": "^8.2.2",
-    "expo": "^49.0.17",
     "@react-native-async-storage/async-storage": "^1.15.0",
+    "concurrently": "^8.2.2",
+    "expo": "^49.0.20",
+    "expo-router": "^2.0.14",
+    "metro-core": "^0.80.1",
     "react-native-pager-view": "^6.2.2",
     "react-native-paper": "^5.11.1"
   },
