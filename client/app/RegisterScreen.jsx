@@ -14,7 +14,7 @@ import { nameValidator } from '../helpers/nameValidator'
 import axios from 'axios';
 import { router } from 'expo-router'
 
-const ipv4 = '169.254.213.22'
+const ipv4 = process.env.EXPO_PUBLIC_IPv4;
 
 export default function RegisterScreen() {
   const [Name, setNameState] = useState({ value: '', error: '' });

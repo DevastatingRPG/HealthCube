@@ -14,7 +14,7 @@ import { router } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ipv4 = '169.254.213.22'
+const ipv4 = process.env.EXPO_PUBLIC_IPv4;
 
 export default function LoginScreen() {
   const [name, setName] = useState({ value: '', error: '' })

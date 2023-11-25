@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const ipv4 = "169.254.213.22";
+const ipv4 = process.env.EXPO_PUBLIC_IPv4;
 const client = axios.create({ baseURL: `http://${ipv4}:5000` });
 
 export async function fetchData(url) {
