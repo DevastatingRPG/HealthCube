@@ -1,72 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FetchLeaderBoard, useUserID } from "../utilities/fetching";
 
-const LeaderboardScreen = ({ userId }) => {
-  const [leaderboardData, setLeaderboardData] = useState([]);
-  const [userRank, setUserRank] = useState(null);
-  const [userScore, setUserScore] = useState(null);
-  const lb = FetchLeaderBoard();
-
-  const Mainuser = useUserID();
-
-  useEffect(() => {
-    if (lb) {
-      const rankedData = lb.map((item, index) => ({
-        ...item,
-        rank: index + 1,
-      }));
-      AsyncStorage.setItem("leaderboardData", JSON.stringify(rankedData))
-        .then(() => {
-          setLeaderboardData(rankedData);
-          const user = rankedData.find((item) => item.UID === Mainuser);
-
-          if (user) {
-            setUserRank(user.rank);
-            setUserScore(user.Score);
-          }
-        })
-        .catch((error) => {
-          console.error("Error setting sample data:", error);
-        });
-    }
-  }, [Mainuser, lb]);
+const LeaderboardScreen = (props) => {
+  const { leaderboardData, userRank, userScore, uid } = props;
 
   return (
-    <View style={styles.page}>
+    <View style={{ flexDirection: 'column', height: '100%', width: '100%', alignItems: 'center' }}>
+      <View style={styles.page}>
+        <Text style={{ textAlign: 'center', fontSize: 50, fontWeight: 'bold' }}>Leaderboard</Text>
+      </View>
       <View style={styles.leaderboard}>
-        <Text style={{ textAlign: "center", fontSize: 50, fontWeight: "bold" }}>
-          Leaderboard
-        </Text>
-        <FlatList
-          data={leaderboardData}
-          keyExtractor={(item) => item.UID.toString()}
-          renderItem={({ item }) => (
-            <View
-              style={[
-                styles.players,
-                item.UID === Mainuser ? styles.usermain : null,
-              ]}
-            >
-              <Text style={styles.text}>Rank {item.rank}</Text>
-              <Text style={styles.text}>{item.UID}</Text>
-              <Text style={styles.text}>{item.Score}</Text>
-            </View>
-          )}
-        />
+        {leaderboardData ? (
+          <FlatList
+            data={leaderboardData}
+            keyExtractor={(item) => item.UID.toString()}
+            renderItem={({ item }) => (
+              <View style={[styles.players, item.UID === uid ? styles.usermain : null]}>
+                <Text style={[styles.column, {flex: 0.2}]}>{item.rank}</Text>
+                <Text style={[styles.column, {flex: 0.5}]}>{item.UID}</Text>
+                <Text style={[styles.column, {flex: 0.3}]}>{item.Score}</Text>
+              </View>
+            )}
+          />
+        ) : (
+          <Text>Loading...</Text>
+        )}
 
         <View style={styles.special}>
           <View style={styles.usermain}>
-            <Text style={styles.text}>Rank {userRank}</Text>
-            <Text style={styles.text}>{Mainuser}</Text>
-            <Text style={styles.text}>{userScore}</Text>
+            <Text style={[styles.column, {flex: 0.2}]}>{userRank}</Text>
+            <Text style={[styles.column, {flex: 0.5}]}>{uid}</Text>
+            <Text style={[styles.column, {flex: 0.3}]}>{userScore}</Text>
           </View>
         </View>
       </View>
     </View>
   );
 };
+
 
 const colors = {
   pastelGreen: "hsl(109,40%,80%)",
@@ -82,58 +53,76 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: colors["Pastel"],
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
+    flex: 0.2,
+    backgroundColor: colors['Pastel'],
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
 
     //justifyContent:'center'
+
   },
   leaderboard: {
-    backgroundColor: colors["pastelWhite"],
-    height: "98%",
-    width: "95%",
-    // borderColor:'black',
-    // borderWidth:2,
-    borderRadius: 20,
+    flex: 1,
+    backgroundColor: '#FFF2D8',
+    height: '100%',
+    width: '100%',
     marginTop: 10,
-    padding: 10,
+    padding: 10
   },
   players: {
-    backgroundColor: colors["pastelgray"],
+    backgroundColor: '#FFF2D8',
     margin: 5,
     padding: 1,
     borderRadius: 100,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomColor: 'black',
+    borderBottomWidth: 3
   },
   user: {
-    backgroundColor: colors["high"],
+    backgroundColor: colors['high'],
     height: 60,
-    width: "80%",
-    alignContent: "center",
-    justifyContent: "center",
+    width: '80%',
+    alignContent: 'center',
+    justifyContent: 'center',
     marginTop: 10,
-    borderRadius: 20,
+    borderRadius: 20
+  },
+  column: {
+    fontSize: 20,
+    //fontFamily: 'monospace', // Use a monospaced font
+    //width: 120, // Set a fixed width for each column
+    textAlign: 'left', // Adjust text alignment as needed
+    marginLeft: 40
+
   },
   usermain: {
-    backgroundColor: colors["high"],
-    borderRadius: 20,
-    margin: 10,
-    padding: 5,
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "space-around",
+    // backgroundColor: colors['high'],
+    // borderRadius:20,
+    // margin:10,
+    // padding:5,
+    // flexDirection: 'row', 
+    // alignContent:'center',
+    // justifyContent:'space-around',
+    backgroundColor: colors['high'],
+    margin: 5,
+    padding: 1,
+    borderRadius: 100,
+    flexDirection: 'row',
+    //justifyContent: 'space-around'
   },
   special: {
-    alignContent: "center",
-    justifyContent: "center",
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 20,
-    fontWeight: "700",
-    color: "black",
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'left'
   },
-});
+})
 
 export default LeaderboardScreen;

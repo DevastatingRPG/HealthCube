@@ -10,7 +10,6 @@ import { router } from "expo-router";
 import Congrats from "./congrats";
 
 const Shop = () => {
-  const sprite = useRef(null);
   const [popitup, setPopitup] = useState(false);
   const [nobalance, setNoBalance] = useState(false);
   const [newpopitup, setNewPopitup] = useState(false);
@@ -85,7 +84,7 @@ const Shop = () => {
 
     }
     foundSprite = findSpriteByCategory(spritecat, unowned);
-    
+
 
     try {
       setSid(foundSprite.SID)
@@ -141,6 +140,14 @@ const Shop = () => {
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
+      />
+      <View
+        style={{
+          backgroundColor: "cyan",
+          height: 20,
+          width: "100%",
+          marginBottom: 50,
+        }}
       />
       <ButtonS
         name="Premium Pill"
@@ -273,7 +280,7 @@ const Shop = () => {
         {/* ... (modal content) */}
       </Modal>
       <Modal animationType="slide" transparent={true} visible={newpopitup}>
-        <Congrats sid = {sid}></Congrats>
+        <Congrats sid={sid}></Congrats>
       </Modal>
     </View>
   );
