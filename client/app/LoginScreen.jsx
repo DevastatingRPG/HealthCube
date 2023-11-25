@@ -8,24 +8,24 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
-import { emailValidator } from '../helpers/emailValidator';
+import { nameValidator } from '../helpers/nameValidator'
 import { passwordValidator } from '../helpers/passwordValidator';
 import { router } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ipv4 = '169.254.213.22'
+const ipv4 = process.env.EXPO_PUBLIC_IPv4;
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState({ value: '', error: '' });
+  const [name, setName] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' });
 
   const onLoginPressed = async () => {
-    const emailError = emailValidator(email.value);
+    const nameError = nameValidator(name.value)
     const passwordError = passwordValidator(password.value);
 
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
+    if (nameError || passwordError) {
+      setName({ ...name, error: nameError })
       setPassword({ ...password, error: passwordError });
       return;
     }
@@ -33,12 +33,13 @@ export default function LoginScreen() {
     try {
       // Make the login API request
       const response = await axios.post(`http://${ipv4}:5000/login`, {
-        email: email.value,
+        UID: name.value,
         password: password.value,
       });
       // Handle the response from the server
       if (response.data.token) {
         await AsyncStorage.setItem('authToken', response.data.token);
+        await AsyncStorage.setItem('UID', name.value);
         // Navigate to the next screen on successful login
         router.replace("/dashboard");
       } else {
@@ -56,16 +57,12 @@ export default function LoginScreen() {
       <Logo />
       <Header>Login</Header>
       <TextInput
-        label="Email"
+        label="Username"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
+        value={name.value}
+        onChangeText={(text) => setName({ value: text, error: '' })}
+        error={!!name.error}
+        errorText={name.error}
       />
       <TextInput
         label="Password"

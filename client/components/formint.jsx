@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Input, Text, Divider, LinearProgress, Image } from '@rneui/themed';
@@ -33,7 +32,7 @@ const FormInt = props => {
         lgrey: 'rgba(211, 211, 211, 0.6)',
         cyan: 'rgba(156, 255, 236, 0.6)',
         black: 'rgba(52, 58, 64, 0.6)',
-        
+
     };
 
     if (options) {
@@ -71,18 +70,19 @@ const FormInt = props => {
         selected: inputValue,
     };
 
-    
+
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-
     let img1, img2;
-    if (sprites){
+
+    if (sprites) {
         len = sprites.length
         sprite = Sprites[sprites[getRndInteger(0, len)]["SID"]]
         img1 = sprite["src1"]
         img2 = sprite["src2"]
     }
+
 
     let inputElement;
 
@@ -128,10 +128,10 @@ const FormInt = props => {
                 {...qsProps}
             />
             break;
-    
+
     }
     return (
-        <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>  
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flex: 1 }}>
             <TouchableOpacity onPress={toggleAnimation} style={styles.animation}>
                 {showHorizontalAnimation ? (
                     <HorizontalScrollingGif

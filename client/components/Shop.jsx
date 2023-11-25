@@ -45,6 +45,14 @@ const Shop = () => {
       setPopitup(true);
     }
   };
+  const handleButtonPress = (buttonInfo) => {
+    if (buttonInfo["cost"] > money) {
+      setNoBalance(true);
+    } else {
+      setSelectedButton(buttonInfo);
+      setPopitup(true);
+    }
+  };
 
   const yesnext = () => {
     const unowned = FetchUnowned(id);
@@ -282,6 +290,53 @@ const Shop = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "darkblue",
+  },
+  buttonRow: {
+    flexDirection: "row",
+  },
+  modalContainer: {
+    flex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  popup: {
+    backgroundColor: "cyan",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 350,
+    height: 200,
+  },
+  buttonContainer: {
+    backgroundColor: "red",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    paddingTop: 10,
+  },
+  buttonContainer1: {
+    backgroundColor: "green",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",

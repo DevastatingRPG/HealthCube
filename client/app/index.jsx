@@ -4,6 +4,7 @@ import Logo from '../components/Logo'
 import Button from '../components/Button'
 import { router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { fetchData, postData } from '../utilities/fetching'
 
 
 const StartScreen = () => {
@@ -12,10 +13,9 @@ const StartScreen = () => {
             // Check if the token exists in AsyncStorage
             const token = await AsyncStorage.getItem('authToken');
             if (token) {
-                // Verify the token (you may want to do this on the server-side as well)
-                // If the token is valid, consider the user logged in
-                // For simplicity, we'll just navigate to the main app screen
-                router.replace('/dashboard');
+                const response = await postData('/login', {token: token})
+                if (response == "Login")
+                    router.replace('/dashboard');
             }
         };
 

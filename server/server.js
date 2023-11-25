@@ -120,11 +120,11 @@ app.post('/', (req, res) => {
 
 // Login endpoint
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
+  const { UID, password } = req.body;
 
-  const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+  const query = 'SELECT * FROM users WHERE UID = ? AND password = ?';
 
-  connection.query(query, [email, password], (err, results) => {
+  connection.query(query, [UID, password], (err, results) => {
     if (err) {
       console.error('Error executing query: ', err);
       res.status(500).send('Internal Server Error');
@@ -133,7 +133,7 @@ app.post('/login', (req, res) => {
 
     if (results.length > 0) {
       // User found, login successful
-      const token = jwt.sign({ email }, JWT_SECRET_KEY, { expiresIn: '30d' });
+      const token = jwt.sign({ UID }, JWT_SECRET_KEY, { expiresIn: '30d' });
       res.json({ token, message: 'Login successful'});
 
     } else {
@@ -158,6 +158,18 @@ app.post('/register', (req, res) => {
     res.send('Registration successful');
   });
 });
+
+app.post('/verify', (req, res) => {
+  const { token } = req.body;
+  jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
+    if (err){
+      res.send("NoLogin");
+    }
+    else{
+      res.send("Login");
+    }
+  })
+})
 
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {

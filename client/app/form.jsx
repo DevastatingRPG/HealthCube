@@ -4,6 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { FetchSprites, SaveForms } from "../utilities/fetching";
 import FormInt from "../components/formint";
 import { JoinAnswers, ParseQuestions } from "../utilities/parser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   BackHandler,
   Modal,
@@ -13,13 +14,29 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import { fetchData } from "../utilities/fetching";
 import { generateWeightedRandomNumber } from "../utilities/rand";
 import * as Animatable from 'react-native-animatable';
 
 export default function Form() {
   
   let data = useLocalSearchParams();
-  
+  const [sprites, setSprites] = useState(null);
+
+  useEffect(() => {
+    const retrieveDetails = async () => {
+      try {
+        const id = await AsyncStorage.getItem("UID");
+        const spriteData = await fetchData(`?page=forms&func=sprites&id=${id}`);
+        setSprites(spriteData)
+      }
+      catch (error) {
+        console.error("Error fetching sprite data: ", error)
+      }
+    };
+
+    retrieveDetails();
+  }, []);
 
   nm = data[0];
   qs = JSON.parse(data[1]);
@@ -108,8 +125,6 @@ export default function Form() {
     setIsVisible(false);
   };
 
-  const sprites = FetchSprites("devastating");
-
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [showSubmitPopup, setShowSubmitPopup] = useState(false);
 
@@ -142,7 +157,7 @@ export default function Form() {
     const answertext = JoinAnswers(answers);
     SaveForms({
       content: answertext,
-      id: "devastating",
+      id: id,
       file: nm,
     });
     router.replace("/formdash");
