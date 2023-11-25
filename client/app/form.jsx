@@ -17,9 +17,9 @@ import { generateWeightedRandomNumber } from "../utilities/rand";
 import * as Animatable from 'react-native-animatable';
 
 export default function Form() {
-  
+
   let data = useLocalSearchParams();
-  
+
 
   nm = data[0];
   qs = JSON.parse(data[1]);
@@ -35,7 +35,7 @@ export default function Form() {
   const [progress, setProgress] = useState(0);
   const [inputValue, setInputValue] = useState([]);
   const [sum, setSum] = useState(0);
-  const [reward,setreward] = useState(0)
+  const [reward, setreward] = useState(0)
   const [answered, setAnswered] = useState([]);
 
   const updateAnswers = (answer) => {
@@ -46,12 +46,11 @@ export default function Form() {
       answer !== null
     ) {
       setreward(generateWeightedRandomNumber());
+      // console.log(re)
       setSum(sum + reward);
       setAnswered([...answered, currentIndex]);
-      console.log(reward);
-      if(reward != 0){
-        showPopup();
-      }
+
+
     }
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
@@ -76,7 +75,7 @@ export default function Form() {
       setCurrentIndex(currentIndex + 1);
       setProgress((currentIndex + 1) / questions.length);
       tellAns(currentIndex + 1);
-      
+
 
     } else {
       setShowSubmitPopup(true);
@@ -97,8 +96,8 @@ export default function Form() {
 
   const showPopup = () => {
     // Hide the popup after 2 seconds
-    
-      setIsVisible(true);
+
+    setIsVisible(true);
     setTimeout(() => {
       hidePopup();
     }, 1000);
@@ -148,6 +147,13 @@ export default function Form() {
     router.replace("/formdash");
   };
 
+  useEffect(() => {
+    if (reward != 0 && sum != 0) {
+      showPopup();
+    }
+
+  }, [sum])
+
   return (
     <SafeAreaProvider>
       <Modal
@@ -155,21 +161,21 @@ export default function Form() {
         transparent={true}
         visible={isVisible}
       >
-        
-          <Animatable.View
-        animation={isVisible ? 'slideInUp' : 'slideOutUp'}
-        duration={1000}
-        style={{justifyContent:'center',flexDirection:'column'}}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.popup}>
-            
-            <Image source={require("../assets/legendgem.webp")} style={{ height: 100, width: 100}} />
-            <Text style={{fontSize:50,marginLeft:10}}>{reward}</Text>
+
+        <Animatable.View
+          animation={isVisible ? 'slideInUp' : 'slideOutUp'}
+          duration={1000}
+          style={{ justifyContent: 'center', flexDirection: 'column' }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.popup}>
+
+              <Image source={require("../assets/legendgem.webp")} style={{ height: 100, width: 100 }} />
+              <Text style={{ fontSize: 50, marginLeft: 10 }}>{reward}</Text>
             </View>
-        </View>
-            </Animatable.View>
-          
+          </View>
+        </Animatable.View>
+
       </Modal>
       <Modal
         animationType="slide"
@@ -253,7 +259,7 @@ export default function Form() {
           </View>
         </View>
       </Modal>
-      
+
       <FormInt
         question={questions[currentIndex].question}
         type={questions[currentIndex].type}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
-const ipv4 = '192.168.228.186'
+const ipv4 = '169.254.213.22'
 const client = axios.create({ baseURL: `http://${ipv4}:5000` })
 
 async function fetchData(url) {
