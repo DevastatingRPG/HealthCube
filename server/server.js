@@ -161,6 +161,7 @@ app.post('/register', (req, res) => {
 
 app.post('/verify', (req, res) => {
   const { token } = req.body;
+  console.log(req.body)
   jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
     if (err){
       res.send("NoLogin");

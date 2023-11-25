@@ -115,7 +115,9 @@ export const SaveForms = (props) => {
 };
 
 export const BuyChest = (props) => {
+  
   const { id, sid, cost } = props;
+  console.log(cost)
   const data = {
     id: id,
     sid: sid,
@@ -163,3 +165,8 @@ export const useUserID = () => {
 
   return userID;
 };
+
+export const findSpriteByCategory = (category, spriteList) => {
+  console.log(spriteList, category)
+  return spriteList.find(sprite => sprite.Category === category);
+}

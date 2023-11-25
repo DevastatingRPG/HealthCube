@@ -9,26 +9,46 @@ import {
 } from "react-native";
 import ButtonS from "./shopcounter";
 import { Link } from "expo-router";
-import { FetchBalance, useUserID, FetchUnowned, BuyChest,findSpriteByCategory } from "../utilities/fetching";
-import { prePillReward,pillReward,superPillReward } from "../utilities/rand";
+import { FetchBalance, useUserID, FetchUnowned, BuyChest, findSpriteByCategory } from "../utilities/fetching";
+import { prePillReward, pillReward, superPillReward } from "../utilities/rand";
 import Sprites from './images';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchData } from "../utilities/fetching";
 
 const Shop = () => {
   const [popitup, setPopitup] = useState(false);
   const [nobalance, setNoBalance] = useState(false);
   const [newpopitup, setNewPopitup] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
-  const [spriteCat,setSpriteCat] = useState(0);
-  const [foundSprite,findSprite] = useState([]);
-  
+  const [spriteCat, setSpriteCat] = useState(0);
+  const [foundSprite, findSprite] = useState([]);
 
-  const id = 20;//useUserID();
-  const money = FetchBalance(id)?.Balance ?? 1000;
+  const [unowned, setUnowned] = useState([]);
+  const [uid, setUID] = useState(0);
+  const [balance, setBalance] = useState(0)
+
+  useEffect(() => {
+    const retrieveDetails = async () => {
+      try {
+        const id = await AsyncStorage.getItem("UID");
+        setUID(id)
+        const bal = await fetchData(`?page=store&func=balance&id=${id}`)
+        const spriteData = await fetchData(`?page=store&func=list&id=${id}`);
+        setBalance(bal["Balance"])
+        setUnowned(spriteData);
+      } catch (error) {
+        console.error("Error fetching sprite data: ", error);
+      }
+    };
+
+    retrieveDetails();
+  }, []);
+
+  const money = balance
 
   const toggleNewPopup = () => {
     setNewPopitup(!newpopitup);
   };
-  console.log(Sprites);
   const togglePopup = () => {
     setPopitup(!popitup);
   };
@@ -45,35 +65,26 @@ const Shop = () => {
       setPopitup(true);
     }
   };
-  const handleButtonPress = (buttonInfo) => {
-    if (buttonInfo["cost"] > money) {
-      setNoBalance(true);
-    } else {
-      setSelectedButton(buttonInfo);
-      setPopitup(true);
-    }
-  };
 
   const yesnext = () => {
-    const unowned = FetchUnowned(id);
-    if(selectedButton?.cost == 100){
+    if (selectedButton?.cost == 100) {
       setSpriteCat(pillReward());
     }
-    else if (selectedButton?.cost == 200){
+    else if (selectedButton?.cost == 200) {
       setSpriteCat(prePillReward());
     }
-    else{
+    else {
       setSpriteCat(superPillReward());
     }
 
     findSprite(findSpriteByCategory(spriteCat, unowned));
+    console.log(spriteCat)
 
-    BuyChest(id,foundSprite?.sid,selectedButton?.cost);
+    BuyChest(uid, foundSprite?.sid, selectedButton?.cost);
 
     togglePopup();
-    
+
     //use selectedButton?.cost
-    console.log(selectedButton?.cost);
     toggleNewPopup();
   };
 
@@ -148,7 +159,7 @@ const Shop = () => {
         textcolor="white"
         onPress={handleButtonPress}
       />
-    
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -176,7 +187,7 @@ const Shop = () => {
             </View>
           </View>
         </View>
-     
+
       </Modal>
 
       <Modal
