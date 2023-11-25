@@ -28,9 +28,6 @@ const FormDashboard = () => {
 
   const handlePress = async (index) => {
 
-    // const uid = await AsyncStorage.getItem('UID');
-    // console.log(uid)
-
     try {
       const pressedFormName = names[index];
       const pressedFormData = data[index][1];

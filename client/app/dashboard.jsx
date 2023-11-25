@@ -101,10 +101,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     fontWeight: "bold",
+    marginLeft:38
   },
   logout: {
     alignSelf: "center",
-    paddingBottom: 15,
+    marginBottom:60,
   },
   buts: {
     flexDirection: "row",
