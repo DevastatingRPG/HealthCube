@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import ButtonS from "./shopcounter";
-import { Link } from "expo-router";
 import { FetchBalance, useUserID } from "../utilities/fetching";
 
 const Shop = () => {
