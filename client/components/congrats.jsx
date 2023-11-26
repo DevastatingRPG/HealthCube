@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import Sprites from './images';
 
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 
 const Congrats = (sid) => {
   sid = sid['sid']

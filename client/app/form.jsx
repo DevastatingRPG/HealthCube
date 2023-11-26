@@ -5,15 +5,7 @@ import { DepositMoney, FetchSprites, SaveForms } from "../utilities/fetching";
 import FormInt from "../components/formint";
 import { JoinAnswers, ParseQuestions } from "../utilities/parser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  BackHandler,
-  Modal,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image
-} from "react-native";
+import { BackHandler, Modal, View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { fetchData } from "../utilities/fetching";
 import { generateWeightedRandomNumber } from "../utilities/rand";
 import * as Animatable from 'react-native-animatable';

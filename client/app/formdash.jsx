@@ -8,9 +8,6 @@ import { ScrollView, View, StyleSheet } from 'react-native';
 import { FetchForms } from '../utilities/fetching';
 
 const FormDashboard = () => {
-  const [formName, setFormName] = useState('');
-  const [formData, setFormData] = useState([]);
-
   const data = FetchForms();
   const [names, setNames] = useState([]);
 
@@ -28,11 +25,8 @@ const FormDashboard = () => {
   const handlePress = async (index) => {
 
     try {
-      const pressedFormName = names[index];
       const pressedFormData = data[index][1];
 
-      setFormName(pressedFormName);
-      setFormData(pressedFormData);
       router.replace({
         pathname: `/form`,
         params: [data[index][0], JSON.stringify(pressedFormData)]

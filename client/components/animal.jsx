@@ -9,7 +9,7 @@ const HorizontalScrollingGif = ({ gifSource, width, height }) => {
     Animated.loop(
       Animated.timing(scrollX, {
         toValue: 1, // Moves the GIF to the right
-        duration: 3500, 
+        duration: 3500,
         easing: Easing.linear,
         useNativeDriver: false,
       })

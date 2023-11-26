@@ -12,9 +12,6 @@ const colors = {
   pastelPink: "hsl(330, 70%, 75%)",
   color: "hsl(146,48%,76%)",
   color1: "hsl(30,97%,83%)",
-  // color1: 'hsl(270,24%,75%)',
-  // color1: 'hsl(135,80%,85%)',
-  // pastelgray: '#cfcfc4',
   Pastel: "hsl(50,60%,80%)",
 };
 

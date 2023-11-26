@@ -198,7 +198,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 0.06,
         backgroundColor: '#F26627',
-        // backgroundColor: '#9BD7D1'
     }
 })
 
