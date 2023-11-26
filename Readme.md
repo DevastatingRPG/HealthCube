@@ -3,7 +3,11 @@
 
 Project Submission for CharmHealth Hackathon by HealthCube.ssv
 
+# Prerequisites
 
+1. NodeJS
+2. MySQL Server and Workbench
+3. Active Internet Connection
 
 
 ## Installation
