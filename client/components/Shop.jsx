@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import ButtonS from "./shopcounter";
 import { BuyChest, findSpriteByCategory, getCategory } from "../utilities/fetching";
-import { prePillReward, pillReward, superPillReward, weightedRandom } from "../utilities/rand";
-import Sprites from './images';
+import { weightedRandom } from "../utilities/rand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchData } from "../utilities/fetching";
 import { router } from "expo-router";
@@ -70,18 +69,13 @@ const Shop = () => {
   const yesnext = () => {
 
     if (selectedButton?.cost == 100) {
-      spritecat = pillReward()
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
+      spritecat = weightedRandom(cats, { 1: 0.6, 2: 0.2, 3: 0.15, 4: 0.05 })
     }
     else if (selectedButton?.cost == 200) {
-      spritecat = prePillReward();
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
-
+      spritecat = weightedRandom(cats, { 1: 0.5, 2: 0.3, 3: 0.15, 4: 0.05 })
     }
     else {
-      spritecat = superPillReward();
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
-
+      spritecat = weightedRandom(cats, { 1: 0.35, 2: 0.2, 3: 0.22, 4: 0.23 })
     }
     foundSprite = findSpriteByCategory(spritecat, unowned);
 
@@ -134,8 +128,7 @@ const Shop = () => {
       <ButtonS
         name="Pill"
         size={300}
-        image1={require("../assets/clpill1.png")}
-        image2={require("../assets/redopen.png")}
+        image1={require("../assets/clpill2.png")}
         cost={100}
         filled={false}
         textcolor="white"
@@ -152,8 +145,7 @@ const Shop = () => {
       <ButtonS
         name="Premium Pill"
         size={300}
-        image1={require("../assets/clpill3.png")}
-        image2={require("../assets/redpill.webp")}
+        image1={require("../assets/clpill1.png")}
         cost={200}
         filled={false}
         textcolor="white"
@@ -172,8 +164,7 @@ const Shop = () => {
       <ButtonS
         name="Super Deluxe Pill"
         size={300}
-        image1={require("../assets/clpill2.png")}
-        image2={require("../assets/cyanpill.jpg")}
+        image1={require("../assets/clpill3.png")}
         cost={300}
         filled={false}
         textcolor="white"

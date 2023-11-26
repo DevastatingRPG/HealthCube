@@ -12,6 +12,7 @@ import * as Animatable from 'react-native-animatable';
 
 export default function Form() {
 
+
   let data = useLocalSearchParams();
   const [sprites, setSprites] = useState(null);
   const [uid, setUID] = useState('');
@@ -57,8 +58,11 @@ export default function Form() {
       answer !== null
     ) {
       setreward(generateWeightedRandomNumber());
+      // console.log(re)
       setSum(sum + reward);
       setAnswered([...answered, currentIndex]);
+
+
     }
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
@@ -85,6 +89,7 @@ export default function Form() {
       tellAns(currentIndex + 1);
 
 
+
     } else {
       setShowSubmitPopup(true);
     }
@@ -106,6 +111,8 @@ export default function Form() {
     // Hide the popup after 2 seconds
 
     setIsVisible(true);
+
+    setIsVisible(true);
     setTimeout(() => {
       hidePopup();
     }, 1000);
@@ -117,6 +124,7 @@ export default function Form() {
 
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+  const [showFinalSum,setshowFinalSum] = useState(false);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -143,7 +151,15 @@ export default function Form() {
   };
 
   const handleSubmitConfirm = () => {
-    setShowExitPopup(false);
+    setShowSubmitPopup(false);
+    
+    setshowFinalSum(true);
+    
+    
+  };
+
+  const handleShowSum = () =>{
+    setshowFinalSum(false);
     const answertext = JoinAnswers(answers);
     DepositMoney({
       id: uid,
@@ -155,7 +171,7 @@ export default function Form() {
       file: nm,
     });
     router.replace("/formdash");
-  };
+  }
 
   useEffect(() => {
     if (reward != 0 && sum != 0) {
@@ -169,18 +185,49 @@ export default function Form() {
       <Modal
         animationType="slide"
         transparent={true}
+        visible={showFinalSum}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.showsum}>
+            <Text style={{fontSize:45}}>Well Done!!</Text>
+            <Text style={{fontSize:28}}>You Earned A Total Of:</Text>
+            <View style={{flexDirection:'row'}}>
+            <Image source={require("../assets/c1.png")} style={{ height: 70, width: 70 }} />
+            <Text
+              style={{ fontSize: 45, fontWeight: "bold", textAlign: "center",marginTop:6 }}
+            >
+              {sum}
+            </Text>
+           
+            </View>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={handleShowSum}>
+                <View style={styles.sumbut}>
+                  <Text style={{fontSize:25,fontWeight:'bold'}}>Nice</Text>
+                </View>
+              </TouchableOpacity>
+              
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
         visible={isVisible}
       >
+
         <Animatable.View
           animation={isVisible ? 'slideInUp' : 'slideOutUp'}
           duration={1000}
           style={{ justifyContent: 'center', flexDirection: 'column' }}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.popup}>
+            <View style={styles.popupsum}>
 
-              <Image source={require("../assets/legendgem.webp")} style={{ height: 100, width: 100 }} />
-              <Text style={{ fontSize: 50, marginLeft: 10 }}>{reward}</Text>
+              <Image source={require("../assets/c1.png")} style={{ height: 80, width: 80 }} />
+              <Text style={{ fontSize: 50, marginLeft: 10,color:'white' }}>{reward}</Text>
             </View>
           </View>
         </Animatable.View>
@@ -269,6 +316,7 @@ export default function Form() {
         </View>
       </Modal>
 
+
       <FormInt
         question={questions[currentIndex].question}
         type={questions[currentIndex].type}
@@ -287,7 +335,7 @@ export default function Form() {
       />
     </SafeAreaProvider>
   );
-}
+      }
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
@@ -312,6 +360,14 @@ const styles = StyleSheet.create({
     width: 350,
     height: 200,
   },
+  popupsum: {
+    backgroundColor: "#27005D",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 200,
+    height: 200,
+  },
   popupexit: {
     backgroundColor: "#FA7070",
     padding: 10,
@@ -319,6 +375,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 350,
     height: 250,
+  },
+  showsum:{
+    backgroundColor: "#9EDDFF",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 350,
+    height: 250,
+  },
+  sumbut:{
+    backgroundColor: "#D5FFD0",
+    width: 100,
+    height: 50,
+    alignItems: "center",
+    justifyContent:'center',
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 11,
+    borderRadius: 500,
   },
   buttonContainer: {
     backgroundColor: "#F875AA",
