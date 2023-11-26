@@ -55,11 +55,16 @@ Here replace 'root' with your sql user, 'localhost' with sql server,
 
 ## Usage
 
-In the directory where project has been cloned, run the following command :
+In the directory where project has been cloned, run the following commands in 2 separate terminals :
 
 ```bash
-yarn start
+yarn server
 ```
+
+```bash
+yarn client
+```
+
 This will start the nodejs server and the expo app. Now once a qr code is shown on the screen, Either:
 1. Scan it with the 'Expo Go' app on Playstore/App Store.
 2. If android studio with emulator is installed, run the emulator and then press a on the terminal to open in emulator.

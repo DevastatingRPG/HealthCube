@@ -8,6 +8,8 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn --cwd server start\" \"yarn --cwd client start\""
+    "start": "concurrently \"yarn --cwd server start\" \"yarn --cwd client start\"",
+    "client": "yarn --cwd client start",
+    "server": "yarn --cwd server start"
   }
 }
