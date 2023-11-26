@@ -68,10 +68,10 @@ const Shop = () => {
 
   const yesnext = () => {
 
-    if (selectedButton?.cost == 100) {
+    if (selectedButton?.cost == 200) {
       spritecat = weightedRandom(cats, { 1: 0.6, 2: 0.2, 3: 0.15, 4: 0.05 })
     }
-    else if (selectedButton?.cost == 200) {
+    else if (selectedButton?.cost == 350) {
       spritecat = weightedRandom(cats, { 1: 0.5, 2: 0.3, 3: 0.15, 4: 0.05 })
     }
     else {
@@ -129,7 +129,7 @@ const Shop = () => {
         name="Pill"
         size={300}
         image1={require("../assets/clpill2.png")}
-        cost={100}
+        cost={200}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
@@ -146,7 +146,7 @@ const Shop = () => {
         name="Premium Pill"
         size={300}
         image1={require("../assets/clpill1.png")}
-        cost={200}
+        cost={350}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
@@ -165,7 +165,7 @@ const Shop = () => {
         name="Super Deluxe Pill"
         size={300}
         image1={require("../assets/clpill3.png")}
-        cost={300}
+        cost={500}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
