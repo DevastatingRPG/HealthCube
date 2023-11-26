@@ -1,7 +1,6 @@
 import React,{ Component } from "react";
 import { TouchableOpacity,View,Text,StyleSheet,Image } from "react-native";
 
-
 class ButtonS extends Component {
     constructor(props){
         super(props);

@@ -1,37 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Animated } from "react-native";
-import ButtonS from './shopcounter';
-import { Link } from 'expo-router';
-import { FetchBalance } from "../utilities/fetching";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import ButtonS from "./shopcounter";
+import { BuyChest, findSpriteByCategory, getCategory } from "../utilities/fetching";
+import { prePillReward, pillReward, superPillReward, weightedRandom } from "../utilities/rand";
+import Sprites from './images';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchData } from "../utilities/fetching";
+import { router } from "expo-router";
+import Congrats from "./congrats";
 
 const Shop = () => {
-    const [popitup, setPopitup] = useState(false);
-    const [newpopitup, setNewPopitup] = useState(false);
-    const [selectedButton, setSelectedButton] = useState(null);
-  money =100;
-    const slideAnimation = new Animated.Value(0);
-    useEffect(() => {
-        if (popitup) {
-            // Slide in animation
-            Animated.timing(slideAnimation, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: false,
-            }).start();
-        } else {
-            // Slide out animation
-            Animated.timing(slideAnimation, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: false,
-            }).start();
-        }
-    }, [popitup]);
+  const [popitup, setPopitup] = useState(false);
+  const [nobalance, setNoBalance] = useState(false);
+  const [newpopitup, setNewPopitup] = useState(false);
+  const [selectedButton, setSelectedButton] = useState(null);
+  const [full, setFull] = useState(false);
+  const [sid, setSid] = useState(1)
+  let spritecat = 0;
+  let foundSprite = [];
 
+  const [unowned, setUnowned] = useState([]);
+  const [uid, setUID] = useState(0);
+  const [balance, setBalance] = useState(0)
+
+  useEffect(() => {
+    const retrieveDetails = async () => {
+      try {
+        const id = await AsyncStorage.getItem("UID");
+        setUID(id)
+        const bal = await fetchData(`?page=store&func=balance&id=${id}`)
+        const spriteData = await fetchData(`?page=store&func=list&id=${id}`);
+        setBalance(bal["Balance"])
+        setUnowned(spriteData);
+      } catch (error) {
+        console.error("Error fetching sprite data: ", error);
+      }
+    };
+
+    retrieveDetails();
+  }, [newpopitup]);
+
+  const money = balance
   const toggleNewPopup = () => {
     setNewPopitup(!newpopitup);
   };
-
   const togglePopup = () => {
     setPopitup(!popitup);
   };
@@ -40,29 +52,53 @@ const Shop = () => {
     setNoBalance(!nobalance);
   };
 
-    const handleButtonPress = (buttonInfo) => {
-        setSelectedButton(buttonInfo);
-       togglePopup();
-       useEffect(() => {
-        setTimeout(() => {
-            togglePopup();
-        }, 1000);
-    }, []);
-    };
+  const handleButtonPress = (buttonInfo) => {
+    if (buttonInfo["cost"] > money) {
+      setNoBalance(true);
+    } else {
+      setSelectedButton(buttonInfo);
+      setPopitup(true);
+    }
+  };
+
+  const handleFull = () => {
+    router.replace('/dashboard')
+  }
+
+  let cats = getCategory(unowned)
 
   const yesnext = () => {
-    togglePopup();
 
-        //use selectedButton?.cost
-        console.log(selectedButton?.cost);
-        toggleNewPopup();
+    if (selectedButton?.cost == 100) {
+      spritecat = pillReward()
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
     }
+    else if (selectedButton?.cost == 200) {
+      spritecat = prePillReward();
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
 
-    // {money !== null ? money["Balance"] : 0}
-    const translateY = slideAnimation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [600, 0], // Adjust the value based on the modal height
-    });
+    }
+    else {
+      spritecat = superPillReward();
+      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
+
+    }
+    foundSprite = findSpriteByCategory(spritecat, unowned);
+
+
+    try {
+      setSid(foundSprite.SID)
+      BuyChest({ id: uid, sid: foundSprite.SID, cost: selectedButton?.cost });
+      togglePopup();
+      toggleNewPopup();
+
+    }
+    catch (error) {
+      console.error(error)
+      setFull(true)
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -104,6 +140,14 @@ const Shop = () => {
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
+      />
+      <View
+        style={{
+          backgroundColor: "cyan",
+          height: 20,
+          width: "100%",
+          marginBottom: 50,
+        }}
       />
       <View
         style={{
@@ -193,53 +237,100 @@ const Shop = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'darkblue',
-    },
-    buttonRow: {
-        flexDirection: 'row',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    },
-    popup: {
-        backgroundColor: 'cyan',
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        width: 350,
-        height: 200,
-    },
-    buttonContainer: {
-        backgroundColor: 'red',
-        width: 100,
-        height: 40,
-        alignItems: 'center',
-        marginLeft: 35,
-        marginRight: 50,
-        marginTop: 35,
-        borderRadius: 500,
-    },
-    buttonText: {
-        textAlign: 'center',
-        color: 'white',
-        paddingTop: 10,
-    },
-    buttonContainer1: {
-        backgroundColor: 'green',
-        width: 100,
-        height: 40,
-        alignItems: 'center',
-        marginLeft: 35,
-        marginRight: 50,
-        marginTop: 35,
-        borderRadius: 500,
-    },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "darkblue",
+  },
+  buttonRow: {
+    flexDirection: "row",
+  },
+  modalContainer: {
+    flex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  popup: {
+    backgroundColor: "cyan",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 350,
+    height: 200,
+  },
+  buttonContainer: {
+    backgroundColor: "red",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    paddingTop: 10,
+  },
+  buttonContainer1: {
+    backgroundColor: "green",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "darkblue",
+  },
+  buttonRow: {
+    flexDirection: "row",
+  },
+  modalContainer: {
+    flex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  popup: {
+    backgroundColor: "cyan",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 350,
+    height: 200,
+  },
+  buttonContainer: {
+    backgroundColor: "red",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    paddingTop: 10,
+  },
+  buttonContainer1: {
+    backgroundColor: "green",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    marginLeft: 35,
+    marginRight: 50,
+    marginTop: 35,
+    borderRadius: 500,
+  },
 });
 
 export default Shop;

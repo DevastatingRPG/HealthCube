@@ -22,22 +22,33 @@ const FormInt = props => {
         setShowHorizontalAnimation((prev) => !prev);
     };
 
+    // const colors = {
+    //     blue: 'rgba(0, 123, 255, 0.6)',
+    //     green: 'rgba(40, 167, 69, 0.6)',
+    //     red: 'rgba(220, 53, 69, 0.6)',
+    //     yellow: 'rgba(255, 193, 7, 0.6)',
+    //     orange: 'rgba(253, 126, 20, 0.6)',
+    //     purple: 'rgba(111, 66, 193, 0.6)',
+    //     lgrey: 'rgba(211, 211, 211, 0.6)',
+    //     cyan: 'rgba(156, 255, 236, 0.6)',
+    //     black: 'rgba(52, 58, 64, 0.6)',
+
+    // };
+
     const colors = {
-        blue: 'rgba(0, 123, 255, 0.6)',
-        green: 'rgba(40, 167, 69, 0.6)',
-        red: 'rgba(220, 53, 69, 0.6)',
-        yellow: 'rgba(255, 193, 7, 0.6)',
-        orange: 'rgba(253, 126, 20, 0.6)',
-        purple: 'rgba(111, 66, 193, 0.6)',
-        lgrey: 'rgba(211, 211, 211, 0.6)',
-        cyan: 'rgba(156, 255, 236, 0.6)',
+        blue: '#4AB19D',
+        green: '#33b249',
+        red: '#EF3D59',
+        yellow: '#EFC958',
+        purple: '#80669d',
+        cyan: '#55c2da',
         black: 'rgba(52, 58, 64, 0.6)',
 
     };
 
     if (options) {
         keys = Object.keys(colors);
-        colsel = options.map((option, index) => colors[keys[index % keys.length]]);
+        colsel = options.map((option, index) => colors[keys[index % (keys.length-1)]]);
         colsel.push(colors['black']);
     }
 
@@ -155,7 +166,7 @@ const FormInt = props => {
             <View style={styles.navigation}>
                 <ButtonG
                     buttons={["Back", "Next"]}
-                    buttonColors={[colors['cyan'], colors['cyan']]}
+                    buttonColors={['#F9A26C', '#F9A26C']}
                     onClick={navigate}
                 />
             </View>
@@ -168,23 +179,25 @@ const styles = StyleSheet.create({
         flex: 0.01,
     },
     question: {
+        padding: 8,
         fontSize: 25,
         flex: 0.3,
-        backgroundColor: '#B6C5F8',
+        backgroundColor: '#325D79',
         textAlign: 'center',
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
+        color: '#9BD7D1'
     },
     input: {
         flex: 0.63,
         padding: 5,
-        backgroundColor: '#d9dedd',
+        backgroundColor: '#EFEEEE',
         justifyContent: 'center',
 
     },
     navigation: {
         flexDirection: 'row',
         flex: 0.06,
-        backgroundColor: '#f0bdca',
+        backgroundColor: '#F26627',
     }
 })
 

@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { FetchSprites, SaveForms } from "../utilities/fetching";
+import { DepositMoney, FetchSprites, SaveForms } from "../utilities/fetching";
 import FormInt from "../components/formint";
 import { JoinAnswers, ParseQuestions } from "../utilities/parser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  BackHandler,
-  Modal,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image
-} from "react-native";
+import { BackHandler, Modal, View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { fetchData } from "../utilities/fetching";
 import { generateWeightedRandomNumber } from "../utilities/rand";
 import * as Animatable from 'react-native-animatable';
 
 export default function Form() {
 
-  let data = useLocalSearchParams();
 
+  let data = useLocalSearchParams();
+  const [sprites, setSprites] = useState(null);
+  const [uid, setUID] = useState('');
+
+  useEffect(() => {
+    const retrieveDetails = async () => {
+      try {
+        const id = await AsyncStorage.getItem("UID");
+        setUID(id)
+        const spriteData = await fetchData(`?page=forms&func=sprites&id=${id}`);
+        setSprites(spriteData)
+      }
+      catch (error) {
+        console.error("Error fetching sprite data: ", error)
+      }
+    };
+
+    retrieveDetails();
+  }, []);
 
   nm = data[0];
   qs = JSON.parse(data[1]);
@@ -37,6 +47,7 @@ export default function Form() {
   const [progress, setProgress] = useState(0);
   const [inputValue, setInputValue] = useState([]);
   const [sum, setSum] = useState(0);
+  const [reward, setreward] = useState(0)
   const [reward, setreward] = useState(0)
   const [answered, setAnswered] = useState([]);
 
@@ -79,6 +90,7 @@ export default function Form() {
       tellAns(currentIndex + 1);
 
 
+
     } else {
       setShowSubmitPopup(true);
     }
@@ -98,6 +110,8 @@ export default function Form() {
 
   const showPopup = () => {
     // Hide the popup after 2 seconds
+
+    setIsVisible(true);
 
     setIsVisible(true);
     setTimeout(() => {
@@ -148,9 +162,13 @@ export default function Form() {
   const handleShowSum = () =>{
     setshowFinalSum(false);
     const answertext = JoinAnswers(answers);
+    DepositMoney({
+      id: uid,
+      dep: sum
+    })
     SaveForms({
       content: answertext,
-      id: id,
+      id: uid,
       file: nm,
     });
     router.replace("/formdash");
@@ -212,6 +230,9 @@ export default function Form() {
               <Image source={require("../assets/currency1.png")} style={{ height: 80, width: 80 }} />
               <Text style={{ fontSize: 50, marginLeft: 10,color:'white' }}>{reward}</Text>
             </View>
+          </View>
+        </Animatable.View>
+
           </View>
         </Animatable.View>
 
@@ -298,6 +319,7 @@ export default function Form() {
           </View>
         </View>
       </Modal>
+
 
       <FormInt
         question={questions[currentIndex].question}

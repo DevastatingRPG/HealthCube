@@ -13,8 +13,9 @@ const StartScreen = () => {
             // Check if the token exists in AsyncStorage
             const token = await AsyncStorage.getItem('authToken');
             if (token) {
-                const response = await postData('/login', {token: token})
-                if (response == "Login")
+                const response = await postData('/verify', {token: token})
+
+                if (response.data == "Login")
                     router.replace('/dashboard');
             }
         };
@@ -28,7 +29,7 @@ const StartScreen = () => {
             <Logo />
             <Button
                 mode="contained"
-                onPress={() => router.push('/dashboard')}
+                onPress={() => router.push('/LoginScreen')}
             >
                 Log in
             </Button>

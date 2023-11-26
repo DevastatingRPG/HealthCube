@@ -12,9 +12,6 @@ const colors = {
   pastelPink: "hsl(330, 70%, 75%)",
   color: "hsl(146,48%,76%)",
   color1: "hsl(30,97%,83%)",
-  // color1: 'hsl(270,24%,75%)',
-  // color1: 'hsl(135,80%,85%)',
-  // pastelgray: '#cfcfc4',
   Pastel: "hsl(50,60%,80%)",
 };
 
@@ -80,12 +77,12 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    alignContent: "center",
+    justifyContent: "center",
     backgroundColor: colors["color"],
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 40,
+    paddingRight: 40,
     paddingTop: 20,
   },
   body: {
@@ -101,11 +98,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     fontWeight: "bold",
-    marginLeft:38
   },
   logout: {
     alignSelf: "center",
-    marginBottom:60,
+    paddingBottom:20,
   },
   buts: {
     flexDirection: "row",

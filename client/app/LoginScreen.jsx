@@ -43,10 +43,12 @@ export default function LoginScreen() {
         // Navigate to the next screen on successful login
         router.replace("/dashboard");
       } else {
+        setPassword({ ...password, error: "Invalid Credentials" });
         // Handle unsuccessful login (e.g., show an error message)
         console.error('Invalid credentials');
       }
     } catch (error) {
+      setPassword({ ...password, error: "Invalid Credentials" });
       console.error('Error during login:', error);
     }
   };
