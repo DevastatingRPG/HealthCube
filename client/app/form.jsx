@@ -176,7 +176,7 @@ export default function Form() {
             <Text style={{fontSize:45}}>Well Done!!</Text>
             <Text style={{fontSize:28}}>You Earned A Total Of:</Text>
             <View style={{flexDirection:'row'}}>
-            <Image source={require("../assets/legendgem.webp")} style={{ height: 70, width: 70 }} />
+            <Image source={require("../assets/currency1.png")} style={{ height: 70, width: 70 }} />
             <Text
               style={{ fontSize: 45, fontWeight: "bold", textAlign: "center",marginTop:6 }}
             >
@@ -207,10 +207,10 @@ export default function Form() {
           style={{ justifyContent: 'center', flexDirection: 'column' }}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.popup}>
+            <View style={styles.popupsum}>
 
-              <Image source={require("../assets/legendgem.webp")} style={{ height: 100, width: 100 }} />
-              <Text style={{ fontSize: 50, marginLeft: 10 }}>{reward}</Text>
+              <Image source={require("../assets/currency1.png")} style={{ height: 80, width: 80 }} />
+              <Text style={{ fontSize: 50, marginLeft: 10,color:'white' }}>{reward}</Text>
             </View>
           </View>
         </Animatable.View>
@@ -340,6 +340,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     width: 350,
+    height: 200,
+  },
+  popupsum: {
+    backgroundColor: "#27005D",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 200,
     height: 200,
   },
   popupexit: {

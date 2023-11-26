@@ -19,7 +19,8 @@ class ButtonS extends Component {
                         style={{ width: this.props.size, height: this.props.size, alignItems:'center'}}                 
                     />
                     <View style={styles.costbutton}>
-                        <Text style ={{color:'black',fontSize: 20,textAlign:'center',fontWeight:'bold'}}>BUY!!</Text>
+                        <Image source={require("../assets/currency1.png")} style={{ height: 25, width: 25, marginLeft:12}} />
+                        <Text style ={{color:'black',fontSize: 20,textAlign:'center',fontWeight:'bold',marginLeft:10}}>{this.props.cost}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -41,10 +42,11 @@ const styles = StyleSheet.create({
         // color: 'purple'
     },
     costbutton:{
-        backgroundColor:'yellow',
+        backgroundColor:'#BEFFF7',
         height: 40,
         width: 100,
         borderRadius: 500,
+        flexDirection:'row',
         paddingTop:5,
         marginLeft:100,
         marginBottom: 80,

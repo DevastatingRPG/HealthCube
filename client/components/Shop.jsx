@@ -8,7 +8,7 @@ const Shop = () => {
     const [popitup, setPopitup] = useState(false);
     const [newpopitup, setNewPopitup] = useState(false);
     const [selectedButton, setSelectedButton] = useState(null);
-
+  money =100;
     const slideAnimation = new Animated.Value(0);
     useEffect(() => {
         if (popitup) {
@@ -68,8 +68,8 @@ const Shop = () => {
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignContent: "flex-start" }}>
         <Image
-          source={require("../assets/legendgem.webp")}
-          style={{ height: 30, width: 30, marginTop: 3 }}
+          source={require("../assets/currency1.png")}
+          style={{ height: 28, width: 28, marginTop: 7,marginRight:5 }}
         />
         <Text style={{ fontSize: 30, color: "white" }}>
           {money !== null ? money : 0}
@@ -96,19 +96,27 @@ const Shop = () => {
         </Text>
       </View>
       <ButtonS
-        name="Pill"
+        name="Regular Pill"
         size={300}
-        image1={require("../assets/yellowred.png")}
+        image1={require("../assets/clpill2.png")}
         image2={require("../assets/redopen.png")}
         cost={100}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
       />
+      <View
+        style={{
+          backgroundColor: "cyan",
+          height: 20,
+          width: "100%",
+          marginBottom: 50,
+        }}
+      />
       <ButtonS
         name="Premium Pill"
         size={300}
-        image1={require("../assets/purple.png")}
+        image1={require("../assets/clpill1.png")}
         image2={require("../assets/redpill.webp")}
         cost={200}
         filled={false}
@@ -126,9 +134,9 @@ const Shop = () => {
       />
 
             <ButtonS
-                name='Super Deluxe Pill'
+                name='Super Pill'
                 size={300}
-                image1={require('../assets/blueremoved.png')}
+                image1={require('../assets/clpill3.png')}
                 image2={require('../assets/cyanpill.jpg')}
                 cost={300}
                 filled={false}
