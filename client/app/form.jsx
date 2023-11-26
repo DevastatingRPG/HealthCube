@@ -48,7 +48,6 @@ export default function Form() {
   const [inputValue, setInputValue] = useState([]);
   const [sum, setSum] = useState(0);
   const [reward, setreward] = useState(0)
-  const [reward, setreward] = useState(0)
   const [answered, setAnswered] = useState([]);
 
   const updateAnswers = (answer) => {
@@ -230,9 +229,6 @@ export default function Form() {
               <Image source={require("../assets/currency1.png")} style={{ height: 80, width: 80 }} />
               <Text style={{ fontSize: 50, marginLeft: 10,color:'white' }}>{reward}</Text>
             </View>
-          </View>
-        </Animatable.View>
-
           </View>
         </Animatable.View>
 

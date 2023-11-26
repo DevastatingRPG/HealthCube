@@ -135,7 +135,6 @@ const Shop = () => {
         name="Regular Pill"
         size={300}
         image1={require("../assets/clpill2.png")}
-        image2={require("../assets/redopen.png")}
         cost={100}
         filled={false}
         textcolor="white"
@@ -161,7 +160,6 @@ const Shop = () => {
         name="Premium Pill"
         size={300}
         image1={require("../assets/clpill1.png")}
-        image2={require("../assets/redpill.webp")}
         cost={200}
         filled={false}
         textcolor="white"
@@ -181,13 +179,11 @@ const Shop = () => {
                 name='Super Pill'
                 size={300}
                 image1={require('../assets/clpill3.png')}
-                image2={require('../assets/cyanpill.jpg')}
                 cost={300}
                 filled={false}
                 textcolor='white'
                 onPress={handleButtonPress}
             />
-            {/* ... (other ButtonS components) */}
             <Modal
                 animationType='slide'
                 transparent={true}
