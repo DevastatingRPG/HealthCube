@@ -36,7 +36,7 @@ client/.env :
   EXPO_PUBLIC_IPv4 = <Local ipv4 address of pc running nodejs server, can be fetched using ipconfig>
 ```
 
-After these have been filled, open mysql workbench and import data from 'hc.sql' file, without using any schema (create statements included).
+After these have been filled, open mysql workbench and import data from 'db/hc.sql' file, without using any schema (create statements included).
 
 If you encounter the error 'Function has no deterministic...' enter the following query in mysql and try again:
 ```SQL
