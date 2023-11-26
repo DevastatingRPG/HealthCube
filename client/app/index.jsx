@@ -29,7 +29,7 @@ const StartScreen = () => {
             <Logo />
             <Button
                 mode="contained"
-                onPress={() => router.push('/dashboard')}
+                onPress={() => router.push('/LoginScreen')}
             >
                 Log in
             </Button>

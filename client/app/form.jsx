@@ -193,7 +193,7 @@ export default function Form() {
             <Text style={{fontSize:45}}>Well Done!!</Text>
             <Text style={{fontSize:28}}>You Earned A Total Of:</Text>
             <View style={{flexDirection:'row'}}>
-            <Image source={require("../assets/currency1.png")} style={{ height: 70, width: 70 }} />
+            <Image source={require("../assets/c1.png")} style={{ height: 70, width: 70 }} />
             <Text
               style={{ fontSize: 45, fontWeight: "bold", textAlign: "center",marginTop:6 }}
             >
@@ -226,7 +226,7 @@ export default function Form() {
           <View style={styles.modalContainer}>
             <View style={styles.popupsum}>
 
-              <Image source={require("../assets/currency1.png")} style={{ height: 80, width: 80 }} />
+              <Image source={require("../assets/c1.png")} style={{ height: 80, width: 80 }} />
               <Text style={{ fontSize: 50, marginLeft: 10,color:'white' }}>{reward}</Text>
             </View>
           </View>
@@ -331,7 +331,7 @@ export default function Form() {
             : inputValue
         }
         setInputValue={setInputValue}
-        //sprites={sprites}
+        sprites={sprites}
       />
     </SafeAreaProvider>
   );

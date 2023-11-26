@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import ButtonS from "./shopcounter";
 import { BuyChest, findSpriteByCategory, getCategory } from "../utilities/fetching";
-import { prePillReward, pillReward, superPillReward, weightedRandom } from "../utilities/rand";
-import Sprites from './images';
+import { weightedRandom } from "../utilities/rand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchData } from "../utilities/fetching";
 import { router } from "expo-router";
@@ -70,18 +69,13 @@ const Shop = () => {
   const yesnext = () => {
 
     if (selectedButton?.cost == 100) {
-      spritecat = pillReward()
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
+      spritecat = weightedRandom(cats, { 1: 0.6, 2: 0.2, 3: 0.15, 4: 0.05 })
     }
     else if (selectedButton?.cost == 200) {
-      spritecat = prePillReward();
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
-
+      spritecat = weightedRandom(cats, { 1: 0.5, 2: 0.3, 3: 0.15, 4: 0.05 })
     }
     else {
-      spritecat = superPillReward();
-      spritecat = weightedRandom(cats, { 0: 0.6, 1: 0.1, 2: 0.1, 3: 0.2 })
-
+      spritecat = weightedRandom(cats, { 1: 0.35, 2: 0.2, 3: 0.22, 4: 0.23 })
     }
     foundSprite = findSpriteByCategory(spritecat, unowned);
 
@@ -104,8 +98,8 @@ const Shop = () => {
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignContent: "flex-start" }}>
         <Image
-          source={require("../assets/currency1.png")}
-          style={{ height: 28, width: 28, marginTop: 7,marginRight:5 }}
+          source={require("../assets/c1.png")}
+          style={{ height: 30, width: 30, marginTop: 3 }}
         />
         <Text style={{ fontSize: 30, color: "white" }}>
           {money !== null ? money : 0}
@@ -132,21 +126,13 @@ const Shop = () => {
         </Text>
       </View>
       <ButtonS
-        name="Regular Pill"
+        name="Pill"
         size={300}
         image1={require("../assets/clpill2.png")}
         cost={100}
         filled={false}
         textcolor="white"
         onPress={handleButtonPress}
-      />
-      <View
-        style={{
-          backgroundColor: "cyan",
-          height: 20,
-          width: "100%",
-          marginBottom: 50,
-        }}
       />
       <View
         style={{
@@ -175,62 +161,121 @@ const Shop = () => {
         }}
       />
 
-            <ButtonS
-                name='Super Pill'
-                size={300}
-                image1={require('../assets/clpill3.png')}
-                cost={300}
-                filled={false}
-                textcolor='white'
-                onPress={handleButtonPress}
-            />
-            <Modal
-                animationType='slide'
-                transparent={true}
-                visible={popitup}
+      <ButtonS
+        name="Super Deluxe Pill"
+        size={300}
+        image1={require("../assets/clpill3.png")}
+        cost={300}
+        filled={false}
+        textcolor="white"
+        onPress={handleButtonPress}
+      />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={full}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popup}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
             >
-                <Animated.View style={[styles.modalContainer, { transform: [{ translateY }] }]}>
-                    <View style={styles.popup}>
-                        <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Confirm purchase of</Text>
-                        <Text style={{ fontSize: 40, fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>{selectedButton?.name}?</Text>
-                        <View style={styles.buttonRow}>
-                            <TouchableOpacity onPress={togglePopup}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>NO</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={yesnext}>
-                                <View style={styles.buttonContainer1}>
-                                    <Text style={styles.buttonText}>YES</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Animated.View>
-                {/* ... (modal content) */}
-            </Modal>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={newpopitup}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={{ backgroundColor: 'darkblue', height: '100%', width: '100%' }}>
-                        <Text style={{ fontSize: 70, fontWeight: 'bold', textAlign: "center", paddingTop: 40, color: 'yellow' }}>HURRAY!!</Text>
-                    
-                        <Image source={selectedButton?.image2} style={{ height: 300, width: 250, alignContent: 'center', marginLeft: 50, marginTop: 30, marginBottom: 50 }} />
-                        <TouchableOpacity onPress={toggleNewPopup}>
-                            <View style={{ backgroundColor: 'black', height: 50, width: 200, borderRadius: 500, marginLeft: 75 }}>
-                                <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', paddingTop: 4 }}>YAY!!</Text>
-                            </View>
-                        </TouchableOpacity>
-                        
-                    </View>
+              You have all the sprites!
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={handleFull}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>OK</Text>
                 </View>
-            </Modal>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-    );
-}
+
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={nobalance}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popup}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              Insufficient Balance
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={toggleBalance}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>OK</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={popitup}
+        animationDuration={1000}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.popup}>
+            <Text
+              style={{ fontSize: 25, fontWeight: "bold", textAlign: "center" }}
+            >
+              Confirm purchase of
+            </Text>
+            <Text
+              style={{
+                fontSize: 40,
+                fontStyle: "italic",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {selectedButton?.name}?
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={togglePopup}>
+                <View style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>NO</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={yesnext}>
+                <View style={styles.buttonContainer1}>
+                  <Text style={styles.buttonText}>YES</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        {/* ... (modal content) */}
+      </Modal>
+      <Modal animationType="slide" transparent={true} visible={newpopitup}>
+        <Congrats sid={sid}></Congrats>
+      </Modal>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

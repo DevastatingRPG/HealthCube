@@ -16,13 +16,15 @@ const colors = {
 
 const App = () => {
   const [sprites, setSprites] = useState([]);
-  const [balance, setBalance] = useState(0)
+  const [balance, setBalance] = useState(0);
+  const [uid, setUID] = useState('');
 
 
   useEffect(() => {
     const retrieveDetails = async () => {
       try {
         const id = await AsyncStorage.getItem("UID");
+        setUID(id);
         const bal = await fetchData(`?page=store&func=balance&id=${id}`)
         const spriteData = await fetchData(`?page=forms&func=sprites&id=${id}`);
         const sids = spriteData.map(({ SID }) => SID);
@@ -42,24 +44,24 @@ const App = () => {
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.welcome}>Welcome!</Text>
-          <Text style={styles.username}>Vijit</Text>
-          </View>
-          <View style={{backgroundColor:'white',height:5,width:'200%'}}>
-          </View>
-          <View style={{ padding: 20, backgroundColor: '#64CCC5', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '80%' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={require("../assets/currency1.png")} style={{ height: 32, width: 32, marginRight: 8 }} />
-                <Text style={styles.balance}>1000{balance}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={require("../assets/peg.png")} style={{ height: 32, width: 32, marginRight: 8 }} />
-                <Text style={styles.sprite}>500{sprites}</Text>
-              </View>
+          <Text style={styles.username}>{uid}</Text>
+        </View>
+        <View style={{ backgroundColor: 'white', height: 5, width: '200%' }}>
+        </View>
+        <View style={{ padding: 20, backgroundColor: '#64CCC5', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '80%' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require("../assets/c1.png")} style={{ height: 32, width: 32, marginRight: 8 }} />
+              <Text style={styles.balance}>{balance}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require("../assets/peg.png")} style={{ height: 32, width: 32, marginRight: 8 }} />
+              <Text style={styles.sprite}>{sprites.length}</Text>
             </View>
           </View>
-          <View style={{backgroundColor:'white',height:5,width:'200%'}}>
-          </View>
+        </View>
+        <View style={{ backgroundColor: 'white', height: 5, width: '200%' }}>
+        </View>
         <Text style={styles.sectionHeader}>Collection</Text>
         <Divider color="black" width={3} />
         <Swiper key={sprites.length} showsButtons={true}>
@@ -67,7 +69,6 @@ const App = () => {
             <View style={styles.slide} key={index}>
               <Image source={item.src1} style={styles.spriteImage} />
               <Image source={item.src2} style={styles.spriteImage} />
-              <Text style={styles.spriteName}>{item.name}</Text>
             </View>
           ))}
         </Swiper>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     color: '#F3F0CA',
     fontWeight: 'bold',
     marginBottom: 5,
-    marginTop:20
+    marginTop: 20
   },
   username: {
     fontSize: 50,
@@ -101,12 +102,12 @@ const styles = StyleSheet.create({
   balance: {
     fontSize: 25,
     color: '#4F4A45',
-    textAlign:'left'
+    textAlign: 'left'
   },
   sprite: {
     fontSize: 25,
     color: '#4F4A45',
-    textAlign:'left'
+    textAlign: 'left'
   },
   sectionHeader: {
     fontSize: 44,
