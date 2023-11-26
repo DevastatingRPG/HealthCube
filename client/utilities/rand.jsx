@@ -1,6 +1,6 @@
 export const generateWeightedRandomNumber = () => {
   // Define percentages for each option
-  const likelihoods = [45, 10, 5, 5, 2, 3, 10, 5, 5, 5, 5];
+  const likelihoods = [35, 10, 13, 5, 2, 3, 12, 7, 3, 5, 5];
 
   // Generate a random percentage
   const randomPercentage = Math.random() * 100;
