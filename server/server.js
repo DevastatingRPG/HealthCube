@@ -17,6 +17,8 @@ app.use(express.query());
 app.use(express.json());
 app.use('/uforms', express.static('files/uforms'));
 app.use('/fforms', express.static('files/fforms'));
+app.use(express.urlencoded({ extended: true }));
+
 
 const connection = mysql.createConnection({
   host: env.SQL_SERVER,
