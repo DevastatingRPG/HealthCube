@@ -36,7 +36,7 @@ export default function RegisterScreen() {
     }
     try {
       // Make the registration API request
-      const response = await axios.post(`http://${ipv4}:8080/register`, {
+      const response = await axios.post(`${ipv4}/register`, {
         UID: name.value,
         name: Name.value,
         email: email.value,

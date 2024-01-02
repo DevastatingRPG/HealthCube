@@ -14,9 +14,9 @@ const StartScreen = () => {
             const token = await AsyncStorage.getItem('authToken');
             if (token) {
                 const response = await postData('/verify', {token: token})
-
-                if (response.data == "Login")
+                if (response && response.data == "Login")
                     router.replace('/dashboard');
+
             }
         };
 

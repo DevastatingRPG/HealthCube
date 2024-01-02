@@ -136,7 +136,6 @@ app.post('/login', (req, res) => {
       res.status(500).send('Internal Server Error');
       return;
     }
-    console.log(results)
     if (results.length > 0) {
       // User found, login successful
       const token = jwt.sign({ UID }, JWT_SECRET_KEY, { expiresIn: '30d' });

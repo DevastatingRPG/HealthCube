@@ -32,7 +32,7 @@ export default function LoginScreen() {
 
     try {
       // Make the login API request
-      const response = await axios.post(`http://${ipv4}:8080/login`, {
+      const response = await axios.post(`${ipv4}/login`, {
         UID: name.value,
         password: password.value,
       });
