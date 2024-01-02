@@ -41,3 +41,4 @@ HealthCube.code-workspace
 
 #server
 server/files/fforms/
+server/.env
