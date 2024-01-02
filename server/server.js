@@ -1,6 +1,6 @@
 // server.js
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const fs = require('fs');
 const cors = require('cors')
 const app = express();
@@ -22,7 +22,11 @@ const connection = mysql.createConnection({
   host: env.SQL_SERVER,
   user: env.SQL_USER,
   password: env.SQL_PASSWORD,
-  database: env.SQL_DATABASE
+  database: env.SQL_DATABASE,
+  port: env.SQL_PORT,
+  ssl: {
+    ca: fs.readFileSync('ca-certificate.crt'),
+  }
 });
 
 app.get('/', (req, res) => {
@@ -169,6 +173,11 @@ app.post('/verify', (req, res) => {
       res.send("Login");
     }
   })
+})
+
+
+app.get('/test', (req, res) => {
+  res.send("hello")
 })
 
 // Start the server
