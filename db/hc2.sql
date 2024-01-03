@@ -332,7 +332,7 @@ BEGIN
 		SET Balance = Balance - amt
     WHERE UID = usid
 	;
-  INSERT INTO ownership values(usid, spid);
+  INSERT INTO ownership(UID, SID) values(usid, spid);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode       = @saved_sql_mode */ ;

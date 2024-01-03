@@ -167,7 +167,10 @@ export const useUserID = () => {
 };
 
 export const findSpriteByCategory = (category, spriteList) => {
+  console.log(typeof category, spriteList)
+  category = +category;
   let ans = spriteList.find(sprite => sprite.Category === category)
+  console.log(ans)
   return ans;
 }
 

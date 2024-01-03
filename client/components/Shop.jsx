@@ -77,6 +77,8 @@ const Shop = () => {
     else {
       spritecat = weightedRandom(cats, { 1: 0.35, 2: 0.2, 3: 0.22, 4: 0.23 })
     }
+    // console.log(spritecat)
+    // console.log(unowned)
     foundSprite = findSpriteByCategory(spritecat, unowned);
 
 

@@ -14,7 +14,7 @@ const FormDashboard = () => {
   useEffect(() => {
     if (data) {
       const namesFromFirstLine = data.map(form => {
-        const firstLine = form[1][0];
+        const firstLine = form[1][0].split('\n')[0];
         return firstLine;
       });
 

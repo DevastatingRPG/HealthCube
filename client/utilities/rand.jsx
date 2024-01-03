@@ -22,9 +22,20 @@ export const generateWeightedRandomNumber = () => {
 
 export const weightedRandom = (list, weights) => {
   let i, sum = 0, r = Math.random();
-  for (i in weights) {
-    sum += weights[i];
-    if (r <= sum) return list[i];
+
+  let validWeights = {};
+  let totalWeight = 0;
+  for (let weight of Object.keys(weights)){
+    if (list.includes(+weight)){
+      validWeights[weight] = weights[weight];
+      totalWeight += weights[weight];
+    }
+      
+  } 
+  for (i in validWeights) {
+    sum += validWeights[i] / totalWeight;
+    if (r <= sum) {
+      return i;}
   }
  }
 

@@ -34,8 +34,12 @@ export default function Form() {
   }, []);
 
   nm = data[0];
-  qs = JSON.parse(data[1]);
-  const questions = ParseQuestions(qs);
+  qs = JSON.parse(data[1])[0];
+
+  // console.log(qs.split('\n'))
+  const questions = ParseQuestions(qs.split('\n'));
+  // console.log(questions)
+
   const [answers, setAnswers] = useState(
     questions.map((q) => ({
       question: q.question,
