@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "@nextui-org/react": "^2.2.9",
+    "concurrently": "^8.2.2",
+    "framer-motion": "^10.17.0"
   },
   "name": "server",
   "version": "1.0.0",
@@ -11,5 +13,8 @@
     "start": "concurrently \"yarn --cwd server start\" \"yarn --cwd client start\"",
     "client": "yarn --cwd client start",
     "server": "yarn --cwd server start"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
   }
 }

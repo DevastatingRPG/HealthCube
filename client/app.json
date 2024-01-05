@@ -40,6 +40,12 @@
     "owner": "healthcube",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/77af69ff-5925-4cfd-8c53-89dcc79bfbd7"
+    }
   }
 }
