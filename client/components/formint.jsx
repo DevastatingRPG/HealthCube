@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 
 import { Input, Text, Divider, LinearProgress, Image } from '@rneui/themed';
 import ButtonG from './buttong';
@@ -22,19 +22,6 @@ const FormInt = props => {
         setShowHorizontalAnimation((prev) => !prev);
     };
 
-    // const colors = {
-    //     blue: 'rgba(0, 123, 255, 0.6)',
-    //     green: 'rgba(40, 167, 69, 0.6)',
-    //     red: 'rgba(220, 53, 69, 0.6)',
-    //     yellow: 'rgba(255, 193, 7, 0.6)',
-    //     orange: 'rgba(253, 126, 20, 0.6)',
-    //     purple: 'rgba(111, 66, 193, 0.6)',
-    //     lgrey: 'rgba(211, 211, 211, 0.6)',
-    //     cyan: 'rgba(156, 255, 236, 0.6)',
-    //     black: 'rgba(52, 58, 64, 0.6)',
-
-    // };
-
     const colors = {
         blue: '#4AB19D',
         green: '#33b249',
@@ -48,7 +35,7 @@ const FormInt = props => {
 
     if (options) {
         keys = Object.keys(colors);
-        colsel = options.map((option, index) => colors[keys[index % (keys.length-1)]]);
+        colsel = options.map((option, index) => colors[keys[index % (keys.length - 1)]]);
         colsel.push(colors['black']);
     }
 
@@ -123,6 +110,8 @@ const FormInt = props => {
                     />
                 </View>
             break;
+
+           
         case 'sel':
             inputElement = <ButtonG
                 buttons={options}
