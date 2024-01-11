@@ -1,6 +1,6 @@
 // pages/upload.js
 "use client"
-import UploadForm from '@/app/components/UploadForm';
+import UploadForm from '@/components/UploadForm';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`

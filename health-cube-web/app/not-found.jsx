@@ -1,4 +1,4 @@
-import styles from '@/app/styles/common.module.css'
+import styles from '../styles/common.module.css'
 import Link from "next/link";
 
 const NotFound = () => {
