@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import BackToHome from '../../components/BackToHome';
 
 const ResponsesContainer = styled.div`
   background-color: #f9f9f9;
@@ -53,6 +54,7 @@ const FormResponses = () => {
           <ResponseItem key={index}>{response}</ResponseItem>
         ))}
       </ResponseList>
+      <BackToHome />
     </ResponsesContainer>
   );
 };

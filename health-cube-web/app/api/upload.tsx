@@ -2,6 +2,7 @@
 "use client"
 import UploadForm from '../../components/UploadForm';
 import styled from 'styled-components';
+import BackToHome from '../../components/BackToHome';
 
 const PageContainer = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ const Upload = () => {
     <PageContainer>
       <Title>File Upload Page</Title>
       <UploadForm onFileUpload={handleFileUpload} />
+      <BackToHome />
     </PageContainer>
   );
 };

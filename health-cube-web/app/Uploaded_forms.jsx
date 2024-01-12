@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
+import BackToHome from '../components/BackToHome';
 
 const Uploaded_forms = () => {
   const [files, setFiles] = useState([]);
@@ -30,6 +31,7 @@ const Uploaded_forms = () => {
           <li key={index}>{file}</li>
         ))}
       </ul>
+      <BackToHome />
     </div>
   );
 };
