@@ -1,36 +1,61 @@
 'use client'
 import { useEffect, useState } from 'react';
+import UploadForm from '@/components/UploadForm';
+import styled from 'styled-components';
+
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px auto;  /* Center the box and provide top margin */
+  max-width: 500px;    /* Set the maximum width for the box */
+  border: 2px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #d2d2fa;
+  // background: linear-gradient(45deg, #3498db, #8e44ad);  /* Gradient background */
+  box-shadow: 0 4px 8px rgba(0.3, 0.3, 0.3, 0.3);  /* Add a subtle box shadow */
+`;
+
+const Title = styled.h1`
+  color: #010138;
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+`;
 
 const Page = () => {
-  const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const response = await fetch('/api/files');
-        if (response.ok) {
-          const data = await response.json();
-          setFiles(data.files);
-        } else {
-          console.error('Error fetching files');
-        }
-      } catch (error) {
-        console.error('Error fetching files', error);
+
+  const handleFileUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Use the appropriate API endpoint to handle file upload
+      const response = await fetch('https://plankton-app-uc5fz.ondigitalocean.app/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('File uploaded successfully');
+        // Handle success as needed
+      } else {
+        console.error('File upload failed');
+        // Handle failure as needed
       }
-    };
-
-    fetchFiles();
-  }, []);
+    } catch (error) {
+      console.error('Error uploading file', error);
+      // Handle error as needed
+    }
+  };
 
   return (
-    <div>
-      <h2>Uploaded Files</h2>
-      <ul>
-        {files.map((file, index) => (
-          <li key={index}>{file}</li>
-        ))}
-      </ul>
-    </div>
+    <PageContainer>
+      <Title>Upload new form</Title>
+      <UploadForm onFileUpload={handleFileUpload} />
+    </PageContainer>
   );
 };
 

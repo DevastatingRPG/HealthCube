@@ -9,6 +9,7 @@ server/node_modules
 .expo/
 dist/
 web-build/
+client/hc.apk
 
 # Native
 *.orig.*

@@ -8,7 +8,6 @@ import { Router } from "next/router";
 
 const Nav = () => {
     const [openMenu, setOpenMenu] = useState(false);
-    console.log("value " + openMenu)
     return (
         <>
             <nav className={styles.navbar}>

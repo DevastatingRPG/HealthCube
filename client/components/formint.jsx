@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Input, Text, Divider, LinearProgress, Image } from '@rneui/themed';
 import ButtonG from './buttong';

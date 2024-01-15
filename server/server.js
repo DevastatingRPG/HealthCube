@@ -31,6 +31,13 @@ const connection = mysql.createConnection({
     },
 });
 
+// const connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "beansbestcat",
+//     database: "healthcube",
+// });
+
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
