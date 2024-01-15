@@ -75,7 +75,7 @@ const Page = () => {
               <ResponseList>
                 <ul>
                   {value.map((item, i) => (
-                    <ResponseItem>
+                    <ResponseItem key = {i}>
                       <li key={i} onClick={() => downloadFile(key, item)}>{item}</li>
                     </ResponseItem>
                   ))}
