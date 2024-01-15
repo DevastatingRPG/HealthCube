@@ -40,6 +40,9 @@ client/.env
 *.tsbuildinfo
 HealthCube.code-workspace
 
+# Web
+HealthCube.zip
+
 #server
 server/files/fforms/
 server/.env
