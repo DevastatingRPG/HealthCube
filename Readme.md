@@ -68,6 +68,9 @@ yarn server
 ```bash
 yarn client
 ```
+Expo details
+Username : devastatinghack
+Password : ofX4^6@P2jpwok
 
 This will start the nodejs server and the expo app. Now once a qr code is shown on the screen, Either:
 1. Scan it with the 'Expo Go' app on Playstore/App Store.
